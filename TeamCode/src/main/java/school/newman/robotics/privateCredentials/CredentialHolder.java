@@ -1,0 +1,5 @@
+package school.newman.robotics.privateCredentials;
+
+public class CredentialHolder {
+    public static final String VuforiaDevelopmentKey = "AW3aUkr/////AAABmRGNBHzxRkNpjQQX6XrZ/WY2GO+y7qy13Nw3PXw5/Kav64j7fVSKQVgdknP+VhtqH6mT0XLvZa2X+t1AWkYsYtxaUQWZ6shaGuaUpSzqff/udj7bIvXqDtOre2+Bd/nrna+wMSQbE3pJso9/ahrvggSccJ5rMJmi3w6+oaaPYTQvAuJTCb9dX5/8uIjjWAY55pPcI9EpZX5g9rOkiSTVtQ9+CAB4QBviqZkRVdFBsGFb7+tMpiVSQ8Z+yOWWRJtSeAGlF958W9y5W6V7vPQdOpTOB5Tn8KnBXQf3D2f/CBme2S0tX6SIv4dVemPnR/YffINzNrzhwAhD7MRlNg9YkD2ryS52FnXUfMSuUu/qfFKB";
+}
