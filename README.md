@@ -1,7 +1,7 @@
 # `school.newman.robotics.ftc2019`
 
 <center>
-*We are team 9725!*
+We are team 9725! Yay!
 </center>
 
 ## Welcome!
