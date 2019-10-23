@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
 
 @TeleOp(name="tankBotTeleop", group="Teleop")
-@Disabled
+//@Disabled
 public class tankBotTeleop extends LinearOpMode {
 
     tankBotHardware robot = new tankBotHardware();
@@ -28,26 +28,54 @@ public class tankBotTeleop extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         float left, right;
-
+        boolean grabbed = true;
+        boolean pressed = false;
         robot.init(hardwareMap);
 
         waitForStart();
 
         while (opModeIsActive()) {
-
-
             left = gamepad1.left_stick_y;
             right = gamepad1.right_stick_y;
 
             robot.left.setPower(left);
             robot.right.setPower(right);
 
+            telemetry.addData("(bool) 'grabbed'", grabbed);
+            telemetry.addData("gamepad pressed", gamepad1.b);
+            if (gamepad1.b && !pressed) {
+                pressed = true;
+                if (!grabbed){
+                    robot.grabberLeft.setPosition(1);
+                    robot.grabberRight.setPosition(0);
+                    grabbed = true;
+                }
+                else{
+                    robot.grabberLeft.setPosition(0);
+                    robot.grabberRight.setPosition(1);
+                    grabbed=false;
+                }
+            } else if (!gamepad1.b && pressed) {
+                pressed = false;
+            }
+            robot.grabberLeft.setPosition(gamepad1.left_stick_x);
+            robot.grabberRight.setPosition(gamepad1.right_stick_x);
+
+            telemetry.addData("Left X", gamepad1.left_stick_x);
+            telemetry.addData("Left Y", gamepad1.left_stick_y);
+            telemetry.addData("Right X", gamepad1.right_stick_x);
+            telemetry.addData("Right Y", gamepad1.right_stick_y);
+
+
             telemetry.addData("Left Power", left);
             telemetry.addData("Right Power", right);
 
+            telemetry.addData("Left Grabber @", String.format("#%s: Pos %s", robot.grabberLeft.getPortNumber(), robot.grabberLeft.getPosition()));
+            telemetry.addData("Right Grabber @", String.format("#%s: Pos %s", robot.grabberRight.getPortNumber(), robot.grabberRight.getPosition()));
+
             telemetry.update();
 
-            robot.waitForTick(10);
+            robot.waitForTick(20);
             idle();
         }
     }
