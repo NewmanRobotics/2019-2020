@@ -48,8 +48,8 @@ public class tankBotHardware {
         left.setPower(0);
         right.setPower(0);
 
-        grabberLeft.setPosition(0);
-        grabberRight.setPosition(0);
+        grabberLeft.setPosition(1);
+        grabberRight.setPosition(1);
     }
 
     public void waitForTick(long periodMs) throws InterruptedException {
