@@ -22,54 +22,50 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //@Disabled
 public class tankBotTeleop extends LinearOpMode {
 
-    tankBotHardware robot = new tankBotHardware(hardwareMap);
+    private tankBotHardware robot = new tankBotHardware(hardwareMap);
+
+    // the grabber was initially opened
+    private Boolean grabberOpened = true;
+    private Boolean buttonPressedAtLastLoop = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-        float left, right;
-        boolean grabbed = true;
-        boolean pressed = false;
-
         waitForStart();
 
         while (opModeIsActive()) {
-            left = gamepad1.left_stick_y;
-            right = gamepad1.right_stick_y;
-
+            // bind the game pad Y inputs to the two tracks
+            double left = gamepad1.left_stick_y;
+            double right = gamepad1.right_stick_y;
             robot.left.setPower(left);
             robot.right.setPower(right);
+            telemetry.addData("Left Power", left);
+            telemetry.addData("Right Power", right);
 
-            telemetry.addData("(bool) 'grabbed'", grabbed);
+            // bind game pad B button to the open and close of the grabbers
             telemetry.addData("gamepad pressed", gamepad1.b);
-            if (gamepad1.b && !pressed) {
-                pressed = true;
-                if (!grabbed){
-                    robot.grabberLeft.setPosition(1);
-                    robot.grabberRight.setPosition(0);
-                    grabbed = true;
+            // when pressing the button and button has not been pressed at the last loop then
+            // switch the grabber state
+            if (gamepad1.b && !buttonPressedAtLastLoop) {
+                if (grabberOpened) {
+                    // close the grabber
+                    robot.setGrabberPositionsIfChanged(1.0);
+                    grabberOpened = false;
+                } else {
+                    // open the grabber
+                    robot.setGrabberPositionsIfChanged(0.0);
+                    grabberOpened = true;
                 }
-                else{
-                    robot.grabberLeft.setPosition(0);
-                    robot.grabberRight.setPosition(1);
-                    grabbed=false;
-                }
-            } else if (!gamepad1.b && pressed) {
-                pressed = false;
-            } else if (!gamepad1.b && !pressed) {
-                robot.grabberLeft.setPosition(gamepad1.left_stick_x);
-                robot.grabberRight.setPosition(gamepad1.right_stick_x);
             }
+            telemetry.addData("grabberOpened", grabberOpened);
+            telemetry.addData("buttonPressedAtLastLoop", buttonPressedAtLastLoop);
 
+            // record the button pressed state in current loop
+            buttonPressedAtLastLoop = gamepad1.b;
 
             telemetry.addData("Left X", gamepad1.left_stick_x);
             telemetry.addData("Left Y", gamepad1.left_stick_y);
             telemetry.addData("Right X", gamepad1.right_stick_x);
             telemetry.addData("Right Y", gamepad1.right_stick_y);
-
-
-            telemetry.addData("Left Power", left);
-            telemetry.addData("Right Power", right);
 
             telemetry.addData("Left Grabber @", String.format("#%s: Pos %s", robot.grabberLeft.getPortNumber(), robot.grabberLeft.getPosition()));
             telemetry.addData("Right Grabber @", String.format("#%s: Pos %s", robot.grabberRight.getPortNumber(), robot.grabberRight.getPosition()));

@@ -54,7 +54,7 @@ public class testMotorTeleop extends LinearOpMode {
             // record the button pressed state in current loop
             buttonPressedAtLastLoop = gamepad1.b;
 
-            telemetry.addLine("Pressed 'b' on game pad to switch grabber state");
+            telemetry.addLine("Press 'b' on game pad to switch grabber state");
 
             telemetry.addData("grabberOpened", grabberOpened);
             telemetry.addData("buttonPressedAtLastLoop", buttonPressedAtLastLoop);
