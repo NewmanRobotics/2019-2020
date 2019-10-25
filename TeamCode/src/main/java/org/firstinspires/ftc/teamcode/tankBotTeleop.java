@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -48,11 +47,11 @@ public class tankBotTeleop extends LinearOpMode {
             if (gamepad1.b && !buttonPressedAtLastLoop) {
                 if (grabberOpened) {
                     // close the grabber
-                    robot.setGrabberPositionsIfChanged(1.0);
+                    robot.closeGrabber();
                     grabberOpened = false;
                 } else {
                     // open the grabber
-                    robot.setGrabberPositionsIfChanged(0.0);
+                    robot.openGrabber();
                     grabberOpened = true;
                 }
             }

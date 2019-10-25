@@ -42,11 +42,11 @@ public class testMotorTeleop extends LinearOpMode {
             if (gamepad1.b && !buttonPressedAtLastLoop) {
                 if (grabberOpened) {
                     // close the grabber
-                    robot.setGrabberPositionsIfChanged(1.0);
+                    robot.closeGrabber();
                     grabberOpened = false;
                 } else {
                     // open the grabber
-                    robot.setGrabberPositionsIfChanged(0.0);
+                    robot.openGrabber();
                     grabberOpened = true;
                 }
             }
