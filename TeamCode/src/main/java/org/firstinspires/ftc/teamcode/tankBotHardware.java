@@ -37,12 +37,7 @@ class tankBotHardware {
         left.setPower(0);
         right.setPower(0);
 
-        /**
-         * scale the servo output, mapping all further setPosition values to range [0.6, 1.0]
-         *
-         * to open the grabber (\_/) position = 0.0
-         * to close the grabber (|_|) position = 1.0
-         */
+        // scale the servo output, mapping all further setPosition values to range [0.6, 1.0]
         grabberLeft.scaleRange(0.6, 1.0);
         grabberRight.scaleRange(0.6, 1.0);
 
@@ -55,13 +50,32 @@ class tankBotHardware {
         grabberRight.setPosition(value);
     }
 
-    public void setGrabberPositionsIfChanged(double value) {
+    /**
+     * set grabber positions only if {@code value} is changed
+     *
+     * @param value to open the grabber (\_/) set position to 0.0, to close set position to 1.0
+     */
+    private void _setGrabberPositionsIfChanged(double value) {
         // first condition: if is first run, set last set as and do setPosition
         // second condition: if the value differs from the last one, do setPosition
         if (servoLastSetAs == Double.MIN_VALUE || servoLastSetAs != value) {
             servoLastSetAs = value;
             _setGrabberPositions(value);
         }
+    }
+
+    /**
+     * open the grabber
+     */
+    void openGrabber() {
+        _setGrabberPositionsIfChanged(0.0);
+    }
+
+    /**
+     * close the grabber
+     */
+    void closeGrabber() {
+        _setGrabberPositionsIfChanged(1.0);
     }
 
     void waitForTick(long periodMs) throws InterruptedException {
