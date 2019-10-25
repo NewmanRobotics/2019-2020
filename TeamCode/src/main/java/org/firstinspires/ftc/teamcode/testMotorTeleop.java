@@ -22,65 +22,51 @@ import java.util.Map;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="testMotorTeleop", group="Teleop")
+@TeleOp(name="Grabber Motor Test", group="Development")
 //@Disabled
 public class testMotorTeleop extends LinearOpMode {
 
-    tankBotHardware robot = new tankBotHardware();
+    private tankBotHardware robot = new tankBotHardware(hardwareMap);
 
-    Map<String, Double> servoCacheMap = new HashMap<>();
+    // the grabber was initially opened
+    private Boolean grabberOpened = true;
+    private Boolean buttonPressedAtLastLoop = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-        robot.init(hardwareMap);
-
         waitForStart();
 
-        double grabberCanMoveIn = 0.4;
-
         while (opModeIsActive()) {
+            // when pressing the button and button has not been pressed at the last loop then
+            // switch the grabber state
+            if (gamepad1.b && !buttonPressedAtLastLoop) {
+                if (grabberOpened) {
+                    // close the grabber
+                    robot.setGrabberPositionsIfChanged(1.0);
+                    grabberOpened = false;
+                } else {
+                    // open the grabber
+                    robot.setGrabberPositionsIfChanged(0.0);
+                    grabberOpened = true;
+                }
+            }
 
-            // to avoid going backwards (which it shouldn't)
-            double gleft = Math.max(0.0, gamepad1.left_stick_x); // range [0.0, 1.0]
-            double gright = Math.min(0.0, gamepad1.right_stick_x); // range [-1.0, 0.0]
+            // record the button pressed state in current loop
+            buttonPressedAtLastLoop = gamepad1.b;
 
-            // map the game pad input to the range where the grabber can move
-            double grabberLeftPos = Range.scale(gleft, 0.0, 1.0, 1.0 - grabberCanMoveIn, 1.0);
-            double grabberRightPos = Range.scale(gright, -1.0, 0.0, 0.0, grabberCanMoveIn);
+            telemetry.addLine("Pressed 'b' on game pad to switch grabber state");
 
-            // debounce the setPosition so that we don't burn out our motors ;)
-//            this.setGrabberPositionIfChanged(robot.grabberLeft, grabberLeftPos);
-//            this.setGrabberPositionIfChanged(robot.grabberRight, grabberRightPos);
-
-            robot.grabberLeft.setPosition(grabberLeftPos);
-            robot.grabberRight.setPosition(grabberRightPos);
-
-            telemetry.addData("Left X", gamepad1.left_stick_x);
-            telemetry.addData("Left Y", gamepad1.left_stick_y);
-            telemetry.addData("Right X", gamepad1.right_stick_x);
-            telemetry.addData("Right Y", gamepad1.right_stick_y);
+            telemetry.addData("grabberOpened", grabberOpened);
+            telemetry.addData("buttonPressedAtLastLoop", buttonPressedAtLastLoop);
 
             telemetry.addData("Left Grabber @", String.format("#%s: Pos %s", robot.grabberLeft.getPortNumber(), robot.grabberLeft.getPosition()));
             telemetry.addData("Right Grabber @", String.format("#%s: Pos %s", robot.grabberRight.getPortNumber(), robot.grabberRight.getPosition()));
 
             telemetry.update();
 
-            robot.waitForTick(25);
+            robot.waitForTick(10);
             idle();
         }
     }
 
-    public void setGrabberPositionIfChanged(Servo servo, double value) {
-        String servoName = servo.getDeviceName();
-        if (servoCacheMap.containsKey(servoName)) {
-            if (servoCacheMap.get(servoName) != value) {
-                servoCacheMap.put(servoName, value);
-                servo.setPosition(value);
-            }
-        } else {
-            servoCacheMap.put(servoName, value);
-            servo.setPosition(value);
-        }
-    }
 }

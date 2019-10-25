@@ -18,11 +18,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="tankBotTeleop", group="Teleop")
+@TeleOp(name="Tank Bot", group="Staging")
 //@Disabled
 public class tankBotTeleop extends LinearOpMode {
 
-    tankBotHardware robot = new tankBotHardware();
+    tankBotHardware robot = new tankBotHardware(hardwareMap);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -30,7 +30,6 @@ public class tankBotTeleop extends LinearOpMode {
         float left, right;
         boolean grabbed = true;
         boolean pressed = false;
-        robot.init(hardwareMap);
 
         waitForStart();
 
