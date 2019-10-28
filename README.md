@@ -1,8 +1,9 @@
 # `school.newman.robotics.ftc2019`
+## `Team #9725`
 
-<center>
-We are team 9725! Yay!
-</center>
+![MIT License](https://img.shields.io/badge/license-MIT-blue?cacheSeconds=3600)
+![Codacy Grade](https://img.shields.io/codacy/grade/7d254e59bc3f4ace87f8e04bf2ba5c05?logo=codacy&cacheSeconds=3600)
+![GitHub last commit](https://img.shields.io/github/last-commit/NewmanRobotics/2019-2020?logo=github&cacheSeconds=3600)
 
 ## Welcome!
 This GitHub repository contains the source code that is used to build an Android app to control a *FIRST* Tech Challenge competition robot.
