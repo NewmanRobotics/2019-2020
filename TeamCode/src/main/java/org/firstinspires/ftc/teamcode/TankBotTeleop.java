@@ -24,11 +24,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -44,11 +39,11 @@ import java.util.Map;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Grabber Motor Test", group="Development")
+@TeleOp(name="Tank Bot", group="Staging")
 //@Disabled
-public class testMotorTeleop extends LinearOpMode {
+public class TankBotTeleop extends LinearOpMode {
 
-    private tankBotHardware robot = new tankBotHardware(hardwareMap);
+    private CompressorGrabberHardware robot = new CompressorGrabberHardware();
 
     // the grabber was initially opened
     private Boolean grabberOpened = true;
@@ -56,9 +51,21 @@ public class testMotorTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        robot.init(hardwareMap);
+
         waitForStart();
 
         while (opModeIsActive()) {
+            // bind the game pad Y inputs to the two tracks
+            double left = gamepad1.left_stick_y;
+            double right = gamepad1.right_stick_y;
+            robot.left.setPower(left);
+            robot.right.setPower(right);
+            telemetry.addData("Left Power", left);
+            telemetry.addData("Right Power", right);
+
+            // bind game pad B button to the open and close of the grabbers
+            telemetry.addData("gamepad pressed", gamepad1.b);
             // when pressing the button and button has not been pressed at the last loop then
             // switch the grabber state
             if (gamepad1.b && !buttonPressedAtLastLoop) {
@@ -72,23 +79,24 @@ public class testMotorTeleop extends LinearOpMode {
                     grabberOpened = true;
                 }
             }
+            telemetry.addData("grabberOpened", grabberOpened);
+            telemetry.addData("buttonPressedAtLastLoop", buttonPressedAtLastLoop);
 
             // record the button pressed state in current loop
             buttonPressedAtLastLoop = gamepad1.b;
 
-            telemetry.addLine("Press 'b' on game pad to switch grabber state");
-
-            telemetry.addData("grabberOpened", grabberOpened);
-            telemetry.addData("buttonPressedAtLastLoop", buttonPressedAtLastLoop);
+            telemetry.addData("Left X", gamepad1.left_stick_x);
+            telemetry.addData("Left Y", gamepad1.left_stick_y);
+            telemetry.addData("Right X", gamepad1.right_stick_x);
+            telemetry.addData("Right Y", gamepad1.right_stick_y);
 
             telemetry.addData("Left Grabber @", String.format("#%s: Pos %s", robot.grabberLeft.getPortNumber(), robot.grabberLeft.getPosition()));
             telemetry.addData("Right Grabber @", String.format("#%s: Pos %s", robot.grabberRight.getPortNumber(), robot.grabberRight.getPosition()));
 
             telemetry.update();
 
-            robot.waitForTick(10);
+            robot.waitForTick(20);
             idle();
         }
     }
-
 }
