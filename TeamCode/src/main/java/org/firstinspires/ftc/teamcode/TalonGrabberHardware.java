@@ -22,35 +22,45 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class TalonGrabberHardware extends BotHardware {
-    private Servo grabber;
+    private CRServo grabber;
+
+    private static final long TIME_NEED = 250;
 
     @Override
     void initGrabbers(HardwareMap hardwareMap){
 
         // The talon grabber servo is at port #3
-        grabber = hardwareMap.servo.get("TalonGrabber");
+        grabber = hardwareMap.crservo.get("TalonGrabber");
 
-        // set the left and right grabber to their initial position - open
-        _setGrabberPosition(0.0);
+        // set to 0.0 will break the motor
+        grabber.setPower(0.0);
     }
 
-    /**
-     * set the positions of the two grabbers
-     * @param value open = 0.0, close = 1.0
-     */
-    private void _setGrabberPosition(double value) {
-        grabber.setPosition(value);
+    private void _setGrabberPower(double to) {
+        grabber.setPower(to);
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.schedule(new Runnable() {
+            @Override
+            public void run() {
+                grabber.setPower(0.0);
+            }
+        }, TIME_NEED, TimeUnit.MILLISECONDS);
     }
 
     public void openGrabber() {
-        _setGrabberPosition(0.0);
+        _setGrabberPower(1.0);
     }
+
     public void closeGrabber() {
-        _setGrabberPosition(1.0);
+        _setGrabberPower(-1.0);
     }
 
 }
