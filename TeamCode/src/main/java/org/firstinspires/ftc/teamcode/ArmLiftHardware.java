@@ -58,7 +58,15 @@ class ArmLiftHardware extends tankBotHardware {
 
     public void rotateGrabberRaw(double angle) {
         angle = Range.scale(angle, -1.0, 1.0, 0.0, 1.0);
-        swivel.setPosition(swivel.getPosition()+angle);
+        if (swivel.getPosition()+angle > 1){
+           swivel.setPosition(1);
+        }
+        else if (swivel.getPosition()+angle < 0){
+            swivel.setPosition(0);
+        }
+        else{
+            swivel.setPosition(swivel.getPosition()+angle);
+        }
 
     }
 

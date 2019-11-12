@@ -15,7 +15,7 @@ public class ArmLiftTeleop extends LinearOpMode {
 
         long totalTime = 0;
         long EACH = 20;
-        double rotateScale = 0.50;
+        double rotateScale = 0.30;
 
         while (opModeIsActive()) {
             // bind the game pad Y inputs to the two tracks
