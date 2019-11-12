@@ -10,16 +10,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-class ArmLiftHardware extends BotHardware {
+class ArmLiftHardware extends tankBotHardware {
     DcMotor arm;
     private CRServo grabber;
     private Servo swivel;
+
 
     private static final long TIME_NEED = 250;
 
     static final double ORIGIN = -0.05; // based on Galvin's measurement ;)
 
-    @Override
     void initGrabbers(HardwareMap hardwareMap){
         // Arm motor is in port #3
         arm = hardwareMap.dcMotor.get("Arm");
@@ -58,7 +58,7 @@ class ArmLiftHardware extends BotHardware {
 
     public void rotateGrabberRaw(double angle) {
         angle = Range.scale(angle, -1.0, 1.0, 0.0, 1.0);
-        swivel.setPosition(angle);
+        swivel.setPosition(swivel.getPosition()+angle);
 
     }
 

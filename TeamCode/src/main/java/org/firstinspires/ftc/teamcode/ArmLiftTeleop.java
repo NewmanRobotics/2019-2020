@@ -15,6 +15,7 @@ public class ArmLiftTeleop extends LinearOpMode {
 
         long totalTime = 0;
         long EACH = 20;
+        double rotateScale = 0.50;
 
         while (opModeIsActive()) {
             // bind the game pad Y inputs to the two tracks
@@ -46,8 +47,7 @@ public class ArmLiftTeleop extends LinearOpMode {
             telemetry.addData("gamepad pressed?", gamepad2.b);
             // bind the game pad B button to the operation of the grabber
             robot.operateGrabber(gamepad2.b ? 1.0 : -0.05);
-            robot.rotateGrabberRaw(gamepad2.left_stick_x);
-
+            robot.rotateGrabberRaw(gamepad2.left_stick_x*rotateScale);
             telemetry.update();
 
             robot.waitForTick(EACH);
