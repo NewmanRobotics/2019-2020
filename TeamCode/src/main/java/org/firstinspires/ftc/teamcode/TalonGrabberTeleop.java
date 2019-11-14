@@ -28,7 +28,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 /**
  * Created by Galvin on 2019-10-30
  */
-@TeleOp(name="Talon Grabber Test", group="Development")
+@TeleOp(name="Talon Grabber Test", group= "Development")
 public class TalonGrabberTeleop extends LinearOpMode {
     private TalonGrabberHardware robot = new TalonGrabberHardware();
 

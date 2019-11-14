@@ -37,7 +37,7 @@ public class TalonGrabberHardware extends BotHardware {
 
     private static final long TIME_NEED = 250;
 
-    static final double ORIGIN = -0.05; // based on Galvin's measurement ;)
+    private static final double ORIGIN = -0.05; // based on Galvin's measurement ;)
 
     @Override
     void initGrabbers(HardwareMap hardwareMap){
@@ -71,11 +71,11 @@ public class TalonGrabberHardware extends BotHardware {
         _setGrabberPower(-1.0);
     }
 
-    public void operateGrabber(double power) {
+    void operateGrabber(double power) {
         grabber.setPower(power);
     }
 
-    public void rotateGrabberRaw(double angle) {
+    void rotateGrabberRaw(double angle) {
         angle = Range.scale(angle, -1.0, 1.0, 0.0, 1.0);
         swivel.setPosition(angle);
     }
