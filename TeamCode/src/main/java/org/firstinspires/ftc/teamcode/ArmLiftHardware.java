@@ -10,11 +10,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-class ArmLiftHardware extends tankBotHardware {
+class ArmLiftHardware extends BotHardware {
     DcMotor arm;
     private CRServo grabber;
     private Servo swivel;
-
 
     private static final long TIME_NEED = 250;
 

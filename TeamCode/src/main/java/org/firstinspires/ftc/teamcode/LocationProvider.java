@@ -22,10 +22,10 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -75,11 +75,37 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * is explained below.
  */
 
+/**
+ * BotLocation gives a programmic way to get and set the bot's position, giving more hints on what
+ * we've got from the StateProviders
+ */
+class BotLocation {
+    public final float positionX;
+    public final float positionY;
+    public final float positionZ;
+    public final float rotationRoll;
+    public final float rotationPitch;
+    public final float rotationHeading;
 
-@TeleOp(name="SKYSTONE Vuforia Nav", group ="Concept")
-//@Disabled
-public class ConceptVuforiaSkyStoneNavigation extends LinearOpMode {
+    public BotLocation(
+            float positionX,
+            float positionY,
+            float positionZ,
+            float rotationRoll,
+            float rotationPitch,
+            float rotationHeading
+    ) {
 
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.positionZ = positionZ;
+        this.rotationRoll = rotationRoll;
+        this.rotationPitch = rotationPitch;
+        this.rotationHeading = rotationHeading;
+    }
+}
+
+public class LocationProvider {
     // IMPORTANT:  For Phone Camera, set 1) the camera source and 2) the orientation, based on how your phone is mounted:
     // 1) Camera Source.  Valid choices are:  BACK (behind screen) or FRONT (selfie side)
     // 2) Phone Orientation. Choices are: PHONE_IS_PORTRAIT = true (portrait) or PHONE_IS_PORTRAIT = false (landscape)
@@ -130,7 +156,15 @@ public class ConceptVuforiaSkyStoneNavigation extends LinearOpMode {
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
 
-    @Override public void runOpMode() {
+    private HardwareMap hardwareMap;
+    private Telemetry telemetry;
+    private List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+    private VuforiaTrackables targetsSkyStone;
+
+    public LocationProvider(HardwareMap hardwareMap, Telemetry telemetry) {
+        this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
+
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          * We can pass Vuforia the handle to a camera preview resource (on the RC phone);
@@ -149,7 +183,7 @@ public class ConceptVuforiaSkyStoneNavigation extends LinearOpMode {
 
         // Load the data sets for the trackable objects. These particular data
         // sets are stored in the 'assets' part of our application.
-        VuforiaTrackables targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
+        targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
 
         VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
         stoneTarget.setName("Stone Target");
@@ -179,7 +213,6 @@ public class ConceptVuforiaSkyStoneNavigation extends LinearOpMode {
         rear2.setName("Rear Perimeter 2");
 
         // For convenience, gather together all the trackable objects in one easily-iterable collection */
-        List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
         allTrackables.addAll(targetsSkyStone);
 
         /**
@@ -297,57 +330,63 @@ public class ConceptVuforiaSkyStoneNavigation extends LinearOpMode {
         for (VuforiaTrackable trackable : allTrackables) {
             ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(robotFromCamera, parameters.cameraDirection);
         }
+    }
 
-        // WARNING:
-        // In this sample, we do not wait for PLAY to be pressed.  Target Tracking is started immediately when INIT is pressed.
-        // This sequence is used to enable the new remote DS Camera Preview feature to be used with this sample.
-        // CONSEQUENTLY do not put any driving commands in this loop.
-        // To restore the normal opmode structure, just un-comment the following line:
-
-        // waitForStart();
-
-        // Note: To use the remote camera preview:
-        // AFTER you hit Init on the Driver Station, use the "options menu" to select "Camera Stream"
-        // Tap the preview window to receive a fresh image.
-
+    public void activate() {
         targetsSkyStone.activate();
-        while (!isStopRequested()) {
+    }
 
-            // check all the trackable targets to see which one (if any) is visible.
-            targetVisible = false;
-            for (VuforiaTrackable trackable : allTrackables) {
-                if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
-                    telemetry.addData("Visible Target", trackable.getName());
-                    targetVisible = true;
+    public BotLocation get() {
+        // check all the trackable targets to see which one (if any) is visible.
+        targetVisible = false;
+        for (VuforiaTrackable trackable : allTrackables) {
+            if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
+                telemetry.addData("Visible Target", trackable.getName());
+                targetVisible = true;
 
-                    // getUpdatedRobotLocation() will return null if no new information is available since
-                    // the last time that call was made, or if the trackable is not currently visible.
-                    OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
-                    if (robotLocationTransform != null) {
-                        lastLocation = robotLocationTransform;
-                    }
-                    break;
+                // getUpdatedRobotLocation() will return null if no new information is available since
+                // the last time that call was made, or if the trackable is not currently visible.
+                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                if (robotLocationTransform != null) {
+                    lastLocation = robotLocationTransform;
                 }
+                break;
             }
-
-            // Provide feedback as to where the robot is located (if we know).
-            if (targetVisible) {
-                // express position (translation) of robot in inches
-                VectorF translation = lastLocation.getTranslation();
-                telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                        translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
-
-                // express the rotation of the robot in degrees.
-                Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
-            }
-            else {
-                telemetry.addData("Visible Target", "none");
-            }
-            telemetry.update();
         }
 
-        // Disable Tracking when we are done;
+        // Provide feedback as to where the robot is located (if we know).
+        if (targetVisible) {
+            // express position (translation) of robot in inches
+            VectorF translation = lastLocation.getTranslation();
+            // express the rotation of the robot in degrees.
+            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+
+            BotLocation botLocation = new BotLocation(
+                    translation.get(0) / mmPerInch,
+                    translation.get(1) / mmPerInch,
+                    translation.get(2) / mmPerInch,
+                    rotation.firstAngle,
+                    rotation.secondAngle,
+                    rotation.thirdAngle
+            );
+
+            telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+                    botLocation.positionX, botLocation.positionY, botLocation.positionZ);
+            telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
+                    botLocation.rotationRoll, botLocation.rotationPitch, botLocation.rotationHeading);
+            telemetry.update();
+
+            return botLocation;
+        }
+        else {
+            telemetry.addData("Visible Target", "none");
+            telemetry.update();
+
+            return null;
+        }
+    }
+
+    public void deactivate() {
         targetsSkyStone.deactivate();
     }
 }
