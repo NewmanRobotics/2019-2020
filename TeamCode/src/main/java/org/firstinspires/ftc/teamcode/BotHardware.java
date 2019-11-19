@@ -43,6 +43,9 @@ public abstract class BotHardware {
         left.setPower(0);
         right.setPower(0);
 
+        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         initGrabbers(hardwareMap);
 
         // One side of the motors has been placed reversely, means we need to reverse it again ;P

@@ -17,11 +17,12 @@ class ArmLiftHardware extends BotHardware {
 
     private static final long TIME_NEED = 250;
 
-    static final double ORIGIN = -0.05; // based on Galvin's measurement ;)
+    public static final double ORIGIN = -0.05; // based on Galvin's measurement ;)
 
     void initGrabbers(HardwareMap hardwareMap){
         // Arm motor is in port #3
         arm = hardwareMap.dcMotor.get("Arm");
+
         // The talon grabber servo is at port #4
         grabber = hardwareMap.crservo.get("TalonGrabber");
 
@@ -51,11 +52,11 @@ class ArmLiftHardware extends BotHardware {
         _setGrabberPower(-1.0);
     }
 
-    public void operateGrabber(double power) {
+    void operateGrabber(double power) {
         grabber.setPower(power);
     }
 
-    public void rotateGrabberRaw(double angle) {
+    void rotateGrabberRaw(double angle) {
         angle = Range.scale(angle, -1.0, 1.0, 0.0, 1.0);
         if (swivel.getPosition()+angle > 1){
            swivel.setPosition(1);

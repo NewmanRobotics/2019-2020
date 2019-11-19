@@ -20,12 +20,9 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
-
-import com.qualcomm.robotcore.hardware.HardwareMap;
+package org.firstinspires.ftc.teamcode.stateProvider;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -75,37 +72,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * is explained below.
  */
 
-/**
- * BotLocation gives a programmic way to get and set the bot's position, giving more hints on what
- * we've got from the StateProviders
- */
-class BotLocation {
-    public final float positionX;
-    public final float positionY;
-    public final float positionZ;
-    public final float rotationRoll;
-    public final float rotationPitch;
-    public final float rotationHeading;
-
-    public BotLocation(
-            float positionX,
-            float positionY,
-            float positionZ,
-            float rotationRoll,
-            float rotationPitch,
-            float rotationHeading
-    ) {
-
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.positionZ = positionZ;
-        this.rotationRoll = rotationRoll;
-        this.rotationPitch = rotationPitch;
-        this.rotationHeading = rotationHeading;
-    }
-}
-
-public class LocationProvider {
+public class VuforiaLocationProvider extends StateProvider {
     // IMPORTANT:  For Phone Camera, set 1) the camera source and 2) the orientation, based on how your phone is mounted:
     // 1) Camera Source.  Valid choices are:  BACK (behind screen) or FRONT (selfie side)
     // 2) Phone Orientation. Choices are: PHONE_IS_PORTRAIT = true (portrait) or PHONE_IS_PORTRAIT = false (landscape)
@@ -132,7 +99,7 @@ public class LocationProvider {
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
     private static final float mmPerInch        = 25.4f;
-    private static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
+    private static final float mmTargetHeight   = (6) * mmPerInch;  // the height of the center of the target image above the floor
 
     // Constant for Stone Target
     private static final float stoneZ = 2.00f * mmPerInch;
@@ -141,7 +108,7 @@ public class LocationProvider {
     private static final float bridgeZ = 6.42f * mmPerInch;
     private static final float bridgeY = 23 * mmPerInch;
     private static final float bridgeX = 5.18f * mmPerInch;
-    private static final float bridgeRotY = 59;                                 // Units are degrees
+    private static final float bridgeRotY = 59;  // Units are degrees
     private static final float bridgeRotZ = 180;
 
     // Constants for perimeter targets
@@ -156,15 +123,12 @@ public class LocationProvider {
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
 
-    private HardwareMap hardwareMap;
-    private Telemetry telemetry;
     private List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
     private VuforiaTrackables targetsSkyStone;
 
-    public LocationProvider(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.hardwareMap = hardwareMap;
-        this.telemetry = telemetry;
+    public VuforiaLocationProvider() {}
 
+    void initProvider() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          * We can pass Vuforia the handle to a camera preview resource (on the RC phone);
@@ -336,12 +300,12 @@ public class LocationProvider {
         targetsSkyStone.activate();
     }
 
-    public BotLocation get() {
+    public BotState get() {
         // check all the trackable targets to see which one (if any) is visible.
         targetVisible = false;
         for (VuforiaTrackable trackable : allTrackables) {
             if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
-                telemetry.addData("Visible Target", trackable.getName());
+//                telemetry.addData("Visible Target", trackable.getName());
                 targetVisible = true;
 
                 // getUpdatedRobotLocation() will return null if no new information is available since
@@ -361,7 +325,7 @@ public class LocationProvider {
             // express the rotation of the robot in degrees.
             Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
 
-            BotLocation botLocation = new BotLocation(
+            BotState botState = new BotState(
                     translation.get(0) / mmPerInch,
                     translation.get(1) / mmPerInch,
                     translation.get(2) / mmPerInch,
@@ -370,17 +334,17 @@ public class LocationProvider {
                     rotation.thirdAngle
             );
 
-            telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                    botLocation.positionX, botLocation.positionY, botLocation.positionZ);
-            telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
-                    botLocation.rotationRoll, botLocation.rotationPitch, botLocation.rotationHeading);
-            telemetry.update();
+//            telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+//                    botState.positionX, botState.positionY, botState.positionZ);
+//            telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
+//                    botState.rotationRoll, botState.rotationPitch, botState.rotationHeading);
+//            telemetry.update();
 
-            return botLocation;
+            return botState;
         }
         else {
-            telemetry.addData("Visible Target", "none");
-            telemetry.update();
+//            telemetry.addData("Visible Target", "none");
+//            telemetry.update();
 
             return null;
         }

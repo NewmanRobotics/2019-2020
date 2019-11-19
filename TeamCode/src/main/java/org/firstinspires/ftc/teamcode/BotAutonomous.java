@@ -25,41 +25,49 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.stateProvider.BotState;
+import org.firstinspires.ftc.teamcode.stateProvider.VuforiaLocationProvider;
+
 /**
  * Created by Galvin on 2019-10-31
  */
 @Autonomous(name = "Autonomous", group = "Autonomous")
 public class BotAutonomous extends OpMode {
     // get hardware bindings
-    private TalonGrabberHardware robot = new TalonGrabberHardware();
+    private ArmLiftHardware robot = new ArmLiftHardware();
+
     // initialize location provider
-    private LocationProvider locationProvider;
+    private VuforiaLocationProvider vuforiaLocationProvider = new VuforiaLocationProvider();
 
     @Override
     public void init() {
         // pass in the hardwareMap into hardware bindings and util functions
         robot.init(hardwareMap);
+
         // initialize location provider
-        locationProvider = new LocationProvider(hardwareMap, telemetry);
+        vuforiaLocationProvider.init(hardwareMap, telemetry);
     }
 
     public void start() {
-        locationProvider.activate();
+        vuforiaLocationProvider.activate();
     }
 
     @Override
     public void loop() {
-        BotLocation botLocation = locationProvider.get();
-        if (botLocation != null) {
+        BotState botState = vuforiaLocationProvider.get();
+        if (botState != null) {
             // location detected
+            telemetry.addData("detection", "detected");
+            telemetry.addData("loc", botState.toString());
         } else {
             // location not detected
+            telemetry.addData("detection", "NOT detected");
         }
     }
 
     @Override
     public void stop() {
-        locationProvider.deactivate();
+        vuforiaLocationProvider.deactivate();
 
         telemetry.addLine("Program terminated.");
         telemetry.update();

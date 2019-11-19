@@ -46,7 +46,7 @@ public class ArmLiftTeleop extends LinearOpMode {
             // bind game pad B button to the open and close of the grabbers
             telemetry.addData("gamepad pressed?", gamepad2.b);
             // bind the game pad B button to the operation of the grabber
-            robot.operateGrabber(gamepad2.b ? 1.0 : -0.05);
+            robot.operateGrabber(gamepad2.b ? 1.0 : robot.ORIGIN);
             robot.rotateGrabberRaw(gamepad2.left_stick_x*rotateScale);
             telemetry.update();
 
