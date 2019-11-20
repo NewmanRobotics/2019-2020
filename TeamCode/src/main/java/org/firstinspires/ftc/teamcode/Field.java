@@ -21,10 +21,23 @@
  */
 
 package org.firstinspires.ftc.teamcode;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Galvin on 2019-11-18
  */
 public class Field {
+	Map sites = new HashMap();
+	//[x,y]
+	//For squares
+	//[[Most Left Coordinate],[Most Right Coordinate]]
+	//For trianlges
+	//[[Most Left Coordinate],[Most Right Coordinate],[Edge Coordinate]]
+	sites.put("RED_DEPOT", [[-68.5,-45.75],[-45.75,-68.5]]);
+	sites.put("BLUE_DEPOT", [[45.75, -68.5],[-68.5, 45.75]]);
+	sites.put("RED_BUILDING_SITE", [[45.75, 68.5],[68.5, 45.75],[68.5,68.5]]);
+	sites.put("BLUE_BUILDING_SITE", [[-45.75, 68.5],[-68.5, 45.75],[-68.5,68.5]]);
+
 
 }
