@@ -20,24 +20,38 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.locationDescriptor;
+
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Galvin on 2019-11-18
  */
 public class Field {
-	Map sites = new HashMap();
-	//[x,y]
-	//For squares
-	//[[Most Left Coordinate],[Most Right Coordinate]]
-	//For trianlges
-	//[[Most Left Coordinate],[Most Right Coordinate],[Edge Coordinate]]
-	sites.put("RED_DEPOT", [[-68.5,-45.75],[-45.75,-68.5]]);
-	sites.put("BLUE_DEPOT", [[45.75, -68.5],[-68.5, 45.75]]);
-	sites.put("RED_BUILDING_SITE", [[45.75, 68.5],[68.5, 45.75],[68.5,68.5]]);
-	sites.put("BLUE_BUILDING_SITE", [[-45.75, 68.5],[-68.5, 45.75],[-68.5,68.5]]);
-
-
+	HashMap<String, Shape> sites = new HashMap<String, Shape>();
+	public void Field() {
+		//[x,y]
+		//For squares
+		//[[Most Left Coord],[Most Right Coord]]
+		//For triangle
+		//[[Most Left Coord],[Most Right Coord],[Edge Coord]]
+		sites.put("RED_DEPOT", new Rect(
+				new Coord(-68.5,-45.75),
+				new Coord(-45.75,-68.5)
+		));
+		sites.put("BLUE_DEPOT", new Rect(
+				new Coord(45.75, -68.5),
+				new Coord(-68.5, 45.75))
+		);
+		sites.put("RED_BUILDING_SITE", new Triangle(
+				new Coord(45.75, 68.5),
+				new Coord(68.5, 45.75),
+				new Coord(68.5,68.5)
+		));
+		sites.put("BLUE_BUILDING_SITE", new Triangle(
+				new Coord(-45.75, 68.5),
+				new Coord(-68.5, 45.75),
+				new Coord(-68.5,68.5)
+		));
+	}
 }

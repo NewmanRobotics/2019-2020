@@ -25,6 +25,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.locationDescriptor.Field;
+import org.firstinspires.ftc.teamcode.recognizer.StoneRecognizer;
 import org.firstinspires.ftc.teamcode.stateProvider.BotState;
 import org.firstinspires.ftc.teamcode.stateProvider.VuforiaLocationProvider;
 
@@ -39,6 +42,11 @@ public class BotAutonomous extends OpMode {
     // initialize location provider
     private VuforiaLocationProvider vuforiaLocationProvider = new VuforiaLocationProvider();
 
+    // initialize the stone recognizer
+    private StoneRecognizer stoneRecognizer = new StoneRecognizer();
+
+    private Field field = new Field();
+
     @Override
     public void init() {
         // pass in the hardwareMap into hardware bindings and util functions
@@ -46,10 +54,14 @@ public class BotAutonomous extends OpMode {
 
         // initialize location provider
         vuforiaLocationProvider.init(hardwareMap, telemetry);
+
+        // initialize the stone recognizer
+        stoneRecognizer.init(hardwareMap, telemetry);
     }
 
     public void start() {
         vuforiaLocationProvider.activate();
+        stoneRecognizer.activate();
     }
 
     @Override
@@ -57,17 +69,35 @@ public class BotAutonomous extends OpMode {
         BotState botState = vuforiaLocationProvider.get();
         if (botState != null) {
             // location detected
-            telemetry.addData("detection", "detected");
-            telemetry.addData("loc", botState.toString());
+            telemetry.addData("loc status", "detected");
+            telemetry.addData("loc detail", botState.toString());
         } else {
             // location not detected
-            telemetry.addData("detection", "NOT detected");
+            telemetry.addData("loc status", "NOT detected");
+        }
+
+        Recognition recognition = stoneRecognizer.get();
+        if (recognition != null) {
+            // location detected
+            telemetry.addData("obj status", "detected");
+            telemetry.addData("obj detail", "confd. %s for %s; at [%s, %s] [%s, %s]",
+                    recognition.getConfidence(),
+                    recognition.getLabel(),
+                    recognition.getLeft(),
+                    recognition.getTop(),
+                    recognition.getRight(),
+                    recognition.getBottom()
+                    );
+        } else {
+            // location not detected
+            telemetry.addData("obj status", "NOT detected");
         }
     }
 
     @Override
     public void stop() {
         vuforiaLocationProvider.deactivate();
+        stoneRecognizer.deactivate();
 
         telemetry.addLine("Program terminated.");
         telemetry.update();
