@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -36,6 +35,11 @@ class ArmLiftHardware extends BotHardware {
         // The grabber is at port #6
         // set to 0.0 will break the motor
         grabber.setPower(ORIGIN);
+
+//        swivel.scaleRange(0.1, 1.0);
+
+        armLifter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armExtender.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     private void _setGrabberPower(double to) {
@@ -61,18 +65,24 @@ class ArmLiftHardware extends BotHardware {
         grabber.setPower(power);
     }
 
-    void rotateGrabber(double angle) {
-        angle = Range.scale(angle, -1.0, 1.0, 0.0, 1.0);
-        double attemptAngle = swivel.getPosition() + angle;
-        if (attemptAngle >= 1){
+    void rotateGrabberByDifference(double angle) {
+        // -0.284 -> center
+        // double LEFT_CAP_GAMEPAD = -1;
+         double LEFT_CAP_POSITION = 0;
+        // angle = Math.max(angle, LEFT_CAP_GAMEPAD);
+        // angle = Range.scale(angle, LEFT_CAP_GAMEPAD, 1.0, LEFT_CAP_POSITION, 1.0);
+        // angle = Range.scale(angle, -1.0, 1.0, 0.0, 1.0);
+        double attemptPosition = swivel.getPosition() + angle * 0.005;
+        if (attemptPosition > 1) {
             swivel.setPosition(1);
         }
-        else if (attemptAngle <= 0){
-            swivel.setPosition(0);
+        else if (attemptPosition < LEFT_CAP_POSITION){
+            swivel.setPosition(LEFT_CAP_POSITION);
         }
         else {
-            swivel.setPosition(attemptAngle);
+            swivel.setPosition(attemptPosition);
         }
-    }
 
+//        swivel.setPosition(angle);
+    }
 }

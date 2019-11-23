@@ -25,10 +25,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.locationDescriptor.Field;
-import org.firstinspires.ftc.teamcode.recognizer.StoneRecognizer;
-import org.firstinspires.ftc.teamcode.stateProvider.BotState;
+import org.firstinspires.ftc.teamcode.stateProvider.Location;
 import org.firstinspires.ftc.teamcode.stateProvider.VuforiaLocationProvider;
 
 /**
@@ -43,9 +41,43 @@ public class BotAutonomous extends OpMode {
     private VuforiaLocationProvider vuforiaLocationProvider = new VuforiaLocationProvider();
 
     // initialize the stone recognizer
-    private StoneRecognizer stoneRecognizer = new StoneRecognizer();
+//    private StoneRecognizer stoneRecognizer = new StoneRecognizer();
 
     private Field field = new Field();
+
+    enum MinerBotStatus {
+        NOT_INITIALIZED(0),
+        INITIALIZED(1),
+        FINDING_SKYSTONE(2),
+        FOUND_SKYSTONE_AND_APPROACHING(3),
+        DELIVERING_SKYSTONE(4);
+
+        private Integer level;
+
+        MinerBotStatus(int level) {
+            this.level = level;
+        }
+
+        public boolean isAdvancedThan(MinerBotStatus other) {
+            return this.level > other.level;
+        }
+
+        public boolean isNotAdvancedThan(MinerBotStatus other) {
+            return this.level < other.level;
+        }
+
+        public boolean is(MinerBotStatus other) {
+            return this.level.equals(other.level);
+        }
+    }
+
+    private MinerBotStatus status = MinerBotStatus.NOT_INITIALIZED;
+
+//    enum BuildingBotStatus {
+//        NOT_INITIALIZED,
+//        INITIALIZED,
+//    }
+//
 
     @Override
     public void init() {
@@ -56,48 +88,49 @@ public class BotAutonomous extends OpMode {
         vuforiaLocationProvider.init(hardwareMap, telemetry);
 
         // initialize the stone recognizer
-        stoneRecognizer.init(hardwareMap, telemetry);
+//        stoneRecognizer.init(hardwareMap, telemetry);
     }
 
     public void start() {
         vuforiaLocationProvider.activate();
-        stoneRecognizer.activate();
+//        stoneRecognizer.activate();
+        status = MinerBotStatus.INITIALIZED;
     }
 
     @Override
     public void loop() {
-        BotState botState = vuforiaLocationProvider.get();
-        if (botState != null) {
+        Location location = vuforiaLocationProvider.get();
+        if (location != null) {
             // location detected
             telemetry.addData("loc status", "detected");
-            telemetry.addData("loc detail", botState.toString());
+            telemetry.addData("loc detail", location.toString());
+            telemetry.addData("loc field map", field.getCurrentFieldElement(
+                    location
+            ));
         } else {
             // location not detected
             telemetry.addData("loc status", "NOT detected");
         }
 
-        Recognition recognition = stoneRecognizer.get();
-        if (recognition != null) {
-            // location detected
-            telemetry.addData("obj status", "detected");
-            telemetry.addData("obj detail", "confd. %s for %s; at [%s, %s] [%s, %s]",
-                    recognition.getConfidence(),
-                    recognition.getLabel(),
-                    recognition.getLeft(),
-                    recognition.getTop(),
-                    recognition.getRight(),
-                    recognition.getBottom()
-                    );
+        if (status.isNotAdvancedThan(MinerBotStatus.FOUND_SKYSTONE_AND_APPROACHING)) {
+            status = MinerBotStatus.FINDING_SKYSTONE;
+
+        } else if (status.is(MinerBotStatus.FOUND_SKYSTONE_AND_APPROACHING)) {
+            // approachStone();
+        } else if (status.is(MinerBotStatus.DELIVERING_SKYSTONE)) {
+            // deliverStone();
         } else {
-            // location not detected
-            telemetry.addData("obj status", "NOT detected");
+            telemetry.addLine(String.format("unknown status %s", status));
         }
+    }
+
+    public void findSkyStone() {
     }
 
     @Override
     public void stop() {
         vuforiaLocationProvider.deactivate();
-        stoneRecognizer.deactivate();
+//        stoneRecognizer.deactivate();
 
         telemetry.addLine("Program terminated.");
         telemetry.update();

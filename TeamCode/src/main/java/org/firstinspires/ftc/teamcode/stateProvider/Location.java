@@ -26,42 +26,34 @@ package org.firstinspires.ftc.teamcode.stateProvider;
  * Created by Galvin on 2019-11-16
  */
 /**
- * BotState gives a fancy way to get and set the bot's position, giving more hints on what
+ * Location gives a fancy way to get and set the bot's position, giving more hints on what
  * we've got from the StateProviders
  */
-public class BotState {
-    final float positionX;
-    final float positionY;
-    final float positionZ;
-    final float rotationRoll;
-    final float rotationPitch;
-    final float rotationHeading;
+public class Location {
+    public final float positionX;
+    public final float positionY;
+    public final float positionZ;
+    public final float heading;
 
-    BotState(
+    Location(
             float positionX,
             float positionY,
             float positionZ,
-            float rotationRoll,
-            float rotationPitch,
-            float rotationHeading
+            float heading
     ) {
 
         this.positionX = positionX;
         this.positionY = positionY;
         this.positionZ = positionZ;
-        this.rotationRoll = rotationRoll;
-        this.rotationPitch = rotationPitch;
-        this.rotationHeading = rotationHeading;
+        this.heading = heading;
     }
 
     public String toString() {
-        return String.format("Position: x=%.3f | y=%.3f | z=%.3f\n    Rotation: r=%.3f | p=%.3f | h=%.3f",
+        return String.format("Position: x=%.3f | y=%.3f | z=%.3f\n    Heading: %.3f",
                 this.positionX,
                 this.positionY,
                 this.positionZ,
-                this.rotationRoll,
-                this.rotationPitch,
-                this.rotationHeading
+                this.heading
                 );
     }
 }

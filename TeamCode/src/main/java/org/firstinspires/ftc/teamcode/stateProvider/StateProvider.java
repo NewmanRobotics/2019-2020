@@ -39,6 +39,6 @@ public abstract class StateProvider {
     }
     abstract void initProvider();
     abstract void activate();
-    abstract BotState get();
+    abstract Location get();
     abstract void deactivate();
 }

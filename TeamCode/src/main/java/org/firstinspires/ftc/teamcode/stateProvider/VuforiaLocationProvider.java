@@ -300,7 +300,7 @@ public class VuforiaLocationProvider extends StateProvider {
         targetsSkyStone.activate();
     }
 
-    public BotState get() {
+    public Location get() {
         // check all the trackable targets to see which one (if any) is visible.
         targetVisible = false;
         for (VuforiaTrackable trackable : allTrackables) {
@@ -325,22 +325,18 @@ public class VuforiaLocationProvider extends StateProvider {
             // express the rotation of the robot in degrees.
             Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
 
-            BotState botState = new BotState(
+            //            telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+//                    botState.positionX, botState.positionY, botState.positionZ);
+//            telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
+//                    botState.rotationRoll, botState.rotationPitch, botState.heading);
+//            telemetry.update();
+
+            return new Location(
                     translation.get(0) / mmPerInch,
                     translation.get(1) / mmPerInch,
                     translation.get(2) / mmPerInch,
-                    rotation.firstAngle,
-                    rotation.secondAngle,
                     rotation.thirdAngle
             );
-
-//            telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-//                    botState.positionX, botState.positionY, botState.positionZ);
-//            telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
-//                    botState.rotationRoll, botState.rotationPitch, botState.rotationHeading);
-//            telemetry.update();
-
-            return botState;
         }
         else {
 //            telemetry.addData("Visible Target", "none");

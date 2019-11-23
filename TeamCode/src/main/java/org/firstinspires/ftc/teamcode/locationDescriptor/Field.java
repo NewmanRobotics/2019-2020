@@ -22,36 +22,51 @@
 
 package org.firstinspires.ftc.teamcode.locationDescriptor;
 
+import org.firstinspires.ftc.teamcode.stateProvider.Location;
+
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Galvin on 2019-11-18
  */
 public class Field {
-	HashMap<String, Shape> sites = new HashMap<String, Shape>();
-	public void Field() {
+	HashMap<String, Shape> element = new HashMap<String, Shape>();
+	public Field() {
 		//[x,y]
 		//For squares
 		//[[Most Left Coord],[Most Right Coord]]
 		//For triangle
 		//[[Most Left Coord],[Most Right Coord],[Edge Coord]]
-		sites.put("RED_DEPOT", new Rect(
+		element.put("RED_DEPOT", new Rect(
 				new Coord(-68.5,-45.75),
 				new Coord(-45.75,-68.5)
 		));
-		sites.put("BLUE_DEPOT", new Rect(
+		element.put("BLUE_DEPOT", new Rect(
 				new Coord(45.75, -68.5),
 				new Coord(-68.5, 45.75))
 		);
-		sites.put("RED_BUILDING_SITE", new Triangle(
+		element.put("RED_BUILDING_SITE", new Triangle(
 				new Coord(45.75, 68.5),
 				new Coord(68.5, 45.75),
 				new Coord(68.5,68.5)
 		));
-		sites.put("BLUE_BUILDING_SITE", new Triangle(
+		element.put("BLUE_BUILDING_SITE", new Triangle(
 				new Coord(-45.75, 68.5),
 				new Coord(-68.5, 45.75),
 				new Coord(-68.5,68.5)
 		));
+	}
+
+	public String getCurrentFieldElement(Location location) {
+		for (Map.Entry<String, Shape> entry : element.entrySet()) {
+			if (entry.getValue().in(
+					new Coord(
+							location.positionX,
+							location.positionY
+					)
+			)) return entry.getKey();
+		}
+		return null;
 	}
 }

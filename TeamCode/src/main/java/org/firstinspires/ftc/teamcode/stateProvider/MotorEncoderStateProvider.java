@@ -37,7 +37,7 @@ public class MotorEncoderStateProvider extends StateProvider {
     }
 
     @Override
-    BotState get() {
+    Location get() {
         return null;
     }
 
