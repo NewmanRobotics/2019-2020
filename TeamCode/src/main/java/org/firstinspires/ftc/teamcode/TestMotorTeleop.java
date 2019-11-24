@@ -39,7 +39,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Grabber Motor Test", group="Development")
+@TeleOp(name = "Grabber Motor Test", group = "Development")
 //@Disabled
 public class TestMotorTeleop extends LinearOpMode {
 
@@ -86,6 +86,9 @@ public class TestMotorTeleop extends LinearOpMode {
             robot.waitForTick(10);
             idle();
         }
+
+        telemetry.addLine("Program terminated.");
+        telemetry.update();
     }
 
 }

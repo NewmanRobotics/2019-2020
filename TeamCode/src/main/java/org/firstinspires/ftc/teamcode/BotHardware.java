@@ -43,10 +43,16 @@ public abstract class BotHardware {
         left.setPower(0);
         right.setPower(0);
 
+        left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+//        left.setDirection(DcMotor.Direction.REVERSE);
+//        right.setDirection(DcMotor.Direction.REVERSE);
+
         initGrabbers(hardwareMap);
 
         // One side of the motors has been placed reversely, means we need to reverse it again ;P
-        left.setDirection(DcMotor.Direction.REVERSE);
+//        left.setDirection(DcMotor.Direction.REVERSE);
     }
 
     /**
@@ -81,5 +87,10 @@ public abstract class BotHardware {
             period.reset();
         }
 
+    }
+
+    void go(double power) {
+        left.setPower(power);
+        right.setPower(power);
     }
 }
