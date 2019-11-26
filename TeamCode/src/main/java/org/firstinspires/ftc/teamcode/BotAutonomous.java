@@ -24,6 +24,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.locationDescriptor.Field;
 import org.firstinspires.ftc.teamcode.stateProvider.Location;
@@ -83,6 +84,9 @@ public class BotAutonomous extends OpMode {
     public void init() {
         // pass in the hardwareMap into hardware bindings and util functions
         robot.init(hardwareMap);
+
+        robot.left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // initialize location provider
         vuforiaLocationProvider.init(hardwareMap, telemetry);
