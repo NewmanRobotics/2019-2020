@@ -44,27 +44,32 @@ public class ArmLiftTeleop extends OpMode {
         /*
          * gamepad2:
          *   - [left Y] the height of the arm
-         *   - [right Y] the extension of the arm
-         *   - [left & right bumper] the rotation of the grabber
-         *   - [button B] open/close the grabber
+         *   - [left & right bumper] sets the position of the servo being smaller than before
+         *   - [left & right trigger] sets the position of the servo being larger than before
+         *   - [button B] open/close the foundation grabber
          */
         double height = - Range.scale(gamepad2.left_stick_y, -1.0, 1.0, -0.3, 0.3);
-        double extension = gamepad2.right_stick_y;
-        double rotation = gamepad2.right_stick_x;
-        double grabber = gamepad2.b ? 1.0 : ArmLiftHardware.ORIGIN;
 
-//        telemetry.addData("grabber bf op", robot.swivel.getPosition());
-        robot.operateGrabber(grabber);
         robot.armLifter.setPower(height);
-        robot.armExtender.setPower(extension);
-        robot.rotateGrabberByDifference(rotation);
-//        telemetry.addData("grabber af op", robot.swivel.getPosition());
-//        robot.swivel.setPosition(rotation);
 
-        telemetry.addData("Arm Height", height);
-        telemetry.addData("Arm Extender", extension);
-        telemetry.addData("Grabber Rotation", rotation);
-        telemetry.addData("Grabber Operation", gamepad2.b);
+        // servo rotation amount per tick
+        double AMOUNT = 0.005;
+
+        if (gamepad2.left_bumper) {
+            robot.operateGrabber(ArmLiftHardware.GrabberSide.LEFT, -AMOUNT);
+        }
+        if (gamepad2.right_bumper) {
+            robot.operateGrabber(ArmLiftHardware.GrabberSide.RIGHT, -AMOUNT);
+        }
+        robot.operateGrabber(ArmLiftHardware.GrabberSide.LEFT, gamepad2.left_trigger);
+        robot.operateGrabber(ArmLiftHardware.GrabberSide.RIGHT, gamepad2.right_trigger);
+
+        robot.foundationGrabber.setPosition(gamepad2.b ? 1.0 : -1.0);
+
+        telemetry.addData("Arm Lifter (power delta)", height);
+        telemetry.addData("Left Grabber (exact pos)", robot.leftGrabber.getPosition());
+        telemetry.addData("Right Grabber (exact pos)", robot.rightGrabber.getPosition());
+        telemetry.addData("Foundation Grabber (exact pos)", robot.foundationGrabber.getPosition());
 
 
 //            boolean armUp = gamepad2.left_bumper;

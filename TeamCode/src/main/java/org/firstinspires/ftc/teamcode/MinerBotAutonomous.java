@@ -33,8 +33,8 @@ import org.firstinspires.ftc.teamcode.stateProvider.VuforiaLocationProvider;
 /**
  * Created by Galvin on 2019-10-31
  */
-@Autonomous(name = "Autonomous", group = "Autonomous")
-public class BotAutonomous extends OpMode {
+@Autonomous(name = "Miner Bot Autonomous", group = "Autonomous")
+public class MinerBotAutonomous extends OpMode {
     // get hardware bindings
     private ArmLiftHardware robot = new ArmLiftHardware();
 
@@ -48,10 +48,9 @@ public class BotAutonomous extends OpMode {
 
     enum MinerBotStatus {
         NOT_INITIALIZED(0),
-        INITIALIZED(1),
-        FINDING_SKYSTONE(2),
-        FOUND_SKYSTONE_AND_APPROACHING(3),
-        DELIVERING_SKYSTONE(4);
+        FINDING_SKYSTONE(1),
+        FOUND_SKYSTONE_AND_APPROACHING(2),
+        DELIVERING_SKYSTONE(3);
 
         private Integer level;
 
@@ -74,12 +73,6 @@ public class BotAutonomous extends OpMode {
 
     private MinerBotStatus status = MinerBotStatus.NOT_INITIALIZED;
 
-//    enum BuildingBotStatus {
-//        NOT_INITIALIZED,
-//        INITIALIZED,
-//    }
-//
-
     @Override
     public void init() {
         // pass in the hardwareMap into hardware bindings and util functions
@@ -95,14 +88,18 @@ public class BotAutonomous extends OpMode {
 //        stoneRecognizer.init(hardwareMap, telemetry);
     }
 
+    // executes after pressing INIT
     public void start() {
         vuforiaLocationProvider.activate();
 //        stoneRecognizer.activate();
-        status = MinerBotStatus.INITIALIZED;
+        status = MinerBotStatus.FINDING_SKYSTONE;
     }
 
+
+    // executes after pressing START; calls repeatedly.
     @Override
     public void loop() {
+        // get location
         Location location = vuforiaLocationProvider.get();
         if (location != null) {
             // location detected
@@ -114,17 +111,6 @@ public class BotAutonomous extends OpMode {
         } else {
             // location not detected
             telemetry.addData("loc status", "NOT detected");
-        }
-
-        if (status.isNotAdvancedThan(MinerBotStatus.FOUND_SKYSTONE_AND_APPROACHING)) {
-            status = MinerBotStatus.FINDING_SKYSTONE;
-
-        } else if (status.is(MinerBotStatus.FOUND_SKYSTONE_AND_APPROACHING)) {
-            // approachStone();
-        } else if (status.is(MinerBotStatus.DELIVERING_SKYSTONE)) {
-            // deliverStone();
-        } else {
-            telemetry.addLine(String.format("unknown status %s", status));
         }
     }
 
