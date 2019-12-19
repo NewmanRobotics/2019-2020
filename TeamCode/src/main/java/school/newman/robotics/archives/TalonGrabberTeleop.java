@@ -20,42 +20,38 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package school.newman.robotics.archives;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * Created by Galvin on 2019-12-12
+ * Created by Galvin on 2019-10-30
  */
-@TeleOp(name="Servo Test", group= "Development")
-public class ServoTest extends LinearOpMode {
-    private ElapsedTime period = new ElapsedTime();
+@TeleOp(name="Talon Grabber Test", group= "Development")
+public class TalonGrabberTeleop extends LinearOpMode {
+    public TalonGrabberHardware robot = new TalonGrabberHardware();
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Servo servo = hardwareMap.servo.get("Servo");
+        robot.init(hardwareMap);
 
         waitForStart();
 
+        long totalTime = 0;
+        long EACH = 20;
+
         while (opModeIsActive()) {
-            servo.setPosition( gamepad1.left_stick_x );
-            waitForTick(20);
+            // bind game pad B button to the open and close of the grabbers
+            telemetry.addData("gamepad pressed?", gamepad1.b);
+            // bind the game pad B button to the operation of the grabber
+            robot.operateGrabber(gamepad1.b ? 1.0 : -0.05);
+            robot.rotateGrabberRaw(gamepad1.left_stick_x);
+
+            telemetry.update();
+
+            robot.waitForTick(EACH);
             idle();
         }
-    }
-
-    void waitForTick(long periodInMillisecond) throws InterruptedException {
-
-        long remaining = periodInMillisecond - (long) period.milliseconds();
-
-        if (remaining > 0){
-            Thread.sleep(remaining);
-
-            period.reset();
-        }
-
     }
 }

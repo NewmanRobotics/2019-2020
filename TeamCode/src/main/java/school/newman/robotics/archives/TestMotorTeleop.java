@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package school.newman.robotics.archives;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -43,11 +43,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //@Disabled
 public class TestMotorTeleop extends LinearOpMode {
 
-    private CompressorGrabberHardware robot = new CompressorGrabberHardware();
+    public CompressorGrabberHardware robot = new CompressorGrabberHardware();
 
     // the grabber was initially opened
-    private Boolean grabberOpened = true;
-    private Boolean buttonPressedAtLastLoop = false;
+    public Boolean grabberOpened = true;
+    public Boolean buttonPressedAtLastLoop = false;
 
     @Override
     public void runOpMode() throws InterruptedException {

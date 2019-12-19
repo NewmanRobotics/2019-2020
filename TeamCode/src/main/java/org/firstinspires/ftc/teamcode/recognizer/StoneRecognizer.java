@@ -36,9 +36,9 @@ import school.newman.robotics.privateCredentials.CredentialHolder;
  * Determine the stone position using TensorFlow
  */
 public class StoneRecognizer extends Recognizer {
-    private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Stone";
-    private static final String LABEL_SECOND_ELEMENT = "Skystone";
+    public static final String TFOD_MODEL_ASSET = "Skystone.tflite";
+    public static final String LABEL_FIRST_ELEMENT = "Stone";
+    public static final String LABEL_SECOND_ELEMENT = "Skystone";
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -52,19 +52,19 @@ public class StoneRecognizer extends Recognizer {
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
-    private static final String VUFORIA_KEY = CredentialHolder.VuforiaDevelopmentKey;
+    public static final String VUFORIA_KEY = CredentialHolder.VuforiaDevelopmentKey;
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
      */
-    private VuforiaLocalizer vuforia;
+    public VuforiaLocalizer vuforia;
 
     /**
      * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
      * Detection engine.
      */
-    private TFObjectDetector tfod;
+    public TFObjectDetector tfod;
 
     /**
      * Initialize the Vuforia localization engine.

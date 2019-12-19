@@ -37,7 +37,7 @@ public class Path {
         PAUSED(3),
         DONE(4);
 
-        private int level;
+        public int level;
 
         PathRunState(int level) {
             this.level = level;

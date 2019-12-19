@@ -20,23 +20,23 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public abstract class BotHardware {
-    DcMotor right;
-    DcMotor left;
+    public DcMotor right;
+    public DcMotor left;
 
-    private ElapsedTime period = new ElapsedTime();
+    public ElapsedTime period = new ElapsedTime();
 
     /**
      * construct a new bot hardware
      * @param hardwareMap received from OpMode
      */
-    void init(HardwareMap hardwareMap) {
+    public void init(HardwareMap hardwareMap) {
         left = hardwareMap.dcMotor.get("Left");
         right = hardwareMap.dcMotor.get("Right");
 
@@ -59,7 +59,7 @@ public abstract class BotHardware {
      * initialize the grabber servo objects
      * @param hardwareMap received from OpMode
      */
-    abstract void initGrabbers(HardwareMap hardwareMap);
+    abstract public void initGrabbers(HardwareMap hardwareMap);
 
     /**
      * open the grabber - make it ready for grabbing the block
@@ -77,7 +77,7 @@ public abstract class BotHardware {
      * @param periodInMillisecond the duration of the robot should wait; in milliseconds
      * @throws InterruptedException times up!
      */
-    void waitForTick(long periodInMillisecond) throws InterruptedException {
+    public void waitForTick(long periodInMillisecond) throws InterruptedException {
 
         long remaining = periodInMillisecond - (long) period.milliseconds();
 

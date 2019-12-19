@@ -20,12 +20,13 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.hardware.ArmLiftHardware;
 import org.firstinspires.ftc.teamcode.locationDescriptor.Field;
 import org.firstinspires.ftc.teamcode.stateProvider.Location;
 import org.firstinspires.ftc.teamcode.stateProvider.VuforiaLocationProvider;
@@ -36,15 +37,15 @@ import org.firstinspires.ftc.teamcode.stateProvider.VuforiaLocationProvider;
 @Autonomous(name = "Miner Bot Autonomous", group = "Autonomous")
 public class MinerBotAutonomous extends OpMode {
     // get hardware bindings
-    private ArmLiftHardware robot = new ArmLiftHardware();
+    public ArmLiftHardware robot = new ArmLiftHardware();
 
     // initialize location provider
-    private VuforiaLocationProvider vuforiaLocationProvider = new VuforiaLocationProvider();
+    public VuforiaLocationProvider vuforiaLocationProvider = new VuforiaLocationProvider();
 
     // initialize the stone recognizer
-//    private StoneRecognizer stoneRecognizer = new StoneRecognizer();
+//    public StoneRecognizer stoneRecognizer = new StoneRecognizer();
 
-    private Field field = new Field();
+    public Field field = new Field();
 
     enum MinerBotStatus {
         NOT_INITIALIZED(0),
@@ -52,7 +53,7 @@ public class MinerBotAutonomous extends OpMode {
         FOUND_SKYSTONE_AND_APPROACHING(2),
         DELIVERING_SKYSTONE(3);
 
-        private Integer level;
+        public Integer level;
 
         MinerBotStatus(int level) {
             this.level = level;
@@ -71,7 +72,7 @@ public class MinerBotAutonomous extends OpMode {
         }
     }
 
-    private MinerBotStatus status = MinerBotStatus.NOT_INITIALIZED;
+    public MinerBotStatus status = MinerBotStatus.NOT_INITIALIZED;
 
     @Override
     public void init() {

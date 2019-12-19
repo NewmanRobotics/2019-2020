@@ -79,8 +79,8 @@ public class VuforiaLocationProvider extends StateProvider {
     //
     // NOTE: If you are running on a CONTROL HUB, with only one USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
     //
-    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
-    private static final boolean PHONE_IS_PORTRAIT = false;
+    public static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
+    public static final boolean PHONE_IS_PORTRAIT = false;
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -94,37 +94,37 @@ public class VuforiaLocationProvider extends StateProvider {
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
-    private static final String VUFORIA_KEY = CredentialHolder.VuforiaDevelopmentKey;
+    public static final String VUFORIA_KEY = CredentialHolder.VuforiaDevelopmentKey;
 
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
-    private static final float mmPerInch        = 25.4f;
-    private static final float mmTargetHeight   = (6) * mmPerInch;  // the height of the center of the target image above the floor
+    public static final float mmPerInch        = 25.4f;
+    public static final float mmTargetHeight   = (6) * mmPerInch;  // the height of the center of the target image above the floor
 
     // Constant for Stone Target
-    private static final float stoneZ = 2.00f * mmPerInch;
+    public static final float stoneZ = 2.00f * mmPerInch;
 
     // Constants for the center support targets
-    private static final float bridgeZ = 6.42f * mmPerInch;
-    private static final float bridgeY = 23 * mmPerInch;
-    private static final float bridgeX = 5.18f * mmPerInch;
-    private static final float bridgeRotY = 59;  // Units are degrees
-    private static final float bridgeRotZ = 180;
+    public static final float bridgeZ = 6.42f * mmPerInch;
+    public static final float bridgeY = 23 * mmPerInch;
+    public static final float bridgeX = 5.18f * mmPerInch;
+    public static final float bridgeRotY = 59;  // Units are degrees
+    public static final float bridgeRotZ = 180;
 
     // Constants for perimeter targets
-    private static final float halfField = 72 * mmPerInch;
-    private static final float quadField  = 36 * mmPerInch;
+    public static final float halfField = 72 * mmPerInch;
+    public static final float quadField  = 36 * mmPerInch;
 
     // Class Members
-    private OpenGLMatrix lastLocation = null;
-    private VuforiaLocalizer vuforia = null;
-    private boolean targetVisible = false;
-    private float phoneXRotate    = 0;
-    private float phoneYRotate    = 0;
-    private float phoneZRotate    = 0;
+    public OpenGLMatrix lastLocation = null;
+    public VuforiaLocalizer vuforia = null;
+    public boolean targetVisible = false;
+    public float phoneXRotate    = 0;
+    public float phoneYRotate    = 0;
+    public float phoneZRotate    = 0;
 
-    private List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
-    private VuforiaTrackables targetsSkyStone;
+    public List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+    public VuforiaTrackables targetsSkyStone;
 
     public VuforiaLocationProvider() {}
 
