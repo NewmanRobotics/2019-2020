@@ -34,6 +34,7 @@ public abstract class Recognizer {
     HardwareMap hardwareMap;
     Telemetry telemetry;
     public void init(HardwareMap hardwareMap, Telemetry telemetry) {
+        Thread thread = new Thread("test");
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
     }

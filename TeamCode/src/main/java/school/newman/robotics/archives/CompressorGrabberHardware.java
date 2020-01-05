@@ -65,10 +65,10 @@ public class CompressorGrabberHardware extends BotHardware {
         grabberRight.setPosition(value);
     }
 
-    public void openGrabber() {
+    public void openBlockGrabber() {
         _setGrabberPositions(0.0);
     }
-    public void closeGrabber() {
+    public void closeBlockGrabber() {
         _setGrabberPositions(1.0);
     }
 

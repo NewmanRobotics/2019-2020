@@ -75,11 +75,11 @@ class MinerBotHardware extends BotHardware {
         }, TIME_NEED, TimeUnit.MILLISECONDS);
     }
 
-    public void openGrabber() {
+    public void openBlockGrabber() {
         _setGrabberPower(1.0);
     }
 
-    public void closeGrabber() {
+    public void closeBlockGrabber() {
         _setGrabberPower(-1.0);
     }
 

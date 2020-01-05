@@ -46,11 +46,10 @@ public class ArmLiftHardware extends BotHardware {
         armLifter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void openGrabber() {
+    public void openBlockGrabber() {
     }
 
-    public void closeGrabber() {
-
+    public void closeBlockGrabber() {
     }
 
     public enum GrabberSide {
@@ -58,7 +57,7 @@ public class ArmLiftHardware extends BotHardware {
         RIGHT
     }
 
-    public double accumulate(double original, double accumulation) {
+    public static double accumulate(double original, double accumulation) {
         double attempt = original + accumulation;
         return Math.min(1.0, Math.max(attempt, 0.0));
     }

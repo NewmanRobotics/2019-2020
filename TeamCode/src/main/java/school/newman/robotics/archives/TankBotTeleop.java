@@ -71,11 +71,11 @@ public class TankBotTeleop extends LinearOpMode {
             if (gamepad1.b && !buttonPressedAtLastLoop) {
                 if (grabberOpened) {
                     // close the grabber
-                    robot.closeGrabber();
+                    robot.closeBlockGrabber();
                     grabberOpened = false;
                 } else {
                     // open the grabber
-                    robot.openGrabber();
+                    robot.openBlockGrabber();
                     grabberOpened = true;
                 }
             }

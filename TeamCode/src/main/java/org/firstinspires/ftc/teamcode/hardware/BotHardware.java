@@ -64,12 +64,12 @@ public abstract class BotHardware {
     /**
      * open the grabber - make it ready for grabbing the block
      */
-    public abstract void openGrabber();
+    public abstract void openBlockGrabber();
 
     /**
      * close the grabber - make it grab the block
      */
-    public abstract void closeGrabber();
+    public abstract void closeBlockGrabber();
 
     /**
      * let the robot wait for a fixed duration; in majority of times we will use
@@ -77,12 +77,16 @@ public abstract class BotHardware {
      * @param periodInMillisecond the duration of the robot should wait; in milliseconds
      * @throws InterruptedException times up!
      */
-    public void waitForTick(long periodInMillisecond) throws InterruptedException {
+    public void waitForTick(long periodInMillisecond) {
 
         long remaining = periodInMillisecond - (long) period.milliseconds();
 
         if (remaining > 0){
-            Thread.sleep(remaining);
+            try {
+                Thread.sleep(remaining);
+            } catch (InterruptedException e) {
+                // shhhh <v<
+            }
 
             period.reset();
         }
