@@ -34,6 +34,8 @@ import org.firstinspires.ftc.teamcode.recognizer.StoneRecognizer;
 import org.firstinspires.ftc.teamcode.stateProvider.Location;
 import org.firstinspires.ftc.teamcode.stateProvider.VuforiaLocationProvider;
 
+import java.util.Date;
+
 /**
  * Created by Galvin on 2019-10-31
  */
@@ -142,24 +144,22 @@ public class MinerBotAutonomous extends OpMode {
         }
     }
 
-    public void findLocation() {
+    public Location findLocation() {
         // rotate the robot
         robot.rotate(AutonomousHardware.Direction.CLOCKWISE, AutonomousHardware.Power.SLOW);
 
-        // TODO: set timeout for this operation
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                // while rotating, try find the location
-                Location location = vuforiaLocationProvider.get();
-                while (location == null) {
-                    location = vuforiaLocationProvider.get();
-                }
-            }
-        };
+        long time = new Date().getTime();
 
-        runnable.run();
+        Location location = vuforiaLocationProvider.get();
+        while (location == null && new Date().getTime() - time <= 3000) {
+            location = vuforiaLocationProvider.get();
+        }
+
+        robot.stop();
+
+        return location;
         // now we found the location!
+
     }
 
     public void findSkystone() {

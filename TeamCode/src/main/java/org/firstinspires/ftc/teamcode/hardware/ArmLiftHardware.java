@@ -30,7 +30,8 @@ public class ArmLiftHardware extends BotHardware {
     public DcMotor armLifter;
     public Servo leftGrabber;
     public Servo rightGrabber;
-    public Servo foundationGrabber;
+    public Servo foundationGrabberLeft;
+    public Servo foundationGrabberRight;
 
     public void initGrabbers(HardwareMap hardwareMap){
         // The lifter of the arm
@@ -41,7 +42,12 @@ public class ArmLiftHardware extends BotHardware {
         rightGrabber = hardwareMap.servo.get("ClipGrabberRight");
 
         // The foundation grabber
-        foundationGrabber = hardwareMap.servo.get("FoundationGrabber");
+        foundationGrabberLeft = hardwareMap.servo.get("FoundationGrabberLeft");
+        foundationGrabberRight = hardwareMap.servo.get("FoundationGrabberRight");
+
+        // TODO: measure the position of the initialization state of the foundation grabber should be
+        foundationGrabberLeft.setPosition(0.0);
+        foundationGrabberRight.setPosition(0.0);
 
         armLifter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
@@ -50,6 +56,14 @@ public class ArmLiftHardware extends BotHardware {
     }
 
     public void closeBlockGrabber() {
+    }
+
+    public void openFoundationGrabber() {
+
+    }
+
+    public void closeFoundationGrabber() {
+
     }
 
     public enum GrabberSide {
