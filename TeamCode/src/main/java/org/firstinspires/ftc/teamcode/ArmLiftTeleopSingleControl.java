@@ -4,14 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "Arm Lift Bot", group = "Production")
-public class ArmLiftTeleop extends OpMode {
+@TeleOp(name = "Arm Lift Bot Solo", group = "Production")
+public class ArmLiftTeleopSingleControl extends OpMode {
     private ArmLiftHardware robot = new ArmLiftHardware();
     private long EACH = 20;
     private double DRIVE_FACTOR = 0.4;
     private double ARM_FACTOR = 0.2;
     private double rotateScale = 0.30;
-    boolean buttonPressedAtLastLoop = false;
+    boolean buttonPressedAtLastLoop;
     boolean toggleSpeed = false;
 
     @Override
@@ -51,6 +51,12 @@ public class ArmLiftTeleop extends OpMode {
             robot.right.setPower(gamepad1.right_stick_y);
             telemetry.addData("Left Power", -gamepad1.left_stick_y);
             telemetry.addData("Right Power", gamepad1.right_stick_y);
+            if (gamepad1.left_bumper){
+                robot.armLifter.setPower(-0.3);
+            }
+            else if (gamepad1.left_trigger != 0){
+                robot.armLifter.setPower(0.3);
+            }
         }
         else{
             // use scaled inputs
@@ -58,6 +64,12 @@ public class ArmLiftTeleop extends OpMode {
             robot.right.setPower(right);
             telemetry.addData("Left Power", left);
             telemetry.addData("Right Power", right);
+            if (gamepad1.left_bumper){
+                robot.armLifter.setPower(-1.0);
+            }
+            else if (gamepad1.left_trigger != 0){
+                robot.armLifter.setPower(0.7);
+            }
         }
 
 
@@ -68,9 +80,7 @@ public class ArmLiftTeleop extends OpMode {
          *   - [left & right trigger] sets the position of the servo being larger than before
          *   - [button B] open/close the foundation grabber
          */
-        double height = - Range.scale(gamepad2.left_stick_y, -1.0, 1.0, -0.3, 0.3);
 
-        robot.armLifter.setPower(height);
 
         // servo rotation amount per tick
         double AMOUNT = 0.02;
@@ -87,7 +97,6 @@ public class ArmLiftTeleop extends OpMode {
         robot.foundationGrabberLeft.setPosition(gamepad2.b ? 1.0 : -1.0);
         robot.foundationGrabberRight.setPosition(gamepad2.b ? 1.0 : -1.0);
 
-        telemetry.addData("Arm Lifter (power delta)", height);
         telemetry.addData("Left Grabber (exact pos)", robot.leftGrabber.getPosition());
         telemetry.addData("Right Grabber (exact pos)", robot.rightGrabber.getPosition());
         telemetry.addData("Foundation Grabber Left (exact pos)", robot.foundationGrabberLeft.getPosition());

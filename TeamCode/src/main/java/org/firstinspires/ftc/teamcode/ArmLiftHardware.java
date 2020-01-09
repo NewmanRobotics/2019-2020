@@ -1,73 +1,58 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-class ArmLiftHardware extends tankBotHardware {
-    DcMotor arm;
-    private CRServo grabber;
-    private Servo swivel;
-
+class ArmLiftHardware extends BotHardware {
+    DcMotor armLifter;
+    Servo leftGrabber;
+    Servo rightGrabber;
+    Servo foundationGrabberLeft;
+    Servo foundationGrabberRight;
 
     private static final long TIME_NEED = 250;
 
     static final double ORIGIN = -0.05; // based on Galvin's measurement ;)
 
     void initGrabbers(HardwareMap hardwareMap){
-        // Arm motor is in port #3
-        arm = hardwareMap.dcMotor.get("Arm");
-        // The talon grabber servo is at port #4
-        grabber = hardwareMap.crservo.get("TalonGrabber");
+        // The lifter of the arm
+        armLifter = hardwareMap.dcMotor.get("ArmLifter");
 
-        // The talon swivel servo is at port #5
-        swivel = hardwareMap.servo.get("Swivel");
+        // The grabbers of the arm
+        leftGrabber = hardwareMap.servo.get("GrabberLeft");
+        rightGrabber = hardwareMap.servo.get("GrabberRight");
 
-        // set to 0.0 will break the motor
-        grabber.setPower(ORIGIN);
-    }
+        // The foundation grabber
+        foundationGrabberLeft = hardwareMap.servo.get("FoundationGrabberLeft");
+        foundationGrabberRight = hardwareMap.servo.get("FoundationGrabberRight");
 
-    private void _setGrabberPower(double to) {
-        grabber.setPower(to);
-        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.schedule(new Runnable() {
-            @Override
-            public void run() {
-                grabber.setPower(ORIGIN);
-            }
-        }, TIME_NEED, TimeUnit.MILLISECONDS);
+        armLifter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void openGrabber() {
-        _setGrabberPower(1.0);
+
     }
 
     public void closeGrabber() {
-        _setGrabberPower(-1.0);
-    }
-
-    public void operateGrabber(double power) {
-        grabber.setPower(power);
-    }
-
-    public void rotateGrabberRaw(double angle) {
-        angle = Range.scale(angle, -1.0, 1.0, 0.0, 1.0);
-        if (swivel.getPosition()+angle > 1){
-           swivel.setPosition(1);
-        }
-        else if (swivel.getPosition()+angle < 0){
-            swivel.setPosition(0);
-        }
-        else{
-            swivel.setPosition(swivel.getPosition()+angle);
-        }
 
     }
 
+    public enum GrabberSide {
+        LEFT,
+        RIGHT
+    }
+
+    private double accumulate(double original, double accumulation) {
+        double attempt = original + accumulation;
+        return Math.min(1.0, Math.max(attempt, 0.0));
+    }
+
+    public void operateGrabber(GrabberSide side, double amount) {
+        if (side == GrabberSide.LEFT) {
+            leftGrabber.setPosition(accumulate(leftGrabber.getPosition(), amount));
+        } else if (side == GrabberSide.RIGHT) {
+            rightGrabber.setPosition(accumulate(rightGrabber.getPosition(), amount));
+        }
+    }
 }
