@@ -20,12 +20,16 @@
  * SOFTWARE.
  */
 
-dependencies {
-    implementation project(':FtcRobotController')
-    implementation (name: 'RobotCore-release', ext: 'aar')
-    implementation (name: 'Hardware-release', ext: 'aar')
-    implementation (name: 'FtcCommon-release', ext: 'aar')
-    implementation (name: 'WirelessP2p-release', ext:'aar')
-    implementation (name: 'tfod-release', ext:'aar')
-    implementation (name: 'tensorflow-lite-0.0.0-nightly', ext:'aar')
+package org.firstinspires.ftc.teamcode.locationDescriptor;
+
+/**
+ * Created by Galvin on 2019-11-20
+ */
+public class Coord {
+    public double x;
+    public double y;
+    public Coord(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 }

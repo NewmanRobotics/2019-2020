@@ -20,12 +20,38 @@
  * SOFTWARE.
  */
 
-dependencies {
-    implementation project(':FtcRobotController')
-    implementation (name: 'RobotCore-release', ext: 'aar')
-    implementation (name: 'Hardware-release', ext: 'aar')
-    implementation (name: 'FtcCommon-release', ext: 'aar')
-    implementation (name: 'WirelessP2p-release', ext:'aar')
-    implementation (name: 'tfod-release', ext:'aar')
-    implementation (name: 'tensorflow-lite-0.0.0-nightly', ext:'aar')
+package school.newman.robotics.archives;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+/**
+ * Created by Galvin on 2019-10-30
+ */
+@TeleOp(name="Talon Grabber Test", group= "Development")
+public class TalonGrabberTeleop extends LinearOpMode {
+    public TalonGrabberHardware robot = new TalonGrabberHardware();
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+        robot.init(hardwareMap);
+
+        waitForStart();
+
+        long totalTime = 0;
+        long EACH = 20;
+
+        while (opModeIsActive()) {
+            // bind game pad B button to the open and close of the grabbers
+            telemetry.addData("gamepad pressed?", gamepad1.b);
+            // bind the game pad B button to the operation of the grabber
+            robot.operateGrabber(gamepad1.b ? 1.0 : -0.05);
+            robot.rotateGrabberRaw(gamepad1.left_stick_x);
+
+            telemetry.update();
+
+            robot.waitForTick(EACH);
+            idle();
+        }
+    }
 }

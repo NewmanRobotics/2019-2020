@@ -20,12 +20,25 @@
  * SOFTWARE.
  */
 
-dependencies {
-    implementation project(':FtcRobotController')
-    implementation (name: 'RobotCore-release', ext: 'aar')
-    implementation (name: 'Hardware-release', ext: 'aar')
-    implementation (name: 'FtcCommon-release', ext: 'aar')
-    implementation (name: 'WirelessP2p-release', ext:'aar')
-    implementation (name: 'tfod-release', ext:'aar')
-    implementation (name: 'tensorflow-lite-0.0.0-nightly', ext:'aar')
+package org.firstinspires.ftc.teamcode.recognizer;
+
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+
+/**
+ * Created by Galvin on 2019-11-20
+ */
+public abstract class Recognizer {
+    HardwareMap hardwareMap;
+    Telemetry telemetry;
+    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
+        Thread thread = new Thread("test");
+        this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
+    }
+    abstract void activate();
+    abstract Recognition get();
+    abstract void deactivate();
 }

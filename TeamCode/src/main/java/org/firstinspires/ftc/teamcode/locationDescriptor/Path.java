@@ -20,12 +20,42 @@
  * SOFTWARE.
  */
 
-dependencies {
-    implementation project(':FtcRobotController')
-    implementation (name: 'RobotCore-release', ext: 'aar')
-    implementation (name: 'Hardware-release', ext: 'aar')
-    implementation (name: 'FtcCommon-release', ext: 'aar')
-    implementation (name: 'WirelessP2p-release', ext:'aar')
-    implementation (name: 'tfod-release', ext:'aar')
-    implementation (name: 'tensorflow-lite-0.0.0-nightly', ext:'aar')
+package org.firstinspires.ftc.teamcode.locationDescriptor;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Galvin on 2019-12-05
+ */
+public class Path {
+    public ArrayList<Coord> waypoints;
+    public int currentIndex = -1;
+    enum PathRunState {
+        WAITING(0),
+        READY(1),
+        RUNNING(2),
+        PAUSED(3),
+        DONE(4);
+
+        public int level;
+
+        PathRunState(int level) {
+            this.level = level;
+        }
+    }
+    public PathRunState state = PathRunState.WAITING;
+    public Path(ArrayList<Coord> waypoints) {
+        this.waypoints = waypoints;
+    }
+    public void add(Coord waypoint) throws IllegalArgumentException {
+        if (this.state == PathRunState.WAITING) {
+            this.waypoints.add(waypoint);
+        } else {
+            throw new IllegalArgumentException("Path has already started");
+        }
+    }
+    public void start() {
+        this.state = PathRunState.READY;
+    }
+
 }

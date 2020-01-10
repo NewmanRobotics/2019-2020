@@ -20,12 +20,25 @@
  * SOFTWARE.
  */
 
-dependencies {
-    implementation project(':FtcRobotController')
-    implementation (name: 'RobotCore-release', ext: 'aar')
-    implementation (name: 'Hardware-release', ext: 'aar')
-    implementation (name: 'FtcCommon-release', ext: 'aar')
-    implementation (name: 'WirelessP2p-release', ext:'aar')
-    implementation (name: 'tfod-release', ext:'aar')
-    implementation (name: 'tensorflow-lite-0.0.0-nightly', ext:'aar')
+package org.firstinspires.ftc.teamcode.stateProvider;
+
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+/**
+ * Created by Galvin on 2019-11-16
+ */
+public abstract class StateProvider {
+    HardwareMap hardwareMap;
+    Telemetry telemetry;
+    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
+        this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
+        this.initProvider();
+    }
+    abstract void initProvider();
+    abstract void activate();
+    abstract Location get();
+    abstract void deactivate();
 }

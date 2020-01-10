@@ -20,12 +20,40 @@
  * SOFTWARE.
  */
 
-dependencies {
-    implementation project(':FtcRobotController')
-    implementation (name: 'RobotCore-release', ext: 'aar')
-    implementation (name: 'Hardware-release', ext: 'aar')
-    implementation (name: 'FtcCommon-release', ext: 'aar')
-    implementation (name: 'WirelessP2p-release', ext:'aar')
-    implementation (name: 'tfod-release', ext:'aar')
-    implementation (name: 'tensorflow-lite-0.0.0-nightly', ext:'aar')
+package org.firstinspires.ftc.teamcode.stateProvider;
+
+/**
+ * Created by Galvin on 2019-11-16
+ */
+/**
+ * Location gives a fancy way to get and set the bot's position, giving more hints on what
+ * we've got from the StateProviders
+ */
+public class Location {
+    public final float positionX;
+    public final float positionY;
+    public final float positionZ;
+    public final float heading;
+
+    Location(
+            float positionX,
+            float positionY,
+            float positionZ,
+            float heading
+    ) {
+
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.positionZ = positionZ;
+        this.heading = heading;
+    }
+
+    public String toString() {
+        return String.format("Position: x=%.3f | y=%.3f | z=%.3f\n    Heading: %.3f",
+                this.positionX,
+                this.positionY,
+                this.positionZ,
+                this.heading
+                );
+    }
 }

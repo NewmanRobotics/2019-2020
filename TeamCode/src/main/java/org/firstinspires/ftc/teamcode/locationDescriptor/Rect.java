@@ -20,12 +20,26 @@
  * SOFTWARE.
  */
 
-dependencies {
-    implementation project(':FtcRobotController')
-    implementation (name: 'RobotCore-release', ext: 'aar')
-    implementation (name: 'Hardware-release', ext: 'aar')
-    implementation (name: 'FtcCommon-release', ext: 'aar')
-    implementation (name: 'WirelessP2p-release', ext:'aar')
-    implementation (name: 'tfod-release', ext:'aar')
-    implementation (name: 'tensorflow-lite-0.0.0-nightly', ext:'aar')
+package org.firstinspires.ftc.teamcode.locationDescriptor;
+
+/**
+ * Created by Galvin on 2019-11-20
+ */
+public class Rect implements Shape {
+    public Coord lt;
+    public Coord rb;
+    public Rect(Coord lt, Coord rb) {
+        this.lt = lt;
+        this.rb = rb;
+    }
+
+    @Override
+    public boolean in(Coord coord) {
+        return (
+                coord.x > lt.x &&
+                coord.x < rb.x &&
+                coord.y > rb.y &&
+                coord.y < lt.y
+        );
+    }
 }

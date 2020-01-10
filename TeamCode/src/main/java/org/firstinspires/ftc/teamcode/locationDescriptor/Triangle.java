@@ -20,12 +20,32 @@
  * SOFTWARE.
  */
 
-dependencies {
-    implementation project(':FtcRobotController')
-    implementation (name: 'RobotCore-release', ext: 'aar')
-    implementation (name: 'Hardware-release', ext: 'aar')
-    implementation (name: 'FtcCommon-release', ext: 'aar')
-    implementation (name: 'WirelessP2p-release', ext:'aar')
-    implementation (name: 'tfod-release', ext:'aar')
-    implementation (name: 'tensorflow-lite-0.0.0-nightly', ext:'aar')
+package org.firstinspires.ftc.teamcode.locationDescriptor;
+
+/**
+ * Created by Galvin on 2019-11-20
+ */
+public class Triangle implements Shape {
+    public Coord a;
+    public Coord b;
+    public Coord c;
+    public Triangle(Coord a, Coord b, Coord c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+
+    @Override
+    public boolean in(Coord coord) {
+        double s = a.y * c.x - a.x * c.y + (c.y - a.y) * coord.x + (a.x - c.x) * coord.y;
+        double t = a.x * b.y - a.y * b.x + (a.y - b.y) * coord.x + (b.x - a.x) * coord.y;
+
+        if ((s < 0) != (t < 0)) return false;
+
+        double A = -b.y * c.x + a.y * (c.x - b.x) + a.x * (b.y - c.y) + b.x * c.y;
+
+        return A < 0 ?
+                (s <= 0 && s + t >= A) :
+                (s >= 0 && s + t <= A);
+    }
 }

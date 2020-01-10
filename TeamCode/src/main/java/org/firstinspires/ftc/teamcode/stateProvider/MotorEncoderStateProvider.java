@@ -20,12 +20,29 @@
  * SOFTWARE.
  */
 
-dependencies {
-    implementation project(':FtcRobotController')
-    implementation (name: 'RobotCore-release', ext: 'aar')
-    implementation (name: 'Hardware-release', ext: 'aar')
-    implementation (name: 'FtcCommon-release', ext: 'aar')
-    implementation (name: 'WirelessP2p-release', ext:'aar')
-    implementation (name: 'tfod-release', ext:'aar')
-    implementation (name: 'tensorflow-lite-0.0.0-nightly', ext:'aar')
+package org.firstinspires.ftc.teamcode.stateProvider;
+
+/**
+ * Created by Galvin on 2019-11-16
+ */
+public class MotorEncoderStateProvider extends StateProvider {
+    @Override
+    void initProvider() {
+
+    }
+
+    @Override
+    void activate() {
+
+    }
+
+    @Override
+    Location get() {
+        return null;
+    }
+
+    @Override
+    void deactivate() {
+
+    }
 }
