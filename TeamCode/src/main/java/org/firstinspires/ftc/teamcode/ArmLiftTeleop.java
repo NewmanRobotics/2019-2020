@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 public class ArmLiftTeleop extends OpMode {
     private ArmLiftHardware robot = new ArmLiftHardware();
     private long EACH = 20;
-    private double DRIVE_FACTOR = 0.4;
+    private double DRIVE_FACTOR = 0.6;
     private double ARM_FACTOR = 0.2;
     private double rotateScale = 0.30;
     boolean buttonPressedAtLastLoop = false;
@@ -38,7 +38,7 @@ public class ArmLiftTeleop extends OpMode {
         double right = gamepad1.right_stick_y * DRIVE_FACTOR;
 
         // when pressing the button and button has not been pressed at the last loop then
-        // switch the grabber state
+        // switch the speed adjuster
         if (gamepad1.b && !buttonPressedAtLastLoop) {
             toggleSpeed = !toggleSpeed;
         }
@@ -71,7 +71,7 @@ public class ArmLiftTeleop extends OpMode {
         double height = - Range.scale(gamepad2.left_stick_y, -1.0, 1.0, -0.3, 0.3);
 
         if (height < 0) {
-            height = height * 0.5;
+            height = height * 0.25;
         } else {
             height = height * 1.5;
         }
@@ -108,7 +108,7 @@ public class ArmLiftTeleop extends OpMode {
 //                robot.armLifter.setPower(1);
 //            } else if (armDown) {
 //                robot.armLifter.setPower(-1);
-//            } else {
+//            } else {w2
 //                robot.armLifter.setPower(0);
 //            }
 //            robot.armExtender.setPower();

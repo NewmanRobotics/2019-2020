@@ -34,8 +34,8 @@ import org.firstinspires.ftc.teamcode.stateProvider.VuforiaLocationProvider;
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "Build Bot Autonomous", group = "Autonomous")
-public class BuildBotAutonomous extends LinearOpMode {
+@Autonomous(name = "Blue Build Bot Autonomous", group = "Autonomous")
+public class BlueBuildBotAutonomous extends LinearOpMode {
     // get hardware bindings
     public AutonomousHardware robot = new AutonomousHardware();
 
@@ -44,50 +44,50 @@ public class BuildBotAutonomous extends LinearOpMode {
 
     public Field field = new Field();
 
+    public static final double POWER = 0.5;
+
     public Location lastLocation;
 
+    public void message () {
+        telemetry.addData("Power L", robot.left.getPower());
+        telemetry.addData("Pos   L", robot.left.getCurrentPosition());
+        telemetry.addData("Power R", robot.right.getPower());
+        telemetry.addData("Pos   R", robot.right.getCurrentPosition());
+
+        telemetry.update();
+    }
+
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         // pass in the hardwareMap into hardware bindings and util functions
         robot.init(hardwareMap);
 
-        robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        // 0.3: 45 deg open
-        robot.foundationGrabberLeft.setPosition(0.3);
-        robot.foundationGrabberRight.setPosition(0.7);
+        robot.right.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
 
-        telemetry.addLine("loop");
-        telemetry.update();
+        robot.left.setPower(POWER);
+        robot.right.setPower(POWER);
 
-        telemetry.addLine("running targetPos 100");
-        telemetry.update();
+        sleep(1000);
+        message();
 
-        robot.left.setTargetPosition(100);
-        robot.right.setTargetPosition(100);
+        robot.left.setPower(-POWER * 0.5);
+        robot.right.setPower(POWER * 0.5);
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep(1000);
+        message();
 
-        telemetry.addLine("running targetPos 1000");
-        telemetry.update();
+        robot.left.setPower(POWER);
+        robot.right.setPower(POWER);
 
-        robot.left.setTargetPosition(1000);
-        robot.right.setTargetPosition(1000);
+        sleep(5000);
+        message();
 
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        telemetry.addLine("Program terminated.");
-        telemetry.update();
+        robot.left.setPower(0.0);
+        robot.right.setPower(0.0);
     }
 }
