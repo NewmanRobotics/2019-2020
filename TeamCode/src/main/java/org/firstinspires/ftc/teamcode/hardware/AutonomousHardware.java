@@ -102,8 +102,10 @@ public class AutonomousHardware extends ArmLiftHardware {
         right.setPower(0);
 
         // Turn off RUN_TO_POSITION
-        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void rotate(Direction direction, Power power) {
