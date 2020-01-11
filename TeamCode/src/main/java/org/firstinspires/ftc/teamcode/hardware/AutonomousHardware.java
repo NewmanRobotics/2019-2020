@@ -60,52 +60,57 @@ public class AutonomousHardware extends ArmLiftHardware {
         right.setPower(power.value);
     }
 
-    public void rotate_angle(Power power,
-                             double angle,
+    public void rotate_angle(double speed,
+                             double leftInches, double rightInches,
                              double timeoutS) {
         int newLeftTarget;
         int newRightTarget;
 
-        // Determine new target position, and pass to motor controller
-        newLeftTarget = left.getCurrentPosition() + (int)((angle/360) * (CIRCUMFERENCE_WHEELS) * COUNTS_PER_INCH);
-        newRightTarget = right.getCurrentPosition() + (int)((angle/360) * (CIRCUMFERENCE_WHEELS) * COUNTS_PER_INCH);
-        left.setTargetPosition(newLeftTarget);
-        right.setTargetPosition(newRightTarget);
+        if (opModeIsActive()) {
 
-        // Turn On RUN_TO_POSITION
-        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            // Determine new target position, and pass to motor controller
+//            newLeftTarget = left.getCurrentPosition() + (int) ((angle / 360) * (CIRCUMFERENCE_WHEELS) * COUNTS_PER_INCH);
+//            newRightTarget = right.getCurrentPosition() + (int) ((angle / 360) * (CIRCUMFERENCE_WHEELS) * COUNTS_PER_INCH);
+            newLeftTarget = robot.leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+            newRightTarget = robot.rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            left.setTargetPosition(newLeftTarget);
+            right.setTargetPosition(newRightTarget);
 
-        // reset the timeout time and start motion.
-        runtime.reset();
-        left.setPower(Math.abs(power.value));
-        right.setPower(Math.abs(power.value));
+            // Turn On RUN_TO_POSITION
+            left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        // keep looping while we are still active, and there is time left, and both motors are running.
-        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-        // its target position, the motion will stop.  This is "safer" in the event that the robot will
-        // always end the motion as soon as possible.
-        // However, if you require that BOTH motors have finished their moves before the robot continues
-        // onto the next step, use (isBusy() || isBusy()) in the loop test.
-        while ((runtime.seconds() < timeoutS) && (left.isBusy() && right.isBusy())) {
+            // reset the timeout time and start motion.
+            runtime.reset();
+            left.setPower(Math.abs(speed));
+            right.setPower(Math.abs(speed));
 
-            // Display it for the driver.
-            telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-            telemetry.addData("Path2",  "Running at %7d :%7d",
-                    left.getCurrentPosition(),
-                    right.getCurrentPosition());
-            telemetry.update();
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while ((runtime.seconds() < timeoutS) && (left.isBusy() && right.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+                telemetry.addData("Path2", "Running at %7d :%7d",
+                        left.getCurrentPosition(),
+                        right.getCurrentPosition());
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            left.setPower(0);
+            right.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            //        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
-
-        // Stop all motion;
-        left.setPower(0);
-        right.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-//        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void rotate(Direction direction, Power power) {
