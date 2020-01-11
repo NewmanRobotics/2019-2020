@@ -45,16 +45,16 @@ public class ArmLiftTeleop extends OpMode {
         // record the button pressed state in current loop
         buttonPressedAtLastLoop = gamepad1.b;
         // if speed is toggled
-        if (toggleSpeed){
+        if (toggleSpeed) {
             // use direct inputs
-            robot.left.setPower(-gamepad1.left_stick_y);
+            robot.left.setPower(gamepad1.left_stick_y);
             robot.right.setPower(gamepad1.right_stick_y);
             telemetry.addData("Left Power", -gamepad1.left_stick_y);
             telemetry.addData("Right Power", gamepad1.right_stick_y);
         }
         else{
             // use scaled inputs
-            robot.left.setPower(-left);
+            robot.left.setPower(left);
             robot.right.setPower(right);
             telemetry.addData("Left Power", left);
             telemetry.addData("Right Power", right);
@@ -69,6 +69,12 @@ public class ArmLiftTeleop extends OpMode {
          *   - [button B] open/close the foundation grabber
          */
         double height = - Range.scale(gamepad2.left_stick_y, -1.0, 1.0, -0.3, 0.3);
+
+        if (height < 0) {
+            height = height * 0.5;
+        } else {
+            height = height * 1.5;
+        }
 
         robot.armLifter.setPower(height);
 
