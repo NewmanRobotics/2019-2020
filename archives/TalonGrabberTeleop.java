@@ -22,6 +22,7 @@
 
 package school.newman.robotics.archives;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -29,6 +30,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Created by Galvin on 2019-10-30
  */
 @TeleOp(name="Talon Grabber Test", group= "Development")
+@Disabled
 public class TalonGrabberTeleop extends LinearOpMode {
     public TalonGrabberHardware robot = new TalonGrabberHardware();
 

@@ -66,6 +66,10 @@ public class AutonomousHardware extends ArmLiftHardware {
         right.setPower(rightPower);
     }
 
+    public void rotate(Direction direction, double angle) {
+
+    }
+
     public void approach(Location from, Coord to) {
         Coord diff = new Coord(
                 from.positionX - to.x,
