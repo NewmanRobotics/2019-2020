@@ -38,8 +38,8 @@ public class ArmLiftHardware extends BotHardware {
         armLifter = hardwareMap.dcMotor.get("ArmLifter");
 
         // The grabbers of the arm
-        leftGrabber = hardwareMap.servo.get("ClipGrabberLeft");
-        rightGrabber = hardwareMap.servo.get("ClipGrabberRight");
+        leftGrabber = hardwareMap.servo.get("GrabberLeft");
+        rightGrabber = hardwareMap.servo.get("GrabberRight");
 
         // The foundation grabber
         foundationGrabberLeft = hardwareMap.servo.get("FoundationGrabberLeft");

@@ -22,17 +22,19 @@
 
 package org.firstinspires.ftc.teamcode.teleops;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.hardware.ArmLiftHardware;
 
-@TeleOp(name = "Arm Lift Bot", group = "Production")
+@TeleOp(name = "Use Me= Arm Lift Bot", group = "Production")
+@Disabled
 public class ArmLiftTeleop extends OpMode {
     public ArmLiftHardware robot = new ArmLiftHardware();
     public long EACH = 20;
-    public double DRIVE_FACTOR = 0.6;
+    public double DRIVE_FACTOR = 0.7;
     public double ARM_FACTOR = 0.2;
     public double rotateScale = 0.30;
 
@@ -56,7 +58,7 @@ public class ArmLiftTeleop extends OpMode {
          * gamepad1:
          *   - [left & right stick Y] Robot driver with Tank driving style
          */
-        double left = gamepad1.left_stick_y * DRIVE_FACTOR;
+        double left = - gamepad1.left_stick_y * DRIVE_FACTOR;
         double right = gamepad1.right_stick_y * DRIVE_FACTOR;
 
         robot.left.setPower(left);
@@ -74,6 +76,10 @@ public class ArmLiftTeleop extends OpMode {
          */
         double height = - Range.scale(gamepad2.left_stick_y, -1.0, 1.0, -0.3, 0.3);
 
+        if (height > 0) {
+            height = height * 2;
+        }
+
         robot.armLifter.setPower(height);
 
         // servo rotation amount per tick
@@ -88,12 +94,14 @@ public class ArmLiftTeleop extends OpMode {
         robot.operateGrabber(ArmLiftHardware.GrabberSide.LEFT, gamepad2.left_trigger);
         robot.operateGrabber(ArmLiftHardware.GrabberSide.RIGHT, gamepad2.right_trigger);
 
-        robot.foundationGrabber.setPosition(gamepad2.b ? 1.0 : -1.0);
+        robot.foundationGrabberLeft.setPosition(gamepad2.b ? - 1.0 : 1.0);
+        robot.foundationGrabberRight.setPosition(gamepad2.b ? 1.0 : -1.0);
 
         telemetry.addData("Arm Lifter (power delta)", height);
         telemetry.addData("Left Grabber (exact pos)", robot.leftGrabber.getPosition());
         telemetry.addData("Right Grabber (exact pos)", robot.rightGrabber.getPosition());
-        telemetry.addData("Foundation Grabber (exact pos)", robot.foundationGrabber.getPosition());
+        telemetry.addData("Foundation Grabber Left (exact pos)", robot.foundationGrabberLeft.getPosition());
+        telemetry.addData("Foundation Grabber Right (exact pos)", robot.foundationGrabberRight.getPosition());
 
 
 //            boolean armUp = gamepad2.left_bumper;
@@ -121,11 +129,7 @@ public class ArmLiftTeleop extends OpMode {
 
         telemetry.update();
 
-        try {
-            robot.waitForTick(EACH);
-        } catch (InterruptedException e) {
-            telemetry.addLine(String.format("Interrupted Exception caused in method loop(): %s", e.toString()));
-        }
+        robot.waitForTick(EACH);
     }
 
     @Override

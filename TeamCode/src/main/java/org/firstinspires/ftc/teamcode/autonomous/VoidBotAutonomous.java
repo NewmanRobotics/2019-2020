@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 The Newman School Robotics
+ * Copyright (c) 2020 The Newman School Robotics
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,38 +20,23 @@
  * SOFTWARE.
  */
 
-package school.newman.robotics.archives;
+package org.firstinspires.ftc.teamcode.autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 /**
- * Created by Galvin on 2019-10-30
+ * Created by Galvin on 2020-01-11
  */
-@TeleOp(name="Talon Grabber Test", group= "Development")
-public class TalonGrabberTeleop extends LinearOpMode {
-    public TalonGrabberHardware robot = new TalonGrabberHardware();
+@Autonomous(name = "Void Bot Autonomous", group = "Autonomous")
+public class VoidBotAutonomous extends OpMode {
+    @Override
+    public void init() {
+
+    }
 
     @Override
-    public void runOpMode() throws InterruptedException {
-        robot.init(hardwareMap);
+    public void loop() {
 
-        waitForStart();
-
-        long totalTime = 0;
-        long EACH = 20;
-
-        while (opModeIsActive()) {
-            // bind game pad B button to the open and close of the grabbers
-            telemetry.addData("gamepad pressed?", gamepad1.b);
-            // bind the game pad B button to the operation of the grabber
-            robot.operateGrabber(gamepad1.b ? 1.0 : -0.05);
-            robot.rotateGrabberRaw(gamepad1.left_stick_x);
-
-            telemetry.update();
-
-            robot.waitForTick(EACH);
-            idle();
-        }
     }
 }
