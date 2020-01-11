@@ -30,10 +30,11 @@ import org.firstinspires.ftc.teamcode.stateProvider.Location;
  */
 public class AutonomousHardware extends ArmLiftHardware {
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
     static final double     DISTANCE_FROM_WHEELS    = 15.5;
+    static final double     CIRCUMFERENCE_WHEELS    = DISTANCE_FROM_WHEELS * Math.PI;
 
     public enum Power {
         STOP(0.0),
@@ -59,15 +60,15 @@ public class AutonomousHardware extends ArmLiftHardware {
         right.setPower(power.value);
     }
 
-    public void rotate_angle(double speed,
+    public void rotate_angle(Power power,
                              double angle,
                              double timeoutS) {
         int newLeftTarget;
         int newRightTarget;
 
         // Determine new target position, and pass to motor controller
-        newLeftTarget = left.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-        newRightTarget = right.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+        newLeftTarget = left.getCurrentPosition() + (int)((angle/360) * (CIRCUMFERENCE_WHEELS) * COUNTS_PER_INCH);
+        newRightTarget = right.getCurrentPosition() + (int)((angle/360) * (CIRCUMFERENCE_WHEELS) * COUNTS_PER_INCH);
         left.setTargetPosition(newLeftTarget);
         right.setTargetPosition(newRightTarget);
 
@@ -77,8 +78,8 @@ public class AutonomousHardware extends ArmLiftHardware {
 
         // reset the timeout time and start motion.
         runtime.reset();
-        left.setPower(Math.abs(speed));
-        right.setPower(Math.abs(speed));
+        left.setPower(Math.abs(power.value));
+        right.setPower(Math.abs(power.value));
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
