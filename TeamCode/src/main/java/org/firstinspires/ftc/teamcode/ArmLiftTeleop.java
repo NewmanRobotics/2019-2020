@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 public class ArmLiftTeleop extends OpMode {
     private ArmLiftHardware robot = new ArmLiftHardware();
     private long EACH = 20;
-    private double DRIVE_FACTOR = 0.6;
+    private double DRIVE_FACTOR = 0.3;
     private double ARM_FACTOR = 0.2;
     private double rotateScale = 0.30;
     boolean buttonPressedAtLastLoop = false;
@@ -42,6 +42,7 @@ public class ArmLiftTeleop extends OpMode {
         if (gamepad1.b && !buttonPressedAtLastLoop) {
             toggleSpeed = !toggleSpeed;
         }
+        telemetry.addData("SLOW MODE", !toggleSpeed ? "✓ YES" : "× NO");
         // record the button pressed state in current loop
         buttonPressedAtLastLoop = gamepad1.b;
         // if speed is toggled
@@ -68,18 +69,18 @@ public class ArmLiftTeleop extends OpMode {
          *   - [left & right trigger] sets the position of the servo being larger than before
          *   - [button B] open/close the foundation grabber
          */
-        double height = - Range.scale(gamepad2.left_stick_y, -1.0, 1.0, -0.3, 0.3);
+        double height = - Range.scale(gamepad2.left_stick_y, -1.0, 1.0, -0.5, 0.5);
 
         if (height < 0) {
-            height = height * 0.25;
+            height = height * 0.5;
         } else {
-            height = height * 1.5;
+            height = height * 2;
         }
 
         robot.armLifter.setPower(height);
 
         // servo rotation amount per tick
-        double AMOUNT = 0.02;
+        double AMOUNT = 0.05;
         // If bumper is pressed depress by AMOUNT go up
         if (gamepad2.right_bumper) {
             robot.operateGrabber(ArmLiftHardware.GrabberSide.LEFT, -AMOUNT);

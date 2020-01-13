@@ -27,26 +27,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
-import org.firstinspires.ftc.teamcode.locationDescriptor.Field;
-import org.firstinspires.ftc.teamcode.stateProvider.Location;
-import org.firstinspires.ftc.teamcode.stateProvider.VuforiaLocationProvider;
 
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "Blue Build Bot Autonomous", group = "Autonomous")
-public class BlueBuildBotAutonomous extends LinearOpMode {
+@Autonomous(name = "Grab Build Bot Autonomous", group = "Autonomous")
+public class GrabBuildBotAutonomous extends LinearOpMode {
     // get hardware bindings
     public AutonomousHardware robot = new AutonomousHardware();
 
-    // initialize location provider
-    public VuforiaLocationProvider vuforiaLocationProvider = new VuforiaLocationProvider();
-
-    public Field field = new Field();
-
-    public static final double POWER = 0.5;
-
-    public Location lastLocation;
+    public static final double POWER = 0.75;
 
     public void message () {
         telemetry.addData("Power L", robot.left.getPower());
@@ -62,32 +52,30 @@ public class BlueBuildBotAutonomous extends LinearOpMode {
         // pass in the hardwareMap into hardware bindings and util functions
         robot.init(hardwareMap);
 
+        // Send telemetry message to signify robot waiting;
+        telemetry.addData("Status", "Resetting Encoders");    //
+        telemetry.update();
+
+        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         robot.left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         robot.right.setDirection(DcMotor.Direction.REVERSE);
 
+        telemetry.addData("Run Initial",  "at %7d :%7d",
+                robot.left.getCurrentPosition(),
+                robot.right.getCurrentPosition());
+        telemetry.update();
+
         waitForStart();
 
-        robot.left.setPower(POWER);
-        robot.right.setPower(POWER);
+        robot.move(POWER, -55 - 5, -55 - 5, 5, telemetry);
 
-        sleep(1000);
-        message();
+        robot.foundationGrabberLeft.setPosition(1.0);
+        robot.foundationGrabberRight.setPosition(1.0);
 
-        robot.left.setPower(-POWER * 0.5);
-        robot.right.setPower(POWER * 0.5);
-
-        sleep(1000);
-        message();
-
-        robot.left.setPower(POWER);
-        robot.right.setPower(POWER);
-
-        sleep(5000);
-        message();
-
-        robot.left.setPower(0.0);
-        robot.right.setPower(0.0);
+        robot.move(POWER, 55 + 5, 55 + 5, 5, telemetry);
     }
 }

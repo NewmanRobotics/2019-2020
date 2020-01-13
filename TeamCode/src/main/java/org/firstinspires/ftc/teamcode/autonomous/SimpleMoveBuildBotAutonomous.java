@@ -34,8 +34,8 @@ import org.firstinspires.ftc.teamcode.stateProvider.VuforiaLocationProvider;
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "Red Build Bot Autonomous", group = "Autonomous")
-public class RedBuildBotAutonomous extends LinearOpMode {
+@Autonomous(name = "Simple Move Build Bot Autonomous", group = "Autonomous")
+public class SimpleMoveBuildBotAutonomous extends LinearOpMode {
     // get hardware bindings
     public AutonomousHardware robot = new AutonomousHardware();
 
@@ -72,19 +72,7 @@ public class RedBuildBotAutonomous extends LinearOpMode {
         robot.left.setPower(POWER);
         robot.right.setPower(POWER);
 
-        sleep(1000);
-        message();
-
-        robot.left.setPower(POWER * 0.5);
-        robot.right.setPower(-POWER * 0.5);
-
-        sleep(1000);
-        message();
-
-        robot.left.setPower(POWER);
-        robot.right.setPower(POWER);
-
-        sleep(5000);
+        sleep(1200);
         message();
 
         robot.left.setPower(0.0);
