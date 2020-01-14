@@ -38,7 +38,7 @@ public class AutonomousHardware extends ArmLiftHardware {
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
     static final double     DISTANCE_FROM_WHEELS    = 15.5;
-    static final double     CIRCUMFERENCE_WHEELS    = DISTANCE_FROM_WHEELS * Math.PI;
+    public static final double     CIRCUMFERENCE_WHEELS    = DISTANCE_FROM_WHEELS * Math.PI;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -85,8 +85,8 @@ public class AutonomousHardware extends ArmLiftHardware {
 
         // reset the timeout time and start motion.
         runtime.reset();
-        left.setPower(Math.abs(speed));
-        right.setPower(Math.abs(speed));
+        left.setPower(speed);
+        right.setPower(speed);
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -102,9 +102,6 @@ public class AutonomousHardware extends ArmLiftHardware {
                     left.getCurrentPosition(),
                     right.getCurrentPosition());
             telemetry.update();
-            if(right.getCurrentPosition() >= newRightTarget || left.getCurrentPosition() >= newLeftTarget){
-                break;
-            }
         }
 
         // Stop all motion;

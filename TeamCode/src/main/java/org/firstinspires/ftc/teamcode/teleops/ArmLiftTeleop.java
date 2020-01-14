@@ -58,7 +58,7 @@ public class ArmLiftTeleop extends OpMode {
          * gamepad1:
          *   - [left & right stick Y] Robot driver with Tank driving style
          */
-        double left = - gamepad1.left_stick_y * DRIVE_FACTOR;
+        double left = gamepad1.left_stick_y * DRIVE_FACTOR;
         double right = gamepad1.right_stick_y * DRIVE_FACTOR;
 
         robot.left.setPower(left);
