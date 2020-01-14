@@ -102,6 +102,9 @@ public class AutonomousHardware extends ArmLiftHardware {
                     left.getCurrentPosition(),
                     right.getCurrentPosition());
             telemetry.update();
+            if(right.getCurrentPosition() >= newRightTarget || left.getCurrentPosition() >= newLeftTarget){
+                break;
+            }
         }
 
         // Stop all motion;
