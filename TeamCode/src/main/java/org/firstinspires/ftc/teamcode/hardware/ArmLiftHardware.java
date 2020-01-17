@@ -45,6 +45,8 @@ public class ArmLiftHardware extends BotHardware {
         foundationGrabberLeft = hardwareMap.servo.get("FoundationGrabberLeft");
         foundationGrabberRight = hardwareMap.servo.get("FoundationGrabberRight");
 
+        foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
+
         // TODO: measure the position of the initialization state of the foundation grabber should be
         foundationGrabberLeft.setPosition(0.0);
         foundationGrabberRight.setPosition(0.0);

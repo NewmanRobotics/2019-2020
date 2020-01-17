@@ -74,8 +74,8 @@ public class AutonomousHardware extends ArmLiftHardware {
         // Determine new target position, and pass to motor controller
 //            newLeftTarget = left.getCurrentPosition() + (int) ((angle / 360) * (CIRCUMFERENCE_WHEELS) * COUNTS_PER_INCH);
 //            newRightTarget = right.getCurrentPosition() + (int) ((angle / 360) * (CIRCUMFERENCE_WHEELS) * COUNTS_PER_INCH);
-        newLeftTarget = left.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-        newRightTarget = right.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+        newLeftTarget = - left.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+        newRightTarget = - right.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
         left.setTargetPosition(newLeftTarget);
         right.setTargetPosition(newRightTarget);
 
@@ -85,8 +85,8 @@ public class AutonomousHardware extends ArmLiftHardware {
 
         // reset the timeout time and start motion.
         runtime.reset();
-        left.setPower(speed);
-        right.setPower(speed);
+        left.setPower(Math.abs(speed));
+        right.setPower(Math.abs(speed));
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -97,7 +97,14 @@ public class AutonomousHardware extends ArmLiftHardware {
         while ((runtime.seconds() < timeoutS) && (left.isBusy() && right.isBusy())) {
             telemetry.addData("Status", "Running");
             // Display it for the driver.
-            telemetry.addData("Run Target", "to %7d : %7d", newLeftTarget, newRightTarget);
+
+            telemetry.addData("Motor Power", "%.3f : %.3f",
+                    left.getPower(),
+                    right.getPower());
+            telemetry.addData("Run Target (set)", "to %7d : %7d", newLeftTarget, newRightTarget);
+            telemetry.addData("Run Target (get)", "to %7d : %7d",
+                    left.getTargetPosition(),
+                    right.getTargetPosition());
             telemetry.addData("Run Current", "at %7d : %7d",
                     left.getCurrentPosition(),
                     right.getCurrentPosition());
