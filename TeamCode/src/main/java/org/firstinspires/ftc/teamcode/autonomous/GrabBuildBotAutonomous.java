@@ -62,8 +62,6 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
         robot.left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        robot.right.setDirection(DcMotor.Direction.REVERSE);
-
         telemetry.addData("Run Initial",  "at %7d :%7d",
                 robot.left.getCurrentPosition(),
                 robot.right.getCurrentPosition());
@@ -76,6 +74,9 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
 //        robot.foundationGrabberLeft.setPosition(1.0);
 //        robot.foundationGrabberRight.setPosition(1.0);
 
-        robot.move(- POWER, -10, -10, 5, telemetry);
+        robot.move( POWER, 10, 10, 5, telemetry);
+
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
     }
 }

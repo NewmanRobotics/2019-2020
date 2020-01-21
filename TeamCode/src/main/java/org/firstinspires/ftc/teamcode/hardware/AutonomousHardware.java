@@ -25,6 +25,7 @@ package org.firstinspires.ftc.teamcode.hardware;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.locationDescriptor.Coord;
 import org.firstinspires.ftc.teamcode.stateProvider.Location;
@@ -72,8 +73,6 @@ public class AutonomousHardware extends ArmLiftHardware {
         int newRightTarget;
 
         // Determine new target position, and pass to motor controller
-//            newLeftTarget = left.getCurrentPosition() + (int) ((angle / 360) * (CIRCUMFERENCE_WHEELS) * COUNTS_PER_INCH);
-//            newRightTarget = right.getCurrentPosition() + (int) ((angle / 360) * (CIRCUMFERENCE_WHEELS) * COUNTS_PER_INCH);
         newLeftTarget = left.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
         newRightTarget = right.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
         left.setTargetPosition(newLeftTarget);
@@ -85,8 +84,8 @@ public class AutonomousHardware extends ArmLiftHardware {
 
         // reset the timeout time and start motion.
         runtime.reset();
-        left.setPower(speed);
-        right.setPower(speed);
+        left.setPower(Math.abs(speed));
+        right.setPower(Math.abs(speed));
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -94,11 +93,11 @@ public class AutonomousHardware extends ArmLiftHardware {
         // always end the motion as soon as possible.
         // However, if you require that BOTH motors have finished their moves before the robot continues
         // onto the next step, use (isBusy() || isBusy()) in the loop test.
-        while ((runtime.seconds() < timeoutS) && (left.isBusy() && right.isBusy())) {
+        while ((runtime.seconds() < timeoutS) && (left.isBusy() || right.isBusy()) && ((left.getCurrentPosition()*-1 < newLeftTarget) && (right.getCurrentPosition()*-1 < newRightTarget))) {
             telemetry.addData("Status", "Running");
             // Display it for the driver.
-            telemetry.addData("Run Target", "to %7d : %7d", newLeftTarget, newRightTarget);
-            telemetry.addData("Run Current", "at %7d : %7d",
+            telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+            telemetry.addData("Path2",  "Running at %7d :%7d",
                     left.getCurrentPosition(),
                     right.getCurrentPosition());
             telemetry.update();
@@ -113,8 +112,8 @@ public class AutonomousHardware extends ArmLiftHardware {
         // Turn off RUN_TO_POSITION
         left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            //  sleep(250);   // optional pause after each mov
     }
 
     public void rotate(Direction direction, Power power) {
