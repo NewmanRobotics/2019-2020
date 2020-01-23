@@ -51,6 +51,8 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // pass in the hardwareMap into hardware bindings and util functions
         robot.init(hardwareMap);
+        telemetry.addData("Status", "New Version");    //
+        telemetry.update();
 
         robot.left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -78,7 +80,7 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
 //        robot.foundationGrabberRight.setPosition(1.0);
 
         robot.move( POWER, -50, -50, 10, telemetry);
-        robot.foundationGrabberLeft.setPosition(1.0);
+        robot.foundationGrabberLeft.setPosition(-1.0);
         robot.foundationGrabberRight.setPosition(1.0);
         robot.move( POWER, 50, 50, 10, telemetry);
 
