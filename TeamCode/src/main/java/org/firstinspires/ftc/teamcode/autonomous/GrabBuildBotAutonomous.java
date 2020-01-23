@@ -52,6 +52,9 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
         // pass in the hardwareMap into hardware bindings and util functions
         robot.init(hardwareMap);
 
+        robot.left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
         telemetry.update();
