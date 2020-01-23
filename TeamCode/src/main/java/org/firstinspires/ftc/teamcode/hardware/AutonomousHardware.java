@@ -84,8 +84,8 @@ public class AutonomousHardware extends ArmLiftHardware {
 
         // reset the timeout time and start motion.
         runtime.reset();
-        left.setPower(Math.abs(speed));
-        right.setPower(Math.abs(speed));
+        left.setPower(speed);
+        right.setPower(speed);
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits

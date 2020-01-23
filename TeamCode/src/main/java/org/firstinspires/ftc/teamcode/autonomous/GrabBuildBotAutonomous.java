@@ -79,7 +79,7 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
 //        robot.foundationGrabberLeft.setPosition(1.0);
 //        robot.foundationGrabberRight.setPosition(1.0);
 
-        robot.move( POWER, -50, -50, 10, telemetry);
+        robot.move( -POWER, -50, -50, 10, telemetry);
         robot.foundationGrabberLeft.setPosition(-1.0);
         robot.foundationGrabberRight.setPosition(1.0);
         robot.move( POWER, 50, 50, 10, telemetry);
