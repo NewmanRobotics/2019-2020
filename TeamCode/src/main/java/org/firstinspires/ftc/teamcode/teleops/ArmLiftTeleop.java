@@ -30,7 +30,6 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.hardware.ArmLiftHardware;
 
 @TeleOp(name = "Arm Lift Bot", group = "Production")
-@Disabled
 public class ArmLiftTeleop extends OpMode {
     private ArmLiftHardware robot = new ArmLiftHardware();
     private long EACH = 20;
