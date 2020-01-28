@@ -84,8 +84,16 @@ public class AutonomousHardware extends ArmLiftHardware {
 
         // reset the timeout time and start motion.
         runtime.reset();
-        left.setPower(speed);
-        right.setPower(speed);
+        if(leftInches>0){
+            left.setPower(speed);
+        }else{
+            left.setPower(-speed);
+        }
+        if(rightInches>0){
+            right.setPower(speed);
+        }else{
+            right.setPower(-speed);
+        }
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -93,8 +101,7 @@ public class AutonomousHardware extends ArmLiftHardware {
         // always end the motion as soon as possible.
         // However, if you require that BOTH motors have finished their moves before the robot continues
         // onto the next step, use (isBusy() || isBusy()) in the loop test.
-        while (
-                (runtime.seconds() < timeoutS) &&
+        while ((runtime.seconds() < timeoutS) &&
                         ((Math.abs(newLeftTarget)- Math.abs(left.getCurrentPosition()) > 0 ) &&
                                 ( Math.abs(newRightTarget) - Math.abs(right.getCurrentPosition()) > 0))
         ) {
