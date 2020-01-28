@@ -36,7 +36,7 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
     // get hardware bindings
     public AutonomousHardware robot = new AutonomousHardware();
 
-    public static final double POWER = 0.75;
+    public static final double POWER = 0.25;
 
     public void message () {
         telemetry.addData("Power L", robot.left.getPower());

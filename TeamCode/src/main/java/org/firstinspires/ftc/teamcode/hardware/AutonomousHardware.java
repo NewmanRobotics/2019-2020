@@ -101,10 +101,11 @@ public class AutonomousHardware extends ArmLiftHardware {
         // always end the motion as soon as possible.
         // However, if you require that BOTH motors have finished their moves before the robot continues
         // onto the next step, use (isBusy() || isBusy()) in the loop test.
-        while ((runtime.seconds() < timeoutS) &&
-                        ((Math.abs(newLeftTarget)- Math.abs(left.getCurrentPosition()) > 0 ) &&
-                                ( Math.abs(newRightTarget) - Math.abs(right.getCurrentPosition()) > 0))
-        ) {
+//        while ((runtime.seconds() < timeoutS) &&
+//                        ((Math.abs(newLeftTarget) - left.getCurrentPosition() > 0 ) &&
+//                                ( Math.abs(newRightTarget) - Math.abs(right.getCurrentPosition()) > 0))
+        while ((runtime.seconds() < timeoutS))
+        {
             telemetry.addData("Status", "Running");
             // Display it for the driver.
             telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
