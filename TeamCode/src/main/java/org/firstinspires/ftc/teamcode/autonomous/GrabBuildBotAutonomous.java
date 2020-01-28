@@ -51,6 +51,11 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // pass in the hardwareMap into hardware bindings and util functions
         robot.init(hardwareMap);
+        telemetry.addData("Status", "New Version");    //
+        telemetry.update();
+
+        robot.left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
@@ -62,19 +67,21 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
         robot.left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        robot.right.setDirection(DcMotor.Direction.REVERSE);
-
-        while (!isStarted()) {
-            telemetry.addData("Run Initial",  "at %7d :%7d",
-                    robot.left.getCurrentPosition(),
-                    robot.right.getCurrentPosition());
-            telemetry.update();
-        }
+        telemetry.addData("Run Initial",  "at %7d :%7d",
+                robot.left.getCurrentPosition(),
+                robot.right.getCurrentPosition());
+        telemetry.update();
 
         waitForStart();
 
 //        robot.move(POWER, -55 - 5, -55 - 5, 5, telemetry);
 
-        robot.move(POWER, -10, -10, 5, telemetry);
+        robot.move( -POWER, -50, -50, 10, telemetry);
+        robot.foundationGrabberLeft.setPosition(-1.0);
+        robot.foundationGrabberRight.setPosition(1.0);
+        robot.move( POWER, 50, 50, 10, telemetry);
+
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
     }
 }
