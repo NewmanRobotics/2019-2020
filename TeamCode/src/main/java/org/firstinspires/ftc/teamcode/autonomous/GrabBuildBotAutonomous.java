@@ -31,7 +31,7 @@ import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "Grab Build Bot Autonomous", group = "Autonomous")
+@Autonomous(name = "Build Side: Grab Foundation", group = "Autonomous")
 public class GrabBuildBotAutonomous extends LinearOpMode {
     // get hardware bindings
     public AutonomousHardware robot = new AutonomousHardware();

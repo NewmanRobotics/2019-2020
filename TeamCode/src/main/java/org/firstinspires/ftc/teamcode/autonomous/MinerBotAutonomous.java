@@ -23,6 +23,7 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -39,6 +40,7 @@ import java.util.Date;
  * Created by Galvin on 2019-10-31
  */
 @Autonomous(name = "Miner Bot Autonomous", group = "Autonomous")
+@Disabled
 public class MinerBotAutonomous extends OpMode {
     // get hardware bindings
     public AutonomousHardware robot = new AutonomousHardware();

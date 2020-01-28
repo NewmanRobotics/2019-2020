@@ -23,6 +23,7 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -35,6 +36,7 @@ import org.firstinspires.ftc.teamcode.stateProvider.VuforiaLocationProvider;
  * Created by Galvin on 2020-01-10
  */
 @Autonomous(name = "Simple Move Build Bot Autonomous", group = "Autonomous")
+@Disabled
 public class SimpleMoveBuildBotAutonomous extends LinearOpMode {
     // get hardware bindings
     public AutonomousHardware robot = new AutonomousHardware();
