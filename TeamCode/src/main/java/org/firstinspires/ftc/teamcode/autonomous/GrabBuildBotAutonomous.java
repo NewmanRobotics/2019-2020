@@ -83,9 +83,5 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
-
-        telemetry.addData("Fun", "WIggle");
-        telemetry.update();
-        robot.wiggle();
     }
 }
