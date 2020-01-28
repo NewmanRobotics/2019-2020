@@ -153,4 +153,16 @@ public class AutonomousHardware extends ArmLiftHardware {
         left.setPower(Power.STOP.value);
         right.setPower(Power.STOP.value);
     }
+    public void wiggle() {
+        runtime.reset();
+        while(true){
+            if(runtime.seconds()%10<5){
+                left.setPower(1);
+                right.setPower(-1);
+            }else{
+                left.setPower(-1);
+                right.setPower(1);
+            }
+        }
+    }
 }
