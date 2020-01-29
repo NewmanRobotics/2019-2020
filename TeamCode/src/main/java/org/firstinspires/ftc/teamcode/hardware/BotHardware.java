@@ -78,18 +78,10 @@ public abstract class BotHardware {
      * @throws InterruptedException times up!
      */
     public void waitForTick(long periodInMillisecond) {
-
-        long remaining = periodInMillisecond - (long) period.milliseconds();
-
-        if (remaining > 0){
-            try {
-                Thread.sleep(remaining);
-            } catch (InterruptedException e) {
-                // shhhh <v<
-            }
-
-            period.reset();
+        try {
+            Thread.sleep(periodInMillisecond);
+        } catch (InterruptedException e) {
+            // shhhh <v<
         }
-
     }
 }

@@ -24,9 +24,13 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import android.telecom.Call;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
 import org.firstinspires.ftc.teamcode.hardware.IsActiveCallback;
@@ -40,6 +44,7 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
     public AutonomousHardware robot = new AutonomousHardware();
 
     public static final double POWER = 0.25;
+    public static final double THRESHOLD = 5;
 
     public void message () {
         telemetry.addData("Power L", robot.left.getPower());
@@ -52,6 +57,9 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        ElapsedTime runtime = new ElapsedTime();
+        ModernRoboticsI2cRangeSensor distanceSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "RangeSensor");
+
         // pass in the hardwareMap into hardware bindings and util functions
         robot.init(hardwareMap);
         telemetry.addData("Status", "New Version");    //
@@ -87,12 +95,24 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
             }
         };
 
-        robot.move( -POWER, -50, -50, 10, telemetry, isActiveCallback);
-        robot.foundationGrabberLeft.setPosition(-1.0);
-        robot.foundationGrabberRight.setPosition(1.0);
-        robot.move( POWER, 50, 50, 10, telemetry, isActiveCallback);
+        robot.move(POWER);
 
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
+        while (distanceSensor.cmUltrasonic() > THRESHOLD) {
+            telemetry.addData("Move mode", "by Ultrasonic Sensor");
+            telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
+            telemetry.addData("Threshold", THRESHOLD);
+            telemetry.addData("Runtime", runtime.milliseconds());
+            telemetry.update();
+        }
+        robot.left.setPower(0.0);
+        robot.right.setPower(0.0);
+
+        // grab it
+        robot.foundationGrabberLeft.setPosition(1.0);
+        robot.foundationGrabberRight.setPosition(1.0);
+
+        robot.waitForTick(2000);
+
+        robot.move( - POWER, 5000, telemetry, isActiveCallback);
     }
 }

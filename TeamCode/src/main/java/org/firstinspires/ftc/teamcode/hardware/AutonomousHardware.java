@@ -121,6 +121,24 @@ public class AutonomousHardware extends ArmLiftHardware {
             //  sleep(250);   // optional pause after each mov
     }
 
+    public void move(double speed) {
+        left.setPower(speed);
+        right.setPower(speed);
+    }
+
+    public void move(double speed, double milliseconds, Telemetry telemetry, IsActiveCallback isActiveCallback) {
+        move(speed);
+        runtime.reset();
+        double now = runtime.milliseconds();
+        telemetry.addLine((runtime.milliseconds() - now) + "");
+        telemetry.update();
+        while (isActiveCallback.isActive() && Math.abs(runtime.milliseconds() - now) > milliseconds) {
+            telemetry.addData("Move mode", "by Time");
+            telemetry.addData("Remaining", runtime.milliseconds() - now);
+            telemetry.update();
+        }
+    }
+
     public void rotate(Direction direction, Power power) {
         double leftPower, rightPower;
         if (direction.equals(Direction.CLOCKWISE)) {
