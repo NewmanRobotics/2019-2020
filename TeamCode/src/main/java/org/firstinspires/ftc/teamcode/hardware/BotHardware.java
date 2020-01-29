@@ -46,8 +46,8 @@ public abstract class BotHardware {
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-//        left.setDirection(DcMotor.Direction.REVERSE);
-        right.setDirection(DcMotor.Direction.REVERSE);
+        left.setDirection(DcMotor.Direction.REVERSE);
+//        right.setDirection(DcMotor.Direction.REVERSE);
 
         initGrabbers(hardwareMap);
 

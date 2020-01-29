@@ -22,11 +22,14 @@
 
 package org.firstinspires.ftc.teamcode.autonomous;
 
+import android.telecom.Call;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
+import org.firstinspires.ftc.teamcode.hardware.IsActiveCallback;
 
 /**
  * Created by Galvin on 2020-01-10
@@ -76,10 +79,18 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
 
 //        robot.move(POWER, -55 - 5, -55 - 5, 5, telemetry);
 
-        robot.move( -POWER, -50, -50, 10, telemetry);
+        IsActiveCallback isActiveCallback = new IsActiveCallback() {
+            @Override
+            public void run() {}
+            public boolean isActive() {
+                return opModeIsActive();
+            }
+        };
+
+        robot.move( -POWER, -50, -50, 10, telemetry, isActiveCallback);
         robot.foundationGrabberLeft.setPosition(-1.0);
         robot.foundationGrabberRight.setPosition(1.0);
-        robot.move( POWER, 50, 50, 10, telemetry);
+        robot.move( POWER, 50, 50, 10, telemetry, isActiveCallback);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

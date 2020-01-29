@@ -68,32 +68,24 @@ public class AutonomousHardware extends ArmLiftHardware {
     }
 
     public void move(double speed,
-                     double leftInches, double rightInches, int timeoutS, Telemetry telemetry) {
+                     double leftInches, double rightInches, int timeoutS, Telemetry telemetry, IsActiveCallback isActiveCallback) {
         int newLeftTarget;
         int newRightTarget;
 
         // Determine new target position, and pass to motor controller
         newLeftTarget = left.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
         newRightTarget = right.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-        left.setTargetPosition(newLeftTarget);
-        right.setTargetPosition(newRightTarget);
+//        left.setTargetPosition(newLeftTarget);
+//        right.setTargetPosition(newRightTarget);
 
         // Turn On RUN_TO_POSITION
-        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // reset the timeout time and start motion.
         runtime.reset();
-        if(leftInches>0){
-            left.setPower(speed);
-        }else{
-            left.setPower(-speed);
-        }
-        if(rightInches>0){
-            right.setPower(speed);
-        }else{
-            right.setPower(-speed);
-        }
+        left.setPower(speed);
+        right.setPower(speed);
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -104,7 +96,8 @@ public class AutonomousHardware extends ArmLiftHardware {
 //        while ((runtime.seconds() < timeoutS) &&
 //                        ((Math.abs(newLeftTarget) - left.getCurrentPosition() > 0 ) &&
 //                                ( Math.abs(newRightTarget) - Math.abs(right.getCurrentPosition()) > 0))
-        while ((runtime.seconds() < timeoutS))
+        // TODO: finish the mathematical condition
+        while ((runtime.seconds() < timeoutS) && isActiveCallback.isActive())
         {
             telemetry.addData("Status", "Running");
             // Display it for the driver.
@@ -152,17 +145,5 @@ public class AutonomousHardware extends ArmLiftHardware {
     public void stop() {
         left.setPower(Power.STOP.value);
         right.setPower(Power.STOP.value);
-    }
-    public void wiggle() {
-        runtime.reset();
-        while(true){
-            if(runtime.seconds()%10<5){
-                left.setPower(1);
-                right.setPower(-1);
-            }else{
-                left.setPower(-1);
-                right.setPower(1);
-            }
-        }
     }
 }

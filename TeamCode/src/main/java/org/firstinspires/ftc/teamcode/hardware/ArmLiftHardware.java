@@ -48,8 +48,8 @@ public class ArmLiftHardware extends BotHardware {
         foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
 
         // TODO: measure the position of the initialization state of the foundation grabber should be
-        foundationGrabberLeft.setPosition(0.0);
-        foundationGrabberRight.setPosition(0.0);
+        foundationGrabberLeft.setPosition(0.15);
+        foundationGrabberRight.setPosition(0.15);
 
         armLifter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
