@@ -44,7 +44,7 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
     public AutonomousHardware robot = new AutonomousHardware();
 
     public static final double POWER = 0.25;
-    public static final double THRESHOLD = 5;
+    public static final double THRESHOLD = 7;
 
     public void message () {
         telemetry.addData("Power L", robot.left.getPower());
@@ -113,6 +113,6 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
 
         robot.waitForTick(2000);
 
-        robot.move( - POWER, 5000, telemetry, isActiveCallback);
+        robot.move( - POWER, 3000, telemetry, isActiveCallback);
     }
 }

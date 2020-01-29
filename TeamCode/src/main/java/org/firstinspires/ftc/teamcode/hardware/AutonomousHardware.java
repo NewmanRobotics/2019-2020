@@ -132,7 +132,7 @@ public class AutonomousHardware extends ArmLiftHardware {
         double now = runtime.milliseconds();
         telemetry.addLine((runtime.milliseconds() - now) + "");
         telemetry.update();
-        while (isActiveCallback.isActive() && Math.abs(runtime.milliseconds() - now) > milliseconds) {
+        while (isActiveCallback.isActive() && Math.abs(runtime.milliseconds() - now) < milliseconds) {
             telemetry.addData("Move mode", "by Time");
             telemetry.addData("Remaining", runtime.milliseconds() - now);
             telemetry.update();
