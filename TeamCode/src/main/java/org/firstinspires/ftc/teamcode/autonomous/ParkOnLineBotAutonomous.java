@@ -30,7 +30,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
 import org.firstinspires.ftc.teamcode.hardware.IsActiveCallback;
-
+//Hardware does not work
 /**
  * Created by Galvin on 2020-01-10
  */
