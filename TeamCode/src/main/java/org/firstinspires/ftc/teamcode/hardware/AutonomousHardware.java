@@ -127,7 +127,7 @@ public class AutonomousHardware extends ArmLiftHardware {
     }
 
     public void move(double speed, double milliseconds, Telemetry telemetry, IsActiveCallback isActiveCallback) {
-        move(speed);
+        move(-speed);
         runtime.reset();
         double now = runtime.milliseconds();
         telemetry.addLine((runtime.milliseconds() - now) + "");
