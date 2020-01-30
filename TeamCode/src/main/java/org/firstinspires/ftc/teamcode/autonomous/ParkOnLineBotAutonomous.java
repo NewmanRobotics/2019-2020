@@ -22,14 +22,10 @@
 
 package org.firstinspires.ftc.teamcode.autonomous;
 
-import android.telecom.Call;
-
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
@@ -38,13 +34,13 @@ import org.firstinspires.ftc.teamcode.hardware.IsActiveCallback;
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "Build Side: Grab Foundation", group = "Autonomous")
-public class GrabBuildBotAutonomous extends LinearOpMode {
+@Autonomous(name = "Depot Side: Park On Line", group = "Autonomous")
+public class ParkOnLineBotAutonomous extends LinearOpMode {
     // get hardware bindings
     public AutonomousHardware robot = new AutonomousHardware();
 
     public static final double POWER = 0.15;
-    public static final double THRESHOLD = 7;
+    public static final double THRESHOLD = 170;
 
     public void message () {
         telemetry.addData("Power L", robot.left.getPower());
@@ -97,7 +93,7 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
 
         robot.move(POWER);
 
-        while (distanceSensor.cmUltrasonic() > THRESHOLD) {
+        while (distanceSensor.cmUltrasonic() < THRESHOLD) {
             telemetry.addData("Move mode", "by Ultrasonic Sensor");
             telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
             telemetry.addData("Threshold", THRESHOLD);
@@ -106,13 +102,5 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
         }
         robot.left.setPower(0.0);
         robot.right.setPower(0.0);
-
-        // grab it
-        robot.foundationGrabberLeft.setPosition(1.0);
-        robot.foundationGrabberRight.setPosition(1.0);
-
-        robot.waitForTick(2000);
-
-        robot.move( - POWER, 3000, telemetry, isActiveCallback);
     }
 }
