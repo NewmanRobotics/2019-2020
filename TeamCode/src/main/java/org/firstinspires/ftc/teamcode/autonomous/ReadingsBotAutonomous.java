@@ -22,8 +22,12 @@
 
 package org.firstinspires.ftc.teamcode.autonomous;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
 
 
 /**
@@ -31,10 +35,22 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
  */
 @Autonomous(name = "Readings (Gives readings from sensors/encoders)", group = "Autonomous")
 public class ReadingsBotAutonomous extends OpMode {
+    public AutonomousHardware robot = new AutonomousHardware();
+    ModernRoboticsI2cRangeSensor distanceSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "RangeSensor");
     @Override
     public void init() {
+        robot.init(hardwareMap);
+        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     @Override
     public void loop() {
+        telemetry.addData("Pos   L", robot.left.getCurrentPosition());
+        telemetry.addData("Pos   R", robot.right.getCurrentPosition());
+        telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
+        telemetry.update();
     }
 }
