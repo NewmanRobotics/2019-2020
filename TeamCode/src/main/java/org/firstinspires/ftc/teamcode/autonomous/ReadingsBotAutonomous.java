@@ -25,6 +25,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
@@ -33,13 +34,15 @@ import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
 /**
  * Created by Galvin on 2020-01-11
  */
-@Autonomous(name = "Readings (Gives readings from sensors/encoders)", group = "Autonomous")
+@TeleOp(name = "Readings", group = "Development")
 public class ReadingsBotAutonomous extends OpMode {
     public AutonomousHardware robot = new AutonomousHardware();
-    ModernRoboticsI2cRangeSensor distanceSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "RangeSensor");
+    public ModernRoboticsI2cRangeSensor distanceSensor;
     @Override
     public void init() {
         robot.init(hardwareMap);
+        distanceSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "RangeSensor");
+
         robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
