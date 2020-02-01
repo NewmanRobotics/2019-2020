@@ -91,7 +91,7 @@ public class ParkOnLineBotAutonomous extends LinearOpMode {
             }
         };
 
-        robot.move(POWER);
+        robot.move( - POWER);
 
         while (distanceSensor.cmUltrasonic() < THRESHOLD) {
             telemetry.addData("Move mode", "by Ultrasonic Sensor");
