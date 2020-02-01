@@ -67,6 +67,20 @@ public class AutonomousHardware extends ArmLiftHardware {
         right.setPower(power.value);
     }
 
+    private boolean check(double distance, int target, int current){
+        if (distance>0){
+            if(current<target){
+                return true;
+            }
+            return false;
+        } else {
+            if(current>target){
+                return true;
+            }
+            return false;
+        }
+    }
+
     public void move(double speed,
                      double leftInches, double rightInches, int timeoutS, Telemetry telemetry, IsActiveCallback isActiveCallback) {
         int newLeftTarget;
@@ -84,8 +98,16 @@ public class AutonomousHardware extends ArmLiftHardware {
 
         // reset the timeout time and start motion.
         runtime.reset();
-        left.setPower(speed);
-        right.setPower(speed);
+        if (leftInches>0){
+            left.setPower(speed);
+        }else {
+            left.setPower(-speed);
+        }
+        if (rightInches>0){
+            right.setPower(speed);
+        }else {
+            right.setPower(-speed);
+        }
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -97,7 +119,8 @@ public class AutonomousHardware extends ArmLiftHardware {
 //                        ((Math.abs(newLeftTarget) - left.getCurrentPosition() > 0 ) &&
 //                                ( Math.abs(newRightTarget) - Math.abs(right.getCurrentPosition()) > 0))
         // TODO: finish the mathematical condition
-        while ((runtime.seconds() < timeoutS) && isActiveCallback.isActive())
+        while ((runtime.seconds() < timeoutS) && isActiveCallback.isActive() &&
+                check(rightInches, newRightTarget, right.getCurrentPosition()) && check(leftInches, newLeftTarget, left.getCurrentPosition()))
         {
             telemetry.addData("Status", "Running");
             // Display it for the driver.
