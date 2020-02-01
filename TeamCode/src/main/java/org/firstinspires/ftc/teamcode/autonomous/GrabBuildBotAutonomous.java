@@ -97,7 +97,7 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
 
         robot.move(POWER);
 
-        while (distanceSensor.cmUltrasonic() > (THRESHOLD+5)) {
+        while (distanceSensor.cmUltrasonic() > (THRESHOLD+5) && opModeIsActive()) {
             telemetry.addData("Move mode", "by Ultrasonic Sensor");
             telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
             telemetry.addData("Threshold", THRESHOLD);
@@ -105,7 +105,7 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
             telemetry.update();
         }
         robot.move(POWER*0.5);
-        while (distanceSensor.cmUltrasonic() > THRESHOLD) {
+        while (distanceSensor.cmUltrasonic() > THRESHOLD  && opModeIsActive()) {
             telemetry.addData("Move mode", "by Ultrasonic Sensor");
             telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
             telemetry.addData("Threshold", THRESHOLD);

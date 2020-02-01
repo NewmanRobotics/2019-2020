@@ -82,15 +82,6 @@ public class ParkOnLineBotAutonomous extends LinearOpMode {
         waitForStart();
 
 //        robot.move(POWER, -55 - 5, -55 - 5, 5, telemetry);
-
-        IsActiveCallback isActiveCallback = new IsActiveCallback() {
-            @Override
-            public void run() {}
-            public boolean isActive() {
-                return opModeIsActive();
-            }
-        };
-
         robot.move( - POWER);
 
         while ((distanceSensor.cmUltrasonic() < THRESHOLD) && opModeIsActive()) {
