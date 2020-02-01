@@ -30,6 +30,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
 import org.firstinspires.ftc.teamcode.hardware.IsActiveCallback;
+
+import java.util.ArrayList;
 //Hardware does not work
 /**
  * Created by Galvin on 2020-01-10
@@ -39,8 +41,8 @@ public class ParkOnLineBotAutonomous extends LinearOpMode {
     // get hardware bindings
     public AutonomousHardware robot = new AutonomousHardware();
 
-    public static final double POWER = 0.15;
-    public static final double THRESHOLD = 139;
+    public static final double POWER = 0.05;
+    public static final double THRESHOLD = 120.0;
 
     public void message () {
         telemetry.addData("Power L", robot.left.getPower());
@@ -54,6 +56,8 @@ public class ParkOnLineBotAutonomous extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         ElapsedTime runtime = new ElapsedTime();
+//        ArrayList<Double> devList = new ArrayList<Double>();
+        double last = 1000;
         ModernRoboticsI2cRangeSensor distanceSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "RangeSensor");
 
         // pass in the hardwareMap into hardware bindings and util functions
@@ -84,14 +88,22 @@ public class ParkOnLineBotAutonomous extends LinearOpMode {
 //        robot.move(POWER, -55 - 5, -55 - 5, 5, telemetry);
         robot.move( - POWER);
 
-        while ((distanceSensor.cmUltrasonic() < THRESHOLD) && opModeIsActive()) {
+        while ((distanceSensor.cmUltrasonic() < THRESHOLD || distanceSensor.cmUltrasonic() > 240 || Math.abs(last - distanceSensor.cmUltrasonic()) < 10) && opModeIsActive()) {
+//            last = distanceSensor.cmUltrasonic();
+//            if (!devList.contains(last)) devList.add(last);
             telemetry.addData("Move mode", "by Ultrasonic Sensor");
             telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
             telemetry.addData("Threshold", THRESHOLD);
             telemetry.addData("Runtime", runtime.milliseconds());
             telemetry.update();
+            robot.waitForTick(10);
         }
         robot.left.setPower(0.0);
         robot.right.setPower(0.0);
+
+//        while (opModeIsActive()) {
+//            telemetry.addData("Distance History", devList.toString());
+//        }
+
     }
 }

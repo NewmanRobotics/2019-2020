@@ -116,16 +116,36 @@ public class GrabBuildBotAutonomous extends LinearOpMode {
         robot.right.setPower(0.0);
 
         // grab it
+        telemetry.addData("Grabbing", "Grabbing It");
+        telemetry.update();
         robot.foundationGrabberLeft.setPosition(1.0);
         robot.foundationGrabberRight.setPosition(1.0);
 
         robot.waitForTick(2000);
 
+        telemetry.addData("Dragging", "Dragging It");
+        telemetry.update();
         robot.move( - POWER, 3000, telemetry, isActiveCallback);
+
+        telemetry.addData("Letting Go", "Lets of of it");
+        telemetry.update();
 
         robot.foundationGrabberLeft.setPosition(0.0);
         robot.foundationGrabberRight.setPosition(0.0);
-        robot.move( POWER, 500, telemetry, isActiveCallback);
 
+        telemetry.addData("Pushing", "Going to push it to get it over the line ");
+        telemetry.update();
+        robot.move( 0.05, -3, -3, 5, telemetry, isActiveCallback);
+        robot.move( 0.05, 1, 1, 5, telemetry, isActiveCallback);
+        robot.move( 0.05, -0.25* AutonomousHardware.CIRCUMFERENCE_WHEELS, 0.25* AutonomousHardware.CIRCUMFERENCE_WHEELS, 5, telemetry, isActiveCallback);
+        robot.move( 0.05, 7.5, 7.5, 15, telemetry, isActiveCallback);
+        robot.move( 0.05, 0.25* AutonomousHardware.CIRCUMFERENCE_WHEELS, -0.25* AutonomousHardware.CIRCUMFERENCE_WHEELS, 5, telemetry, isActiveCallback);
+        robot.move( 0.05, 14, 14, 20, telemetry, isActiveCallback);
+        robot.move( 0.05, -0.25* AutonomousHardware.CIRCUMFERENCE_WHEELS, 0.25* AutonomousHardware.CIRCUMFERENCE_WHEELS, 5, telemetry, isActiveCallback);
+        robot.move( 0.05, 6.5, 6.5, 5, telemetry, isActiveCallback);
+        robot.move( 0.05, -0.25* AutonomousHardware.CIRCUMFERENCE_WHEELS, 0.25* AutonomousHardware.CIRCUMFERENCE_WHEELS, 5, telemetry, isActiveCallback);
+        robot.move(-POWER, 3000, telemetry, isActiveCallback);
+        telemetry.addData("Done", "Complete. Autonomous done Running");
+        telemetry.update();
     }
 }

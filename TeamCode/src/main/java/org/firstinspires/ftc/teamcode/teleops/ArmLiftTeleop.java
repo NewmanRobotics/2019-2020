@@ -73,8 +73,8 @@ public class ArmLiftTeleop extends OpMode {
         // if speed is toggled
         if (toggleSpeed) {
             // use direct inputs
-            robot.left.setPower(gamepad1.left_stick_y);
-            robot.right.setPower(gamepad1.right_stick_y);
+            robot.left.setPower(gamepad1.left_stick_y * 0.85);
+            robot.right.setPower(gamepad1.right_stick_y * 0.85);
             telemetry.addData("Left Power", -gamepad1.left_stick_y);
             telemetry.addData("Right Power", gamepad1.right_stick_y);
         } else {
