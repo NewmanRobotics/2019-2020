@@ -2,7 +2,6 @@
 ## `Team #9725`
 
 ![MIT License](https://img.shields.io/badge/license-MIT-blue?cacheSeconds=3600)
-![Codacy Grade](https://img.shields.io/codacy/grade/7d254e59bc3f4ace87f8e04bf2ba5c05?logo=codacy&cacheSeconds=3600)
 ![GitHub last commit](https://img.shields.io/github/last-commit/NewmanRobotics/2019-2020?logo=github&cacheSeconds=3600)
 
 ## Welcome!

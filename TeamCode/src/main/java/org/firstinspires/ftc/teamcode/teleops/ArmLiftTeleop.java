@@ -77,8 +77,7 @@ public class ArmLiftTeleop extends OpMode {
             robot.right.setPower(gamepad1.right_stick_y);
             telemetry.addData("Left Power", -gamepad1.left_stick_y);
             telemetry.addData("Right Power", gamepad1.right_stick_y);
-        }
-        else{
+        } else {
             // use scaled inputs
             robot.left.setPower(left);
             robot.right.setPower(right);
@@ -105,7 +104,7 @@ public class ArmLiftTeleop extends OpMode {
         robot.armLifter.setPower(height);
 
         // servo rotation amount per tick
-        double AMOUNT = 0.02;
+        double AMOUNT = 0.05;
         // If bumper is pressed depress by AMOUNT go up
         if (gamepad2.right_bumper) {
             robot.operateGrabber(ArmLiftHardware.GrabberSide.LEFT, -AMOUNT);
