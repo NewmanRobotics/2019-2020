@@ -40,7 +40,7 @@ public class ParkOnLineBotAutonomous extends LinearOpMode {
     public AutonomousHardware robot = new AutonomousHardware();
 
     public static final double POWER = 0.15;
-    public static final double THRESHOLD = 170;
+    public static final double THRESHOLD = 139;
 
     public void message () {
         telemetry.addData("Power L", robot.left.getPower());
