@@ -93,14 +93,14 @@ public class AutonomousHardware extends ArmLiftHardware {
         // reset the timeout time and start motion.
         runtime.reset();
         if (leftInches>0){
-            left.setPower(speed);
-        }else {
             left.setPower(-speed);
+        }else {
+            left.setPower(speed);
         }
         if (rightInches>0){
-            right.setPower(speed);
-        }else {
             right.setPower(-speed);
+        }else {
+            right.setPower(speed);
         }
 
         // keep looping while we are still active, and there is time left, and both motors are running.
@@ -114,7 +114,7 @@ public class AutonomousHardware extends ArmLiftHardware {
 //                                ( Math.abs(newRightTarget) - Math.abs(right.getCurrentPosition()) > 0))
         // TODO: finish the mathematical condition
         while ((runtime.seconds() < timeoutS) && isActiveCallback.isActive() &&
-                check(rightInches, newRightTarget, right.getCurrentPosition()) && check(leftInches, newLeftTarget, left.getCurrentPosition()))
+                check(rightInches, newRightTarget, -right.getCurrentPosition()) && check(leftInches, newLeftTarget, -left.getCurrentPosition()))
         {
             telemetry.addData("Status", "Running");
             // Display it for the driver.
