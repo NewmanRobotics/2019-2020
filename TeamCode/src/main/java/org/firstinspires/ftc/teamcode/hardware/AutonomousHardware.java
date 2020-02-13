@@ -68,16 +68,10 @@ public class AutonomousHardware extends ArmLiftHardware {
     }
 
     private boolean check(double distance, int target, int current){
-        if (distance>0){
-            if(current<target){
-                return true;
-            }
-            return false;
+        if (distance > 0){
+            return current < target;
         } else {
-            if(current>target){
-                return true;
-            }
-            return false;
+            return current > target;
         }
     }
 

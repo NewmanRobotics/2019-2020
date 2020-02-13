@@ -75,7 +75,7 @@ public class ArmLiftTeleop extends OpMode {
             // use direct inputs
             robot.left.setPower(gamepad1.left_stick_y);
             robot.right.setPower(gamepad1.right_stick_y);
-            telemetry.addData("Left Power", -gamepad1.left_stick_y);
+            telemetry.addData("Left Power", gamepad1.left_stick_y);
             telemetry.addData("Right Power", gamepad1.right_stick_y);
         } else {
             // use scaled inputs

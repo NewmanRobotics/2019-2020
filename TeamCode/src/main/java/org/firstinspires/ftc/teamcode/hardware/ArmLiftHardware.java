@@ -22,6 +22,7 @@
 
 package org.firstinspires.ftc.teamcode.hardware;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -32,6 +33,7 @@ public class ArmLiftHardware extends BotHardware {
     public Servo rightGrabber;
     public Servo foundationGrabberLeft;
     public Servo foundationGrabberRight;
+    public CRServo cam;
 
     public void initGrabbers(HardwareMap hardwareMap){
         // The lifter of the arm
@@ -44,6 +46,8 @@ public class ArmLiftHardware extends BotHardware {
         // The foundation grabber
         foundationGrabberLeft = hardwareMap.servo.get("FoundationGrabberLeft");
         foundationGrabberRight = hardwareMap.servo.get("FoundationGrabberRight");
+
+        cam = hardwareMap.crservo.get("Cam");
 
         foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
 
