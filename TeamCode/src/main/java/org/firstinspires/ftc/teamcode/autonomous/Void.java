@@ -29,8 +29,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 /**
  * Created by Galvin on 2020-01-11
  */
-@Autonomous(name = "Void (do nothing)", group = "Autonomous")
-public class VoidBotAutonomous extends OpMode {
+@Autonomous(name = "2-0 UTILITY: Void (do nothing)", group = "Autonomous")
+public class Void extends OpMode {
     @Override
     public void init() {
     }

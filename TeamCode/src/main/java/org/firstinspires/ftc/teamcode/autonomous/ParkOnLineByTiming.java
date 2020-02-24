@@ -28,27 +28,17 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
-import org.firstinspires.ftc.teamcode.locationDescriptor.Field;
-import org.firstinspires.ftc.teamcode.stateProvider.Location;
-import org.firstinspires.ftc.teamcode.stateProvider.VuforiaLocationProvider;
 
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "Simple Move Build Bot Autonomous", group = "Autonomous")
+@Autonomous(name = "1-2 BACKUP: Park On Line, by Timing", group = "Autonomous")
 @Disabled
-public class SimpleMoveBuildBotAutonomous extends LinearOpMode {
+public class ParkOnLineByTiming extends LinearOpMode {
     // get hardware bindings
     public AutonomousHardware robot = new AutonomousHardware();
 
-    // initialize location provider
-    public VuforiaLocationProvider vuforiaLocationProvider = new VuforiaLocationProvider();
-
-    public Field field = new Field();
-
     public static final double POWER = 0.5;
-
-    public Location lastLocation;
 
     public void message () {
         telemetry.addData("Power L", robot.left.getPower());

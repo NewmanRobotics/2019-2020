@@ -32,12 +32,11 @@ import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
 import org.firstinspires.ftc.teamcode.hardware.IsActiveCallback;
 
 import java.util.ArrayList;
-//Hardware does not work
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "Depot Side: Park On Line", group = "Autonomous")
-public class ParkOnLineBotAutonomous extends LinearOpMode {
+@Autonomous(name = "1-1 BACKUP: Park On Line, by Sensor", group = "Autonomous")
+public class ParkOnLineBySensor extends LinearOpMode {
     // get hardware bindings
     public AutonomousHardware robot = new AutonomousHardware();
 

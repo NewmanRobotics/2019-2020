@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode.autonomous;
+package org.firstinspires.ftc.teamcode.teleops;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -34,8 +34,8 @@ import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
 /**
  * Created by Galvin on 2020-01-11
  */
-@TeleOp(name = "Readings", group = "Development")
-public class ReadingsBotAutonomous extends OpMode {
+@TeleOp(name = "(development) Get Readings", group = "Development")
+public class TestReadingsTeleop extends OpMode {
     public AutonomousHardware robot = new AutonomousHardware();
     public ModernRoboticsI2cRangeSensor distanceSensor;
     @Override
