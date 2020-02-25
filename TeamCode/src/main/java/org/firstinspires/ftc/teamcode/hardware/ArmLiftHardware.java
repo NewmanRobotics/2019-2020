@@ -29,6 +29,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class ArmLiftHardware extends AbstractBotHardware {
     public DcMotor armLifter;
+    public DcMotor extender;
     public Servo leftGrabber;
     public Servo rightGrabber;
     public Servo foundationGrabberLeft;
@@ -38,6 +39,10 @@ public class ArmLiftHardware extends AbstractBotHardware {
     public void initGrabbers(HardwareMap hardwareMap){
         // The lifter of the arm
         armLifter = hardwareMap.dcMotor.get("ArmLifter");
+        // The cam below the armLifter
+        cam = hardwareMap.crservo.get("Cam");
+        // The extender
+        extender = hardwareMap.dcMotor.get("Extender");
 
         // The grabbers of the arm
         leftGrabber = hardwareMap.servo.get("GrabberLeft");
@@ -47,29 +52,16 @@ public class ArmLiftHardware extends AbstractBotHardware {
         foundationGrabberLeft = hardwareMap.servo.get("FoundationGrabberLeft");
         foundationGrabberRight = hardwareMap.servo.get("FoundationGrabberRight");
 
-        cam = hardwareMap.crservo.get("Cam");
+        //
+        // Initiation of Hardware
+        //
 
         foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
 
-        // TODO: measure the position of the initialization state of the foundation grabber should be
         foundationGrabberLeft.setPosition(0.15);
         foundationGrabberRight.setPosition(0.15);
 
         armLifter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    }
-
-    public void openBlockGrabber() {
-    }
-
-    public void closeBlockGrabber() {
-    }
-
-    public void openFoundationGrabber() {
-
-    }
-
-    public void closeFoundationGrabber() {
-
     }
 
     public enum GrabberSide {
@@ -77,7 +69,7 @@ public class ArmLiftHardware extends AbstractBotHardware {
         RIGHT
     }
 
-    public static double accumulate(double original, double accumulation) {
+    private static double accumulate(double original, double accumulation) {
         double attempt = original + accumulation;
         return Math.min(1.0, Math.max(attempt, 0.0));
     }
