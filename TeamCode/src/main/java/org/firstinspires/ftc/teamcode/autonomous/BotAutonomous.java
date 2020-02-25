@@ -28,7 +28,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
+import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
 
 /**
  * Created by Galvin on 2020-01-10
@@ -36,7 +36,7 @@ import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
 @Autonomous(name = "0 USE ME: Autonomous (building side, move foundation + park robot + extend ruler on line)", group = "Autonomous")
 public class BotAutonomous extends LinearOpMode {
     // get hardware bindings
-    public AutonomousHardware robot = new AutonomousHardware();
+    public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();
 
     public static final double POWER = 0.05;
     public static final double THRESHOLD = 120.0;

@@ -26,7 +26,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public abstract class BotHardware {
+public abstract class AbstractBotHardware {
     public DcMotor right;
     public DcMotor left;
 

@@ -25,50 +25,22 @@ package org.firstinspires.ftc.teamcode.hardware;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.locationDescriptor.Coord;
-import org.firstinspires.ftc.teamcode.stateProvider.Location;
 
 /**
  * Created by Galvin on 2020-01-05
  */
-public class AutonomousHardware extends ArmLiftHardware {
-    static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
-    static final double     DISTANCE_FROM_WHEELS    = 15.5;
-    public static final double     CIRCUMFERENCE_WHEELS    = DISTANCE_FROM_WHEELS * Math.PI;
+public class AutonomousArmLiftHardware extends ArmLiftHardware {
+    private static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: TETRIX Motor Encoder
+    private static final double DRIVE_GEAR_REDUCTION = 1.0;     // This is < 1.0 if geared UP
+    private static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
+    private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
+    private static final double DISTANCE_FROM_WHEELS = 15.5;
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    public enum Power {
-        STOP(0.0),
-        SLOW(0.25),
-        MEDIUM(0.5),
-        FAST(0.75),
-        EXTREME(1.0);
-
-        public double value;
-
-        Power(double i) {
-            this.value = i;
-        }
-    }
-
-    public enum Direction {
-        CLOCKWISE,
-        ANTI_CLOCKWISE
-    }
-
-    public void forward(Power power) {
-        left.setPower(power.value);
-        right.setPower(power.value);
-    }
-
-    private boolean check(double distance, int target, int current){
-        if (distance > 0){
+    private boolean check(double distance, int target, int current) {
+        if (distance > 0) {
             return current < target;
         } else {
             return current > target;
@@ -81,8 +53,8 @@ public class AutonomousHardware extends ArmLiftHardware {
         int newRightTarget;
 
         // Determine new target position, and pass to motor controller
-        newLeftTarget = left.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-        newRightTarget = right.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+        newLeftTarget = left.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+        newRightTarget = right.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
 //        left.setTargetPosition(newLeftTarget);
 //        right.setTargetPosition(newRightTarget);
 
@@ -92,14 +64,14 @@ public class AutonomousHardware extends ArmLiftHardware {
 
         // reset the timeout time and start motion.
         runtime.reset();
-        if (leftInches>0){
+        if (leftInches > 0) {
             left.setPower(-speed);
-        }else {
+        } else {
             left.setPower(speed);
         }
-        if (rightInches>0){
+        if (rightInches > 0) {
             right.setPower(-speed);
-        }else {
+        } else {
             right.setPower(speed);
         }
 
@@ -114,12 +86,11 @@ public class AutonomousHardware extends ArmLiftHardware {
 //                                ( Math.abs(newRightTarget) - Math.abs(right.getCurrentPosition()) > 0))
         // TODO: finish the mathematical condition
         while ((runtime.seconds() < timeoutS) && isActiveCallback.isActive() &&
-                check(rightInches, newRightTarget, -right.getCurrentPosition()) && check(leftInches, newLeftTarget, -left.getCurrentPosition()))
-        {
+                check(rightInches, newRightTarget, -right.getCurrentPosition()) && check(leftInches, newLeftTarget, -left.getCurrentPosition())) {
             telemetry.addData("Status", "Running");
             // Display it for the driver.
-            telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-            telemetry.addData("Path2",  "Running at %7d :%7d",
+            telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+            telemetry.addData("Path2", "Running at %7d :%7d",
                     left.getCurrentPosition(),
                     right.getCurrentPosition());
             telemetry.update();
@@ -135,7 +106,7 @@ public class AutonomousHardware extends ArmLiftHardware {
         left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            //  sleep(250);   // optional pause after each mov
+        //  sleep(250);   // optional pause after each mov
     }
 
     public void move(double speed) {
@@ -156,29 +127,8 @@ public class AutonomousHardware extends ArmLiftHardware {
         }
     }
 
-    public void rotate(Direction direction, Power power) {
-        double leftPower, rightPower;
-        if (direction.equals(Direction.CLOCKWISE)) {
-            leftPower = power.value;
-            rightPower = - power.value;
-        } else {
-            leftPower = - power.value;
-            rightPower = power.value;
-        }
-        left.setPower(leftPower);
-        right.setPower(rightPower);
-    }
-
-    public void approach(Location from, Coord to) {
-        Coord diff = new Coord(
-                from.positionX - to.x,
-                from.positionY - to.y
-        );
-        // TODO: implement approach method
-    }
-
     public void stop() {
-        left.setPower(Power.STOP.value);
-        right.setPower(Power.STOP.value);
+        left.setPower(0.0);
+        right.setPower(0.0);
     }
 }

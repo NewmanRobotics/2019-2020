@@ -23,12 +23,11 @@
 package org.firstinspires.ftc.teamcode.teleops;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
+import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
 
 
 /**
@@ -36,7 +35,7 @@ import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
  */
 @TeleOp(name = "(development) Get Readings", group = "Development")
 public class TestReadingsTeleop extends OpMode {
-    public AutonomousHardware robot = new AutonomousHardware();
+    public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();
     public ModernRoboticsI2cRangeSensor distanceSensor;
     @Override
     public void init() {

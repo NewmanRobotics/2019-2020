@@ -27,7 +27,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class ArmLiftHardware extends BotHardware {
+public class ArmLiftHardware extends AbstractBotHardware {
     public DcMotor armLifter;
     public Servo leftGrabber;
     public Servo rightGrabber;

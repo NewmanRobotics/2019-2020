@@ -27,7 +27,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
+import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
 
 /**
  * Created by Galvin on 2020-01-10
@@ -36,7 +36,7 @@ import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
 @Disabled
 public class ParkOnLineByTiming extends LinearOpMode {
     // get hardware bindings
-    public AutonomousHardware robot = new AutonomousHardware();
+    public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();
 
     public static final double POWER = 0.5;
 

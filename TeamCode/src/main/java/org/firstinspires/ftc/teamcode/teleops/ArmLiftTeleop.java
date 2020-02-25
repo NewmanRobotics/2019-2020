@@ -22,7 +22,6 @@
 
 package org.firstinspires.ftc.teamcode.teleops;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
@@ -36,8 +35,8 @@ public class ArmLiftTeleop extends OpMode {
     private double DRIVE_FACTOR = 0.3;
     private double ARM_FACTOR = 0.2;
     private double rotateScale = 0.30;
-    boolean buttonPressedAtLastLoop = false;
-    boolean toggleSpeed = false;
+    private boolean buttonPressedAtLastLoop = false;
+    private boolean toggleSpeed = false;
 
     @Override
     public void init() {
@@ -93,7 +92,7 @@ public class ArmLiftTeleop extends OpMode {
          *   - [left & right trigger] sets the position of the servo being larger than before
          *   - [button B] open/close the foundation grabber
          */
-        double height = - Range.scale(gamepad2.left_stick_y, -1.0, 1.0, -0.5, 0.5);
+        double height = -Range.scale(gamepad2.left_stick_y, -1.0, 1.0, -0.5, 0.5);
 
         if (height < 0) {
             height = height * 0.5;
