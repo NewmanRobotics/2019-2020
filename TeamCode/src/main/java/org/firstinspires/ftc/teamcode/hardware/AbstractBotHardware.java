@@ -62,16 +62,6 @@ public abstract class AbstractBotHardware {
     abstract public void initGrabbers(HardwareMap hardwareMap);
 
     /**
-     * open the grabber - make it ready for grabbing the block
-     */
-    public abstract void openBlockGrabber();
-
-    /**
-     * close the grabber - make it grab the block
-     */
-    public abstract void closeBlockGrabber();
-
-    /**
      * let the robot wait for a fixed duration; in majority of times we will use
      * this as a debounce function
      * @param periodInMillisecond the duration of the robot should wait; in milliseconds
