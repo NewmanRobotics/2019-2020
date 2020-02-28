@@ -24,11 +24,11 @@ public class TestGrabberTeleop extends OpMode {
 //        left = Range.scale(left, -1.0, 1.0, 0.0, 1.0);
 //        right = Range.scale(right, -1.0, 1.0, 0.0, 1.0);
 
-        robot.foundationGrabberLeft.setPower(left);
-        robot.foundationGrabberRight.setPower(right);
+        robot.foundationGrabberLeft.setPosition(left);
+        robot.foundationGrabberRight.setPosition(right);
 
-        telemetry.addData("Left FG Power", robot.foundationGrabberLeft.getPower());
-        telemetry.addData("Right FG Powerx", robot.foundationGrabberLeft.getPower());
+        telemetry.addData("Left FG Position", robot.foundationGrabberLeft.getPosition());
+        telemetry.addData("Right FG Position", robot.foundationGrabberLeft.getPosition());
 
         telemetry.update();
 
