@@ -83,13 +83,15 @@ public class RedBotAutonomous extends LinearOpMode {
         waitForStart();
 
         robot.move(POWER);
-        while (distanceSensor.cmUltrasonic() > (THRESHOLD+5) && opModeIsActive()) {
+        while (distanceSensor.cmUltrasonic() > (THRESHOLD) && opModeIsActive()) {
             telemetry.addData("Move mode", "by Ultrasonic Sensor");
             telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
             telemetry.addData("Threshold", THRESHOLD);
             telemetry.addData("Runtime", runtime.milliseconds());
             telemetry.update();
         }
+        robot.left.setPower(0);
+        robot.right.setPower(0);
 
 
 //        while (opModeIsActive()) {
