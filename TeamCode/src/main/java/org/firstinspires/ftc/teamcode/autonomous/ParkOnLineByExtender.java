@@ -34,7 +34,7 @@ import org.firstinspires.ftc.teamcode.hardware.IsActiveCallback;
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "1-0 BACKUP: Park On Line, by Tape Measure", group = "Autonomous")
+@Autonomous(name = "0 USE ME: Park On Line, by Tape Measure", group = "Autonomous")
 public class ParkOnLineByExtender extends LinearOpMode {
     // get hardware bindings
     public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();

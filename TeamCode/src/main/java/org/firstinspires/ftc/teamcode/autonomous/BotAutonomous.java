@@ -33,7 +33,7 @@ import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "0 USE ME: Autonomous (building side, move foundation + park robot + extend ruler on line)", group = "Autonomous")
+@Autonomous(name = "1-0 BACKUP: Autonomous (building side, move foundation + park robot + extend ruler on line)", group = "Autonomous")
 public class BotAutonomous extends LinearOpMode {
     // get hardware bindings
     public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();
