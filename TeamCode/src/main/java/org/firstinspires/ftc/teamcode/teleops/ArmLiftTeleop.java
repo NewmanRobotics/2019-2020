@@ -33,8 +33,6 @@ public class ArmLiftTeleop extends OpMode {
     private ArmLiftHardware robot = new ArmLiftHardware();
     private long EACH = 20;
     private double DRIVE_FACTOR = 0.3;
-    private double ARM_FACTOR = 0.2;
-    private double rotateScale = 0.30;
     private boolean buttonPressedAtLastLoop = false;
     private boolean toggleSpeed = false;
     private boolean camDoingInit = false;
@@ -134,14 +132,11 @@ public class ArmLiftTeleop extends OpMode {
 
         // If bumper is pressed depress by AMOUNT go up
         if (gamepad2.right_bumper) {
-            robot.leftGrabber.setPower(1.0);
-            robot.rightGrabber.setPower(1.0);
-        } else if (gamepad2.right_trigger != 0) {
-            robot.leftGrabber.setPower(-1.0);
-            robot.rightGrabber.setPower(-1.0);
-        } else {
-            robot.leftGrabber.setPower(0.0);
-            robot.rightGrabber.setPower(0.0);
+            robot.leftGrabber.setPosition(0.0);
+            robot.rightGrabber.setPosition(0.0);
+        } else if (gamepad2.right_trigger > 0.9) {
+            robot.leftGrabber.setPosition(1.0);
+            robot.rightGrabber.setPosition(1.0);
         }
 
         if (gamepad2.b) {
@@ -163,8 +158,8 @@ public class ArmLiftTeleop extends OpMode {
         robot.extender.setPower(gamepad2.right_stick_y);
 
         telemetry.addData("Arm Lifter (power)", height);
-        telemetry.addData("Left Grabber (power)", robot.leftGrabber.getPower());
-        telemetry.addData("Right Grabber (power)", robot.rightGrabber.getPower());
+        telemetry.addData("Left Grabber (pos)", robot.leftGrabber.getPosition());
+        telemetry.addData("Right Grabber (pos)", robot.rightGrabber.getPosition());
         telemetry.addData("Foundation Grabber Left (pos)", robot.foundationGrabberLeft.getPosition());
         telemetry.addData("Foundation Grabber Right (pos)", robot.foundationGrabberRight.getPosition());
 
