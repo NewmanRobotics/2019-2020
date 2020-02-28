@@ -143,6 +143,7 @@ public class ArmLiftTeleop extends OpMode {
             robot.leftGrabber.setPower(0.0);
             robot.rightGrabber.setPower(0.0);
         }
+
         if (gamepad2.b) {
             robot.foundationGrabberLeft.setPower(-1.0);
             robot.foundationGrabberRight.setPower(-1.0);
@@ -153,6 +154,18 @@ public class ArmLiftTeleop extends OpMode {
             robot.foundationGrabberLeft.setPower(0.0);
             robot.foundationGrabberRight.setPower(0.0);
         }
+
+        if (gamepad2.dpad_up) {
+            robot.cam.setPower(1.0);
+        } else if (gamepad2.dpad_down) {
+            robot.cam.setPower(-1.0);
+        } else {
+            robot.cam.setPower(0.0);
+        }
+
+
+
+        robot.extender.setPower(gamepad2.right_stick_y);
 
         telemetry.addData("Arm Lifter (power)", height);
         telemetry.addData("Left Grabber (power)", robot.leftGrabber.getPower());
