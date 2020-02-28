@@ -141,7 +141,7 @@ public class ArmLiftTeleop extends OpMode {
             robot.rightGrabber.setPower(-1.0);
         } else {
             robot.leftGrabber.setPower(0.0);
-            robot.rightGrabber.setPower(0g.0);
+            robot.rightGrabber.setPower(0.0);
         }
         if (gamepad2.b) {
             robot.foundationGrabberLeft.setPower(-1.0);
