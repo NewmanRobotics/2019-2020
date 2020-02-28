@@ -38,6 +38,7 @@ public class ArmLiftTeleop extends OpMode {
     private boolean buttonPressedAtLastLoop = false;
     private boolean toggleSpeed = false;
     private boolean camDoingInit = false;
+    private double CAM_ZERO = -0.055;
 
     @Override
     public void init() {
@@ -65,7 +66,7 @@ public class ArmLiftTeleop extends OpMode {
             public void run() {
                 robot.cam.setPower(0.2);
                 robot.waitForTick(1800);
-                robot.cam.setPower(-0.055);
+                robot.cam.setPower(CAM_ZERO);
                 telemetry.addData("[Sub-Thread 2]", "thread finished: cam");
             }
         };
@@ -160,7 +161,7 @@ public class ArmLiftTeleop extends OpMode {
         } else if (gamepad2.dpad_down) {
             robot.cam.setPower(-1.0);
         } else {
-            robot.cam.setPower(0.0);
+            robot.cam.setPower(CAM_ZERO);
         }
 
 
