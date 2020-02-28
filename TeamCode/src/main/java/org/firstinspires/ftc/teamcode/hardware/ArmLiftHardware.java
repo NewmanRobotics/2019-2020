@@ -26,15 +26,17 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class ArmLiftHardware extends AbstractBotHardware {
     public DcMotor armLifter;
     public DcMotor extender;
     public CRServo leftGrabber;
     public CRServo rightGrabber;
-    public CRServo foundationGrabberLeft;
-    public CRServo foundationGrabberRight;
+    public Servo foundationGrabberLeft;
+    public Servo foundationGrabberRight;
     public CRServo cam;
+    public double CAM_ZERO = -0.055;
 
     public void initGrabbers(HardwareMap hardwareMap){
         // The lifter of the arm
@@ -49,10 +51,10 @@ public class ArmLiftHardware extends AbstractBotHardware {
         rightGrabber = hardwareMap.crservo.get("GrabberRight");
 
         // The foundation grabber
-        foundationGrabberLeft = hardwareMap.crservo.get("FoundationGrabberLeft");
-        foundationGrabberRight = hardwareMap.crservo.get("FoundationGrabberRight");
+        foundationGrabberLeft = hardwareMap.servo.get("FoundationGrabberLeft");
+        foundationGrabberRight = hardwareMap.servo.get("FoundationGrabberRight");
 
-        foundationGrabberLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
 
         leftGrabber.setDirection(CRServo.Direction.REVERSE);
 

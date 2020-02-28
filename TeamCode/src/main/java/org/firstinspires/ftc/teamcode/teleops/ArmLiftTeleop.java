@@ -38,7 +38,6 @@ public class ArmLiftTeleop extends OpMode {
     private boolean buttonPressedAtLastLoop = false;
     private boolean toggleSpeed = false;
     private boolean camDoingInit = false;
-    private double CAM_ZERO = -0.055;
 
     @Override
     public void init() {
@@ -66,7 +65,7 @@ public class ArmLiftTeleop extends OpMode {
             public void run() {
                 robot.cam.setPower(0.2);
                 robot.waitForTick(1800);
-                robot.cam.setPower(CAM_ZERO);
+                robot.cam.setPower(robot.CAM_ZERO);
                 telemetry.addData("[Sub-Thread 2]", "thread finished: cam");
             }
         };
@@ -146,14 +145,11 @@ public class ArmLiftTeleop extends OpMode {
         }
 
         if (gamepad2.b) {
-            robot.foundationGrabberLeft.setPower(-1.0);
-            robot.foundationGrabberRight.setPower(-1.0);
+            robot.foundationGrabberLeft.setPosition(1.0);
+            robot.foundationGrabberRight.setPosition(1.0);
         } else if (gamepad2.a) {
-            robot.foundationGrabberLeft.setPower(1.0);
-            robot.foundationGrabberRight.setPower(1.0);
-        } else {
-            robot.foundationGrabberLeft.setPower(0.0);
-            robot.foundationGrabberRight.setPower(0.0);
+            robot.foundationGrabberLeft.setPosition(0.0);
+            robot.foundationGrabberRight.setPosition(0.0);
         }
 
         if (gamepad2.dpad_up) {
@@ -161,18 +157,16 @@ public class ArmLiftTeleop extends OpMode {
         } else if (gamepad2.dpad_down) {
             robot.cam.setPower(-1.0);
         } else {
-            robot.cam.setPower(CAM_ZERO);
+            robot.cam.setPower(robot.CAM_ZERO);
         }
-
-
 
         robot.extender.setPower(gamepad2.right_stick_y);
 
         telemetry.addData("Arm Lifter (power)", height);
         telemetry.addData("Left Grabber (power)", robot.leftGrabber.getPower());
         telemetry.addData("Right Grabber (power)", robot.rightGrabber.getPower());
-        telemetry.addData("Foundation Grabber Left (power)", robot.foundationGrabberLeft.getPower());
-        telemetry.addData("Foundation Grabber Right (power)", robot.foundationGrabberRight.getPower());
+        telemetry.addData("Foundation Grabber Left (pos)", robot.foundationGrabberLeft.getPosition());
+        telemetry.addData("Foundation Grabber Right (pos)", robot.foundationGrabberRight.getPosition());
 
 
 //            boolean armUp = gamepad2.left_bumper;
