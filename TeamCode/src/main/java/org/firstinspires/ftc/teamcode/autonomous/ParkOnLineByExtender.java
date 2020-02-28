@@ -87,7 +87,7 @@ public class ParkOnLineByExtender extends LinearOpMode {
         telemetry.update();
 
         robot.extender.setPower(1.0);
-        robot.waitForTick(2000);
+        robot.waitForTick(2500);
         robot.extender.setPower(0.0);
         telemetry.addData("Extending", "Stop Extending Tape Measure");    //
         telemetry.update();
