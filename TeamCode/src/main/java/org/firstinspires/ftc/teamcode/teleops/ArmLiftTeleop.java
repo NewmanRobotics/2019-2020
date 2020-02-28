@@ -132,11 +132,11 @@ public class ArmLiftTeleop extends OpMode {
 
         // If bumper is pressed depress by AMOUNT go up
         if (gamepad2.right_bumper) {
-            robot.leftGrabber.setPosition(0.0);
-            robot.rightGrabber.setPosition(0.0);
-        } else if (gamepad2.right_trigger > 0.9) {
             robot.leftGrabber.setPosition(1.0);
             robot.rightGrabber.setPosition(1.0);
+        } else if (gamepad2.right_trigger > 0.9) {
+            robot.leftGrabber.setPosition(0.0);
+            robot.rightGrabber.setPosition(0.0);
         }
 
         if (gamepad2.b) {

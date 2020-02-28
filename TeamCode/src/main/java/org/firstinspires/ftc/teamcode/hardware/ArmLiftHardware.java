@@ -56,8 +56,6 @@ public class ArmLiftHardware extends AbstractBotHardware {
 
         foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
 
-        leftGrabber.setDirection(Servo.Direction.REVERSE);
-
         //
         // Initiation of Hardware
         //
