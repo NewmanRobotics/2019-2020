@@ -29,16 +29,18 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
+import org.firstinspires.ftc.teamcode.hardware.IsActiveCallback;
+
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "RedBotAutonomous", group = "Autonomous")
-public class RedBotAutonomous extends LinearOpMode {
+@Autonomous(name = "1-0 BACKUP: Park On Line, by Tape Measure", group = "Autonomous")
+public class ParkOnLineByExtender extends LinearOpMode {
     // get hardware bindings
     public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();
 
     public static final double POWER = 0.05;
-    public static final double THRESHOLD = 7;
+    public static final double THRESHOLD = 120.0;
 
     public void message () {
         telemetry.addData("Power L", robot.left.getPower());
@@ -81,29 +83,13 @@ public class RedBotAutonomous extends LinearOpMode {
 
         waitForStart();
 
-        robot.move(POWER);
-        while (distanceSensor.cmUltrasonic() > (THRESHOLD) && opModeIsActive()) {
-            telemetry.addData("Move mode", "by Ultrasonic Sensor");
-            telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
-            telemetry.addData("Threshold", THRESHOLD);
-            telemetry.addData("Runtime", runtime.milliseconds());
-            telemetry.update();
-        }
-        robot.left.setPower(0);
-        robot.right.setPower(0);
-        robot.waitForTick(100);
-        robot.left.setPower(0.1);
-        robot.right.setPower(-0.1);
-        robot.waitForTick(5000);
-        robot.left.setPower(0);
-        robot.right.setPower(0);
-        robot.extender.setPower(1);
+        telemetry.addData("Extending", "Extending Tape Measure");    //
+        telemetry.update();
+
+        robot.extender.setPower(1.0);
         robot.waitForTick(2000);
-
-
-//        while (opModeIsActive()) {
-//            telemetry.addData("Distance History", devList.toString());
-//        }
-
+        robot.extender.setPower(0.0);
+        telemetry.addData("Extending", "Stop Extending Tape Measure");    //
+        telemetry.update();
     }
 }
