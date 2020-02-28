@@ -29,7 +29,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
-
 /**
  * Created by Galvin on 2020-01-10
  */
@@ -92,6 +91,9 @@ public class RedBotAutonomous extends LinearOpMode {
         }
         robot.left.setPower(0);
         robot.right.setPower(0);
+        robot.waitForTick(1000);
+        robot.left.setPower(0.8);
+        robot.right.setPower(-0.8);
 
 
 //        while (opModeIsActive()) {
