@@ -21,14 +21,14 @@ public class TestGrabberTeleop extends OpMode {
         double left = gamepad1.left_stick_y;
         double right = gamepad1.right_stick_y;
 
-        left = Range.scale(left, -1.0, 1.0, 0.0, 1.0);
-        right = Range.scale(right, -1.0, 1.0, 0.0, 1.0);
+//        left = Range.scale(left, -1.0, 1.0, 0.0, 1.0);
+//        right = Range.scale(right, -1.0, 1.0, 0.0, 1.0);
 
-        robot.foundationGrabberLeft.setPosition(left);
-        robot.foundationGrabberRight.setPosition(right);
+        robot.foundationGrabberLeft.setPower(left);
+        robot.foundationGrabberRight.setPower(right);
 
-        telemetry.addData("Left FG Position", robot.foundationGrabberLeft.getPosition());
-        telemetry.addData("Right FG Position", robot.foundationGrabberLeft.getPosition());
+        telemetry.addData("Left FG Power", robot.foundationGrabberLeft.getPower());
+        telemetry.addData("Right FG Powerx", robot.foundationGrabberLeft.getPower());
 
         telemetry.update();
 

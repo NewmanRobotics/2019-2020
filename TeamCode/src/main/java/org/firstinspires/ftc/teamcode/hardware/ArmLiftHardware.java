@@ -24,16 +24,16 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 public class ArmLiftHardware extends AbstractBotHardware {
     public DcMotor armLifter;
     public DcMotor extender;
-    public Servo leftGrabber;
-    public Servo rightGrabber;
-    public Servo foundationGrabberLeft;
-    public Servo foundationGrabberRight;
+    public CRServo leftGrabber;
+    public CRServo rightGrabber;
+    public CRServo foundationGrabberLeft;
+    public CRServo foundationGrabberRight;
     public CRServo cam;
 
     public void initGrabbers(HardwareMap hardwareMap){
@@ -45,40 +45,44 @@ public class ArmLiftHardware extends AbstractBotHardware {
         extender = hardwareMap.dcMotor.get("Extender");
 
         // The grabbers of the arm
-        leftGrabber = hardwareMap.servo.get("GrabberLeft");
-        rightGrabber = hardwareMap.servo.get("GrabberRight");
+        leftGrabber = hardwareMap.crservo.get("GrabberLeft");
+        rightGrabber = hardwareMap.crservo.get("GrabberRight");
 
         // The foundation grabber
-        foundationGrabberLeft = hardwareMap.servo.get("FoundationGrabberLeft");
-        foundationGrabberRight = hardwareMap.servo.get("FoundationGrabberRight");
+        foundationGrabberLeft = hardwareMap.crservo.get("FoundationGrabberLeft");
+        foundationGrabberRight = hardwareMap.crservo.get("FoundationGrabberRight");
+
+        foundationGrabberLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        leftGrabber.setDirection(CRServo.Direction.REVERSE);
 
         //
         // Initiation of Hardware
         //
 
-        foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
+//        foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
 
-        foundationGrabberLeft.setPosition(0.15);
-        foundationGrabberRight.setPosition(0.15);
+//        foundationGrabberLeft.setPosition(0.15);
+//        foundationGrabberRight.setPosition(0.15);
 
         armLifter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public enum GrabberSide {
-        LEFT,
-        RIGHT
-    }
+//    public enum GrabberSide {
+//        LEFT,
+//        RIGHT
+//    }
 
-    private static double accumulate(double original, double accumulation) {
-        double attempt = original + accumulation;
-        return Math.min(1.0, Math.max(attempt, 0.0));
-    }
-
-    public void operateGrabber(GrabberSide side, double amount) {
-        if (side == GrabberSide.LEFT) {
-            leftGrabber.setPosition(accumulate(leftGrabber.getPosition(), amount));
-        } else if (side == GrabberSide.RIGHT) {
-            rightGrabber.setPosition(accumulate(rightGrabber.getPosition(), amount));
-        }
-    }
+//    private static double accumulate(double original, double accumulation) {
+//        double attempt = original + accumulation;
+//        return Math.min(1.0, Math.max(attempt, 0.0));
+//    }
+//
+//    public void operateGrabber(GrabberSide side, double amount) {
+//        if (side == GrabberSide.LEFT) {
+//            leftGrabber.setPosition(accumulate(leftGrabber.getPosition(), amount));
+//        } else if (side == GrabberSide.RIGHT) {
+//            rightGrabber.setPosition(accumulate(rightGrabber.getPosition(), amount));
+//        }
+//    }
 }

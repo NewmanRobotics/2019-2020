@@ -118,8 +118,11 @@ public class ParkOnLineBySensor extends LinearOpMode {
 
         telemetry.addData("Grabbing", "Grabbing It");
         telemetry.update();
-        robot.foundationGrabberLeft.setPosition(1.0);
-        robot.foundationGrabberRight.setPosition(1.0);
+        robot.foundationGrabberLeft.setPower(1.0);
+        robot.foundationGrabberRight.setPower(1.0);
+        robot.waitForTick(1000);
+        robot.foundationGrabberLeft.setPower(0.0);
+        robot.foundationGrabberRight.setPower(0.0);
         robot.move( - POWER, 3000, telemetry, isActiveCallback);
         robot.move( POWER, 100, telemetry, isActiveCallback);
 

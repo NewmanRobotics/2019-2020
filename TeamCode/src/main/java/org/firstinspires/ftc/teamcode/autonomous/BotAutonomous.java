@@ -82,8 +82,23 @@ public class BotAutonomous extends LinearOpMode {
 
         waitForStart();
 
+        telemetry.addData("[Sub-Thread]", "Launch thread for cam operation");
+        Thread thread = new Thread() {
+            public void run() {
+                double power = 0.2;
+
+                robot.cam.setPower(
+                        power
+                );
+                robot.waitForTick(1800);
+                robot.cam.setPower(-0.055);
+                telemetry.addData("[Sub-Thread]", "Cam Operation finished.");
+            }
+        };
+        thread.start();
+
 //        robot.move(POWER, -55 - 5, -55 - 5, 5, telemetry);
-        robot.move( - POWER);
+        robot.move(- POWER);
 
         while ((distanceSensor.cmUltrasonic() < THRESHOLD || distanceSensor.cmUltrasonic() > 240 || Math.abs(last - distanceSensor.cmUltrasonic()) < 10) && opModeIsActive()) {
 //            last = distanceSensor.cmUltrasonic();
