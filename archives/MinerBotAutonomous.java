@@ -20,40 +20,49 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.hardware.AutonomousHardware;
 import org.firstinspires.ftc.teamcode.locationDescriptor.Field;
+import org.firstinspires.ftc.teamcode.recognizer.StoneRecognizer;
 import org.firstinspires.ftc.teamcode.stateProvider.Location;
 import org.firstinspires.ftc.teamcode.stateProvider.VuforiaLocationProvider;
+
+import java.util.Date;
 
 /**
  * Created by Galvin on 2019-10-31
  */
-@Autonomous(name = "Autonomous", group = "Autonomous")
-public class BotAutonomous extends OpMode {
+@Autonomous(name = "Miner Bot Autonomous", group = "Autonomous")
+@Disabled
+public class MinerBotAutonomous extends OpMode {
     // get hardware bindings
-    private ArmLiftHardware robot = new ArmLiftHardware();
+    public AutonomousHardware robot = new AutonomousHardware();
 
     // initialize location provider
-    private VuforiaLocationProvider vuforiaLocationProvider = new VuforiaLocationProvider();
+    public VuforiaLocationProvider vuforiaLocationProvider = new VuforiaLocationProvider();
 
     // initialize the stone recognizer
-//    private StoneRecognizer stoneRecognizer = new StoneRecognizer();
+    public StoneRecognizer stoneRecognizer = new StoneRecognizer();
 
-    private Field field = new Field();
+    public Field field = new Field();
+
+    public Location lastLocation;
 
     enum MinerBotStatus {
-        NOT_INITIALIZED(0),
-        INITIALIZED(1),
-        FINDING_SKYSTONE(2),
-        FOUND_SKYSTONE_AND_APPROACHING(3),
-        DELIVERING_SKYSTONE(4);
+        NOT_INITIALIZED(-1),
+        FINDING_LOCATION(0),
+        FINDING_SKYSTONE(1),
+        FOUND_SKYSTONE_AND_APPROACHING(2),
+        DELIVERING_SKYSTONE(3);
 
-        private Integer level;
+        public Integer level;
 
         MinerBotStatus(int level) {
             this.level = level;
@@ -72,38 +81,35 @@ public class BotAutonomous extends OpMode {
         }
     }
 
-    private MinerBotStatus status = MinerBotStatus.NOT_INITIALIZED;
-
-//    enum BuildingBotStatus {
-//        NOT_INITIALIZED,
-//        INITIALIZED,
-//    }
-//
+    public MinerBotStatus status = MinerBotStatus.NOT_INITIALIZED;
 
     @Override
     public void init() {
         // pass in the hardwareMap into hardware bindings and util functions
         robot.init(hardwareMap);
 
-        robot.left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         // initialize location provider
         vuforiaLocationProvider.init(hardwareMap, telemetry);
 
         // initialize the stone recognizer
-//        stoneRecognizer.init(hardwareMap, telemetry);
+        stoneRecognizer.init(hardwareMap, telemetry);
     }
 
+    // executes after pressing INIT
     public void start() {
         vuforiaLocationProvider.activate();
 //        stoneRecognizer.activate();
-        status = MinerBotStatus.INITIALIZED;
+        status = MinerBotStatus.FINDING_LOCATION;
     }
 
+
+    // executes after pressing START; calls repeatedly.
     @Override
     public void loop() {
+        // get location
         Location location = vuforiaLocationProvider.get();
+
+        // print out some telemetry info and store last location info
         if (location != null) {
             // location detected
             telemetry.addData("loc status", "detected");
@@ -111,24 +117,60 @@ public class BotAutonomous extends OpMode {
             telemetry.addData("loc field map", field.getCurrentFieldElement(
                     location
             ));
+
+            // save last location
+            lastLocation = location;
         } else {
             // location not detected
             telemetry.addData("loc status", "NOT detected");
         }
 
-        if (status.isNotAdvancedThan(MinerBotStatus.FOUND_SKYSTONE_AND_APPROACHING)) {
+        // state machine
+        if (status.is(MinerBotStatus.FINDING_LOCATION)) {
+            if (location == null) {
+                findLocation();
+            }
             status = MinerBotStatus.FINDING_SKYSTONE;
+        } else if (status.is(MinerBotStatus.FINDING_SKYSTONE)) {
 
         } else if (status.is(MinerBotStatus.FOUND_SKYSTONE_AND_APPROACHING)) {
-            // approachStone();
+
         } else if (status.is(MinerBotStatus.DELIVERING_SKYSTONE)) {
-            // deliverStone();
+
         } else {
-            telemetry.addLine(String.format("unknown status %s", status));
+            telemetry.addLine("not-executable robot state:" + status.toString());
         }
     }
 
-    public void findSkyStone() {
+    public Location findLocation() {
+        // rotate the robot
+        robot.rotate(AutonomousHardware.Direction.CLOCKWISE, AutonomousHardware.Power.SLOW);
+
+        long time = new Date().getTime();
+
+        Location location = vuforiaLocationProvider.get();
+        while (location == null && new Date().getTime() - time <= 3000) {
+            location = vuforiaLocationProvider.get();
+        }
+
+        robot.stop();
+
+        return location;
+        // now we found the location!
+
+    }
+
+    public void findSkystone() {
+        robot.forward(AutonomousHardware.Power.MEDIUM);
+
+        // fire up the stone recognizer
+        stoneRecognizer.activate();
+
+        Recognition recognition = stoneRecognizer.get();
+
+        // TODO: investigate how the angle was measured
+        double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+        // TODO: approach the skystone using robot.approach
     }
 
     @Override

@@ -24,6 +24,7 @@ package org.firstinspires.ftc.teamcode.locationDescriptor;
 
 import org.firstinspires.ftc.teamcode.stateProvider.Location;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,35 +39,43 @@ public class Field {
 		//[[Most Left Coord],[Most Right Coord]]
 		//For triangle
 		//[[Most Left Coord],[Most Right Coord],[Edge Coord]]
-		element.put("RED_DEPOT", new Rect(
+
+		element.put("DEPOT_RED", new Rect(
 				new Coord(-68.5,-45.75),
 				new Coord(-45.75,-68.5)
 		));
-		element.put("BLUE_DEPOT", new Rect(
+		element.put("DEPOT_BLUE", new Rect(
 				new Coord(45.75, -68.5),
 				new Coord(-68.5, 45.75))
 		);
-		element.put("RED_BUILDING_SITE", new Triangle(
+		element.put("BUILDING_SITE_RED", new Triangle(
 				new Coord(45.75, 68.5),
 				new Coord(68.5, 45.75),
 				new Coord(68.5,68.5)
 		));
-		element.put("BLUE_BUILDING_SITE", new Triangle(
+		element.put("BUILDING_SITE_BLUE", new Triangle(
 				new Coord(-45.75, 68.5),
 				new Coord(-68.5, 45.75),
 				new Coord(-68.5,68.5)
 		));
+		element.put("SIDE_RED", new Rect(
+				new Coord(-68.5,-45.75),
+				new Coord(-45.75,-68.5)
+		));
 	}
 
-	public String getCurrentFieldElement(Location location) {
+	public ArrayList<String> getCurrentFieldElement(Location location) {
+		ArrayList<String> elements = new ArrayList<>();
 		for (Map.Entry<String, Shape> entry : element.entrySet()) {
 			if (entry.getValue().in(
 					new Coord(
 							location.positionX,
 							location.positionY
 					)
-			)) return entry.getKey();
+			)) {
+				elements.add(entry.getKey());
+			}
 		}
-		return null;
+		return elements;
 	}
 }

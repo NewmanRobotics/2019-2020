@@ -20,22 +20,24 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package school.newman.robotics.archives;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.hardware.BotHardware;
 
 /**
  * Created by Graham Cooke on 9/24/2018.
  * Modified by Alex G. for the 2019-2020 season
  */
 
-class CompressorGrabberHardware extends BotHardware {
-    Servo grabberLeft;
-    Servo grabberRight;
+public class CompressorGrabberHardware extends BotHardware {
+    public Servo grabberLeft;
+    public Servo grabberRight;
 
     @Override
-    void initGrabbers(HardwareMap hardwareMap){
+    public void initGrabbers(HardwareMap hardwareMap){
 
         // The left servo is at port #4
         grabberLeft = hardwareMap.servo.get("GrabberLeft");
@@ -58,15 +60,15 @@ class CompressorGrabberHardware extends BotHardware {
      * set the positions of the two grabbers
      * @param value open = 0.0, close = 1.0
      */
-    private void _setGrabberPositions(double value) {
+    public void _setGrabberPositions(double value) {
         grabberLeft.setPosition(value);
         grabberRight.setPosition(value);
     }
 
-    public void openGrabber() {
+    public void openBlockGrabber() {
         _setGrabberPositions(0.0);
     }
-    public void closeGrabber() {
+    public void closeBlockGrabber() {
         _setGrabberPositions(1.0);
     }
 

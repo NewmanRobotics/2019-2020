@@ -1,4 +1,26 @@
-package org.firstinspires.ftc.teamcode;
+/*
+ * Copyright (c) 2019 The Newman School Robotics
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,17 +31,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-class ArmLiftHardware extends BotHardware {
+class MinerBotHardware extends BotHardware {
     DcMotor armExtender;
     DcMotor armLifter;
     CRServo grabber;
     Servo swivel;
 
-    private static final long TIME_NEED = 250;
+    public static final long TIME_NEED = 250;
 
     static final double ORIGIN = -0.05; // based on Galvin's measurement ;)
 
-    void initGrabbers(HardwareMap hardwareMap){
+    public void initGrabbers(HardwareMap hardwareMap){
         // ArmExtender is in port #2
         armExtender = hardwareMap.dcMotor.get("ArmExtender");
 
@@ -42,7 +64,7 @@ class ArmLiftHardware extends BotHardware {
         armExtender.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    private void _setGrabberPower(double to) {
+    public void _setGrabberPower(double to) {
         grabber.setPower(to);
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.schedule(new Runnable() {
@@ -53,11 +75,11 @@ class ArmLiftHardware extends BotHardware {
         }, TIME_NEED, TimeUnit.MILLISECONDS);
     }
 
-    public void openGrabber() {
+    public void openBlockGrabber() {
         _setGrabberPower(1.0);
     }
 
-    public void closeGrabber() {
+    public void closeBlockGrabber() {
         _setGrabberPower(-1.0);
     }
 
@@ -84,5 +106,9 @@ class ArmLiftHardware extends BotHardware {
         }
 
 //        swivel.setPosition(angle);
+    }
+
+    void go() {
+
     }
 }

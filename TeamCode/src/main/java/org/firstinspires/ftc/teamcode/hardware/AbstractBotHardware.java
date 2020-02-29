@@ -20,23 +20,23 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public abstract class BotHardware {
-    DcMotor right;
-    DcMotor left;
+public abstract class AbstractBotHardware {
+    public DcMotor right;
+    public DcMotor left;
 
-    private ElapsedTime period = new ElapsedTime();
+    public ElapsedTime period = new ElapsedTime();
 
     /**
      * construct a new bot hardware
      * @param hardwareMap received from OpMode
      */
-    void init(HardwareMap hardwareMap) {
+    public void init(HardwareMap hardwareMap) {
         left = hardwareMap.dcMotor.get("Left");
         right = hardwareMap.dcMotor.get("Right");
 
@@ -46,7 +46,7 @@ public abstract class BotHardware {
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-//        left.setDirection(DcMotor.Direction.REVERSE);
+        left.setDirection(DcMotor.Direction.REVERSE);
 //        right.setDirection(DcMotor.Direction.REVERSE);
 
         initGrabbers(hardwareMap);
@@ -59,17 +59,7 @@ public abstract class BotHardware {
      * initialize the grabber servo objects
      * @param hardwareMap received from OpMode
      */
-    abstract void initGrabbers(HardwareMap hardwareMap);
-
-    /**
-     * open the grabber - make it ready for grabbing the block
-     */
-    public abstract void openGrabber();
-
-    /**
-     * close the grabber - make it grab the block
-     */
-    public abstract void closeGrabber();
+    abstract public void initGrabbers(HardwareMap hardwareMap);
 
     /**
      * let the robot wait for a fixed duration; in majority of times we will use
@@ -77,20 +67,11 @@ public abstract class BotHardware {
      * @param periodInMillisecond the duration of the robot should wait; in milliseconds
      * @throws InterruptedException times up!
      */
-    void waitForTick(long periodInMillisecond) throws InterruptedException {
-
-        long remaining = periodInMillisecond - (long) period.milliseconds();
-
-        if (remaining > 0){
-            Thread.sleep(remaining);
-
-            period.reset();
+    public void waitForTick(long periodInMillisecond) {
+        try {
+            Thread.sleep(periodInMillisecond);
+        } catch (InterruptedException e) {
+            // shhhh <v<
         }
-
-    }
-
-    void go(double power) {
-        left.setPower(power);
-        right.setPower(power);
     }
 }

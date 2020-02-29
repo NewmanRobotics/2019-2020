@@ -20,38 +20,25 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.recognizer;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 /**
- * Created by Galvin on 2019-10-30
+ * Created by Galvin on 2019-11-20
  */
-@TeleOp(name="Talon Grabber Test", group= "Development")
-public class TalonGrabberTeleop extends LinearOpMode {
-    private TalonGrabberHardware robot = new TalonGrabberHardware();
-
-    @Override
-    public void runOpMode() throws InterruptedException {
-        robot.init(hardwareMap);
-
-        waitForStart();
-
-        long totalTime = 0;
-        long EACH = 20;
-
-        while (opModeIsActive()) {
-            // bind game pad B button to the open and close of the grabbers
-            telemetry.addData("gamepad pressed?", gamepad1.b);
-            // bind the game pad B button to the operation of the grabber
-            robot.operateGrabber(gamepad1.b ? 1.0 : -0.05);
-            robot.rotateGrabberRaw(gamepad1.left_stick_x);
-
-            telemetry.update();
-
-            robot.waitForTick(EACH);
-            idle();
-        }
+public abstract class Recognizer {
+    HardwareMap hardwareMap;
+    Telemetry telemetry;
+    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
+        Thread thread = new Thread("test");
+        this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
     }
+    abstract void activate();
+    abstract Recognition get();
+    abstract void deactivate();
 }

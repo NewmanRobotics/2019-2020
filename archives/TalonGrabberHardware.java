@@ -20,27 +20,29 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package school.newman.robotics.archives;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.hardware.BotHardware;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class TalonGrabberHardware extends BotHardware {
-    private CRServo grabber;
-    private Servo swivel;
+    public CRServo grabber;
+    public Servo swivel;
 
-    private static final long TIME_NEED = 250;
+    public static final long TIME_NEED = 250;
 
-    private static final double ORIGIN = -0.05; // based on Galvin's measurement ;)
+    public static final double ORIGIN = -0.05; // based on Galvin's measurement ;)
 
     @Override
-    void initGrabbers(HardwareMap hardwareMap){
+    public void initGrabbers(HardwareMap hardwareMap){
 
         // The talon grabber servo is at port #4
         grabber = hardwareMap.crservo.get("TalonGrabber");
@@ -52,7 +54,7 @@ public class TalonGrabberHardware extends BotHardware {
         grabber.setPower(ORIGIN);
     }
 
-    private void _setGrabberPower(double to) {
+    public void _setGrabberPower(double to) {
         grabber.setPower(to);
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.schedule(new Runnable() {
@@ -63,19 +65,19 @@ public class TalonGrabberHardware extends BotHardware {
         }, TIME_NEED, TimeUnit.MILLISECONDS);
     }
 
-    public void openGrabber() {
+    public void openBlockGrabber() {
         _setGrabberPower(1.0);
     }
 
-    public void closeGrabber() {
+    public void closeBlockGrabber() {
         _setGrabberPower(-1.0);
     }
 
-    void operateGrabber(double power) {
+    public void operateGrabber(double power) {
         grabber.setPower(power);
     }
 
-    void rotateGrabberRaw(double angle) {
+    public void rotateGrabberRaw(double angle) {
         angle = Range.scale(angle, -1.0, 1.0, 0.0, 1.0);
         swivel.setPosition(angle);
     }

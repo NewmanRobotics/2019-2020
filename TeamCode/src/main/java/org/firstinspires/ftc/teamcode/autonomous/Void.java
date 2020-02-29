@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 The Newman School Robotics
+ * Copyright (c) 2020 The Newman School Robotics
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,24 +20,21 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode.recognizer;
+package org.firstinspires.ftc.teamcode.autonomous;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 /**
- * Created by Galvin on 2019-11-20
+ * Created by Galvin on 2020-01-11
  */
-public abstract class Recognizer {
-    HardwareMap hardwareMap;
-    Telemetry telemetry;
-    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.hardwareMap = hardwareMap;
-        this.telemetry = telemetry;
+@Autonomous(name = "2-0 UTILITY: Void (do nothing)", group = "Autonomous")
+public class Void extends OpMode {
+    @Override
+    public void init() {
     }
-    abstract void activate();
-    abstract Recognition get();
-    abstract void deactivate();
+    @Override
+    public void loop() {
+    }
 }
