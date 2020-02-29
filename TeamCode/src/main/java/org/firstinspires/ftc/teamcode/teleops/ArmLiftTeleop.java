@@ -32,7 +32,7 @@ import org.firstinspires.ftc.teamcode.hardware.ArmLiftHardware;
 public class ArmLiftTeleop extends OpMode {
     private ArmLiftHardware robot = new ArmLiftHardware();
     private long EACH = 20;
-    private double DRIVE_FACTOR = 0.3;
+    private double DRIVE_FACTOR = 0.45;
     private boolean buttonPressedAtLastLoop = false;
     private boolean toggleSpeed = false;
     private boolean camDoingInit = false;
@@ -92,14 +92,14 @@ public class ArmLiftTeleop extends OpMode {
         if (gamepad1.b && !buttonPressedAtLastLoop) {
             toggleSpeed = !toggleSpeed;
         }
-        telemetry.addData("SLOW MODE", !toggleSpeed ? "✓ YES" : "× NO");
+        telemetry.addData("DRIVE MODE", !toggleSpeed ? "\uD83D\uDC22 SLOW" : "\uD83D\uDC07 FAST");
         // record the button pressed state in current loop
         buttonPressedAtLastLoop = gamepad1.b;
         // if speed is toggled
         if (toggleSpeed) {
             // use direct inputs
-            robot.left.setPower(gamepad1.left_stick_y);
-            robot.right.setPower(gamepad1.right_stick_y);
+            robot.left.setPower(gamepad1.left_stick_y * 0.9);
+            robot.right.setPower(gamepad1.right_stick_y * 0.9);
             telemetry.addData("Left Power", gamepad1.left_stick_y);
             telemetry.addData("Right Power", gamepad1.right_stick_y);
         } else {
