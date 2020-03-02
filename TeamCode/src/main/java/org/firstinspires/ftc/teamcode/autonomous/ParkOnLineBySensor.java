@@ -29,7 +29,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
-import org.firstinspires.ftc.teamcode.hardware.IsActiveCallback;
 
 /**
  * Created by Galvin on 2020-01-10
@@ -83,8 +82,23 @@ public class ParkOnLineBySensor extends LinearOpMode {
 
         waitForStart();
 
+        telemetry.addData("[Sub-Thread]", "Launch thread for cam operation");
+        Thread thread = new Thread() {
+            public void run() {
+                double power = 0.2;
+
+                robot.cam.setPower(
+                        power
+                );
+                robot.waitForTick(1800);
+                robot.cam.setPower(-0.055);
+                telemetry.addData("[Sub-Thread]", "Cam Operation finished.");
+            }
+        };
+        thread.start();
+
 //        robot.move(POWER, -55 - 5, -55 - 5, 5, telemetry);
-        robot.move( - POWER);
+        robot.move(- POWER);
 
         while ((distanceSensor.cmUltrasonic() < THRESHOLD || distanceSensor.cmUltrasonic() > 240 || Math.abs(last - distanceSensor.cmUltrasonic()) < 10) && opModeIsActive()) {
 //            last = distanceSensor.cmUltrasonic();
@@ -96,35 +110,8 @@ public class ParkOnLineBySensor extends LinearOpMode {
             telemetry.update();
             robot.waitForTick(10);
         }
-        robot.move(POWER*0.5);
-        while (distanceSensor.cmUltrasonic() > THRESHOLD  && opModeIsActive()) {
-            telemetry.addData("Move mode", "by Ultrasonic Sensor");
-            telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
-            telemetry.addData("Threshold", THRESHOLD);
-            telemetry.addData("Runtime", runtime.milliseconds());
-            telemetry.update();
-        }
-
         robot.left.setPower(0.0);
         robot.right.setPower(0.0);
-
-        IsActiveCallback isActiveCallback = new IsActiveCallback() {
-            @Override
-            public void run() {}
-            public boolean isActive() {
-                return opModeIsActive();
-            }
-        };
-
-        telemetry.addData("Grabbing", "Grabbing It");
-        telemetry.update();
-        robot.foundationGrabberLeft.setPosition(0.0);
-        robot.foundationGrabberRight.setPosition(0.0);
-        robot.waitForTick(1000);
-        robot.foundationGrabberLeft.setPosition(1.0);
-        robot.foundationGrabberRight.setPosition(1.0);
-        robot.move( - POWER, 3000, telemetry, isActiveCallback);
-        robot.move( POWER, 100, telemetry, isActiveCallback);
 
 //        while (opModeIsActive()) {
 //            telemetry.addData("Distance History", devList.toString());

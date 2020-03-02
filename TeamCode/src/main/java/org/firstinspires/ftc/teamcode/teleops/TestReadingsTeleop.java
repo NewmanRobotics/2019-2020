@@ -27,6 +27,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
 
 
@@ -36,11 +37,11 @@ import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
 @TeleOp(name = "(development) Get Readings", group = "Development")
 public class TestReadingsTeleop extends OpMode {
     public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();
-    public ModernRoboticsI2cRangeSensor distanceSensor;
+//    public ModernRoboticsI2cRangeSensor distanceSensor;
     @Override
     public void init() {
         robot.init(hardwareMap);
-        distanceSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "RangeSensor");
+//        distanceSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "RangeSensor");
 
         robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -52,7 +53,13 @@ public class TestReadingsTeleop extends OpMode {
     public void loop() {
         telemetry.addData("Pos   L", robot.left.getCurrentPosition());
         telemetry.addData("Pos   R", robot.right.getCurrentPosition());
-        telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
+//        telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
+
+        telemetry.addData("Gyro Calibrating", robot.gyro.isCalibrating());
+        telemetry.addData("Gyro Heading", robot.gyro.getHeading());
+        telemetry.addData("Gyro Heading Mode", robot.gyro.getHeadingMode());
+        telemetry.addData("Gyro Angular Velocity", robot.gyro.getAngularVelocity(AngleUnit.DEGREES));
+        telemetry.addData("Gyro Raw Readings", String.format("X %d : Y %d : Z %d", robot.gyro.rawX(), robot.gyro.rawY(), robot.gyro.rawZ()));
         telemetry.update();
     }
 }
