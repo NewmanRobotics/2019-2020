@@ -38,7 +38,7 @@ public class RedBotAutonomous extends LinearOpMode {
     public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();
 
     public static final double POWER = 0.05;
-    public static final double THRESHOLD = 7;
+    public static final double THRESHOLD = 9;
 
     public void message () {
         telemetry.addData("Power L", robot.left.getPower());
