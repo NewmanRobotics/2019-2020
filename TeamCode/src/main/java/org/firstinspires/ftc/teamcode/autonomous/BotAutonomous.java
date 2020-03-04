@@ -29,12 +29,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
-import org.firstinspires.ftc.teamcode.hardware.IsActiveCallback;
 
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "0 USE ME: Park On Line, by Tape Measure", group = "Autonomous")
+@Autonomous(name = "1-0 BACKUP: Autonomous (building side, move foundation + park robot + extend ruler on line)", group = "Autonomous")
 public class BotAutonomous extends LinearOpMode {
     // get hardware bindings
     public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();
@@ -83,13 +82,40 @@ public class BotAutonomous extends LinearOpMode {
 
         waitForStart();
 
-        telemetry.addData("Extending", "Extending Tape Measure");    //
-        telemetry.update();
+        telemetry.addData("[Sub-Thread]", "Launch thread for cam operation");
+        Thread thread = new Thread() {
+            public void run() {
+                double power = 0.2;
 
-        robot.extender.setPower(1.0);
-        robot.waitForTick(2500);
-        robot.extender.setPower(0.0);
-        telemetry.addData("Extending", "Stop Extending Tape Measure");    //
-        telemetry.update();
+                robot.cam.setPower(
+                        power
+                );
+                robot.waitForTick(1800);
+                robot.cam.setPower(-0.055);
+                telemetry.addData("[Sub-Thread]", "Cam Operation finished.");
+            }
+        };
+        thread.start();
+
+//        robot.move(POWER, -55 - 5, -55 - 5, 5, telemetry);
+        robot.move(- POWER);
+
+        while ((distanceSensor.cmUltrasonic() < THRESHOLD || distanceSensor.cmUltrasonic() > 240 || Math.abs(last - distanceSensor.cmUltrasonic()) < 10) && opModeIsActive()) {
+//            last = distanceSensor.cmUltrasonic();
+//            if (!devList.contains(last)) devList.add(last);
+            telemetry.addData("Move mode", "by Ultrasonic Sensor");
+            telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
+            telemetry.addData("Threshold", THRESHOLD);
+            telemetry.addData("Runtime", runtime.milliseconds());
+            telemetry.update();
+            robot.waitForTick(10);
+        }
+        robot.left.setPower(0.0);
+        robot.right.setPower(0.0);
+
+//        while (opModeIsActive()) {
+//            telemetry.addData("Distance History", devList.toString());
+//        }
+
     }
 }

@@ -22,7 +22,6 @@
 
 package org.firstinspires.ftc.teamcode.hardware;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cCompassSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -37,6 +36,7 @@ public class ArmLiftHardware extends AbstractBotHardware {
     public Servo foundationGrabberLeft;
     public Servo foundationGrabberRight;
     public CRServo cam;
+    public ModernRoboticsI2cGyro gyro;
     public double CAM_ZERO = -0.055;
 
     public void initGrabbers(HardwareMap hardwareMap){
@@ -54,6 +54,12 @@ public class ArmLiftHardware extends AbstractBotHardware {
         // The foundation grabber
         foundationGrabberLeft = hardwareMap.servo.get("FoundationGrabberLeft");
         foundationGrabberRight = hardwareMap.servo.get("FoundationGrabberRight");
+
+        gyro = hardwareMap.get(ModernRoboticsI2cGyro.class, "GyroSensor");
+        gyro.calibrate();
+        while (gyro.isCalibrating()) {
+            // wait
+        }
 
         foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
 
