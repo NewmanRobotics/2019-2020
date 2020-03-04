@@ -41,12 +41,41 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    private boolean check(double distance, int target, int current) {
+    private boolean check(double distance, int target, int current, Telemetry telemetry) {
         if (distance > 0) {
             return current < target;
         } else {
             return current > target;
         }
+    }
+    private boolean close(double currentAngle, double targetAngle){
+        return currentAngle
+    }
+
+    public void rotate(double angle, double power) {
+        double targetAngle = (gyro.getHeading() + angle) % 360;
+        if (targetAngle > gyro.getHeading()) {
+            left.setPower(power);
+            right.setPower(-power);
+            while (gyro.getHeading() < targetAngle) {
+                telemetry.addData("Status", "Running");
+                telemetry.addData("Target", "Running to %7d", targetAngle);
+                telemetry.addData("Angle", "Current Angle %7d", gyro.getHeading());
+                telemetry.update();
+            }
+        }else{
+            left.setPower(-power);
+            right.setPower(power);
+            while (gyro.getHeading() > targetAngle) {
+                telemetry.addData("Status", "Running");
+                telemetry.addData("Target", "Running to %7d", targetAngle);
+                telemetry.addData("Angle", "Current Angle %7d", gyro.getHeading());
+                telemetry.update();
+            }
+        }
+        left.setPower(0);
+        right.setPower(0);
+
     }
 
     public void move(double speed,
