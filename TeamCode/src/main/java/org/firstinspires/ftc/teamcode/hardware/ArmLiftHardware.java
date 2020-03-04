@@ -37,7 +37,6 @@ public class ArmLiftHardware extends AbstractBotHardware {
     public Servo foundationGrabberLeft;
     public Servo foundationGrabberRight;
     public CRServo cam;
-    public ModernRoboticsI2cGyro gyro;
     public double CAM_ZERO = -0.055;
 
     public void initGrabbers(HardwareMap hardwareMap){
