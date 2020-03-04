@@ -22,7 +22,6 @@
 
 package org.firstinspires.ftc.teamcode.teleops;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -39,15 +38,9 @@ import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
 public class TestReadingsTeleop extends OpMode {
     public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();
 //    public ModernRoboticsI2cRangeSensor distanceSensor;
-    public ModernRoboticsI2cGyro gyro;
     @Override
     public void init() {
         robot.init(hardwareMap);
-        gyro = hardwareMap.get(ModernRoboticsI2cGyro.class, "GyroSensor");
-        gyro.calibrate();
-        while (gyro.isCalibrating()) {
-            telemetry.addData("Mode", "Calibrating Gyro");
-        }
 //        distanceSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "RangeSensor");
 
         robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -63,7 +56,6 @@ public class TestReadingsTeleop extends OpMode {
 //        telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
 
         telemetry.addData("Gyro Calibrating", robot.gyro.isCalibrating());
-        telemetry.addData("Gyro Name & Addr", String.format("%s : %s : %s : %s", robot.gyro.getDeviceName(), robot.gyro.getI2cAddress(), robot.gyro.getManufacturer(), robot.gyro.getConnectionInfo()));
         telemetry.addData("Gyro Heading", robot.gyro.getHeading());
         telemetry.addData("Gyro Heading Mode", robot.gyro.getHeadingMode());
         telemetry.addData("Gyro Angular Velocity", robot.gyro.getAngularVelocity(AngleUnit.DEGREES));

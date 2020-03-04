@@ -55,6 +55,12 @@ public class ArmLiftHardware extends AbstractBotHardware {
         foundationGrabberLeft = hardwareMap.servo.get("FoundationGrabberLeft");
         foundationGrabberRight = hardwareMap.servo.get("FoundationGrabberRight");
 
+        gyro = hardwareMap.get(ModernRoboticsI2cGyro.class, "GyroSensor");
+        gyro.calibrate();
+        while (gyro.isCalibrating()) {
+            // wait
+        }
+
         foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
 
         armLifter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
