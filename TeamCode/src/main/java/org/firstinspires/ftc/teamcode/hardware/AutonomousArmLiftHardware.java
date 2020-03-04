@@ -52,7 +52,7 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
         return currentAngle
     }
 
-    public void rotate(double angle, double power) {
+    public void rotate(double angle, double power, Telemetry telemetry) {
         double targetAngle = (gyro.getHeading() + angle) % 360;
         if (targetAngle > gyro.getHeading()) {
             left.setPower(power);
