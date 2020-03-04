@@ -48,10 +48,6 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
             return current > target;
         }
     }
-    public void rotate(double rotation){
-        int currentRotation;
-        currentRotation = gyro.rawZ();
-    }
 
     public void move(double speed,
                      double leftInches, double rightInches, int timeoutS, Telemetry telemetry, IsActiveCallback isActiveCallback) {
