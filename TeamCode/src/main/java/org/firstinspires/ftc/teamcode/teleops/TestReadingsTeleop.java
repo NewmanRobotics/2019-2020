@@ -47,7 +47,6 @@ public class TestReadingsTeleop extends OpMode {
         gyro.calibrate();
         while (gyro.isCalibrating()) {
             telemetry.addData("Mode", "Calibrating Gyro");
-            telemetry.update();
         }
 //        distanceSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "RangeSensor");
 
@@ -63,12 +62,12 @@ public class TestReadingsTeleop extends OpMode {
         telemetry.addData("Pos   R", robot.right.getCurrentPosition());
 //        telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());
 
-        telemetry.addData("Gyro Calibrating", gyro.isCalibrating());
-        telemetry.addData("Gyro Name & Addr", String.format("%s : %s : %s : %s", gyro.getDeviceName(), gyro.getI2cAddress(), gyro.getManufacturer(), gyro.getConnectionInfo()));
-        telemetry.addData("Gyro Heading", gyro.getHeading());
-        telemetry.addData("Gyro Heading Mode", gyro.getHeadingMode());
-        telemetry.addData("Gyro Angular Velocity", gyro.getAngularVelocity(AngleUnit.DEGREES));
-        telemetry.addData("Gyro Raw Readings", String.format("X %d : Y %d : Z %d", gyro.rawX(), gyro.rawY(), gyro.rawZ()));
+        telemetry.addData("Gyro Calibrating", robot.gyro.isCalibrating());
+        telemetry.addData("Gyro Name & Addr", String.format("%s : %s : %s : %s", robot.gyro.getDeviceName(), robot.gyro.getI2cAddress(), robot.gyro.getManufacturer(), robot.gyro.getConnectionInfo()));
+        telemetry.addData("Gyro Heading", robot.gyro.getHeading());
+        telemetry.addData("Gyro Heading Mode", robot.gyro.getHeadingMode());
+        telemetry.addData("Gyro Angular Velocity", robot.gyro.getAngularVelocity(AngleUnit.DEGREES));
+        telemetry.addData("Gyro Raw Readings", String.format("X %d : Y %d : Z %d", robot.gyro.rawX(), robot.gyro.rawY(), robot.gyro.rawZ()));
         telemetry.update();
     }
 }
