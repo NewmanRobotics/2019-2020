@@ -37,7 +37,7 @@ public class RedBotAutonomous extends LinearOpMode {
     // get hardware bindings
     public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();
 
-    public static final double POWER = 0.05;
+    public static final double POWER = 0.1;
     public static final double THRESHOLD = 9;
 
     public void message () {
@@ -73,15 +73,11 @@ public class RedBotAutonomous extends LinearOpMode {
 
         robot.left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        telemetry.addData("Run Initial",  "at %7d :%7d",
-                robot.left.getCurrentPosition(),
-                robot.right.getCurrentPosition());
         telemetry.update();
 
         waitForStart();
 
-        robot.move(POWER*0.01);
+        robot.move(POWER);
         while (distanceSensor.cmUltrasonic() > (THRESHOLD) && opModeIsActive()) {
             telemetry.addData("Move mode", "by Ultrasonic Sensor");
             telemetry.addData("Ultrasonic Reading", distanceSensor.cmUltrasonic());

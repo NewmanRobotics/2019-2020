@@ -56,8 +56,8 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
             right.setPower(-power);
             while (gyro.getHeading() < targetAngle) {
                 telemetry.addData("Status", "Running");
-                telemetry.addData("Target", "Running to %7d", targetAngle);
-                telemetry.addData("Angle", "Current Angle %7d", gyro.getHeading());
+                telemetry.addData("Target", "Running to " + targetAngle);
+                telemetry.addData("Angle", "Current Angle " + gyro.getHeading());
                 telemetry.update();
             }
         }else{
@@ -65,8 +65,8 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
             right.setPower(power);
             while (gyro.getHeading() > targetAngle) {
                 telemetry.addData("Status", "Running");
-                telemetry.addData("Target", "Running to %7d", targetAngle);
-                telemetry.addData("Angle", "Current Angle %7d", gyro.getHeading());
+                telemetry.addData("Target", "Running to " + targetAngle);
+                telemetry.addData("Angle", "Current Angle " + gyro.getHeading());
                 telemetry.update();
             }
         }

@@ -131,7 +131,7 @@ public class PushbotAutoDriveByGyro_Linear extends LinearOpMode {
 
         // Wait for the game to start (Display Gyro value), and reset gyro before we move..
         while (!isStarted()) {
-            telemetry.addData(">", "Robot Heading = %d", gyro.getIntegratedZValue());
+            telemetry.addData(">", "Robot Heading = %i", gyro.getIntegratedZValue());
             telemetry.update();
         }
 
