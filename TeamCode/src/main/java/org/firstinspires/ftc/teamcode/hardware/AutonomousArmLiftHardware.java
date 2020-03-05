@@ -37,17 +37,10 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
 
     public AutonomousArmLiftHardware() {
         gyro = hardwareMap.get(ModernRoboticsI2cGyro.class, "GyroSensor");
+        gyro.setHeadingMode(ModernRoboticsI2cGyro.HeadingMode.HEADING_CARDINAL);
         gyro.calibrate();
         while (gyro.isCalibrating()) {
             // wait
-        }
-    }
-
-    private boolean check(double distance, int target, int current, Telemetry telemetry) {
-        if (distance > 0) {
-            return current < target;
-        } else {
-            return current > target;
         }
     }
 
