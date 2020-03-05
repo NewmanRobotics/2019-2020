@@ -35,7 +35,8 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
     public ModernRoboticsI2cGyro gyro;
     private ElapsedTime runtime = new ElapsedTime();
 
-    public AutonomousArmLiftHardware() {
+    @Override
+    public void initSpecificHardwares() {
         gyro = hardwareMap.get(ModernRoboticsI2cGyro.class, "GyroSensor");
         gyro.setHeadingMode(ModernRoboticsI2cGyro.HeadingMode.HEADING_CARDINAL);
         gyro.calibrate();

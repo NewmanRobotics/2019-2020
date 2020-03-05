@@ -25,7 +25,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class ArmLiftHardware extends AbstractBotHardware {
+public abstract class ArmLiftHardware extends AbstractBotHardware {
     public DcMotor armLifter;
     public DcMotor extender;
     public Servo leftGrabber;
@@ -56,5 +56,9 @@ public class ArmLiftHardware extends AbstractBotHardware {
         foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
 
         armLifter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        initSpecificHardwares();
     }
+
+    public abstract void initSpecificHardwares();
 }

@@ -4,10 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.ArmLiftHardware;
+import org.firstinspires.ftc.teamcode.hardware.TeleopArmLiftHardware;
 
 @TeleOp(name = "Cam Position Test", group = "Development")
 public class TestCamTeleop extends LinearOpMode {
-    private ArmLiftHardware robot = new ArmLiftHardware();
+    private ArmLiftHardware robot = new TeleopArmLiftHardware();
     private double camPosition = 0;
     private int EACH = 2;
     private double OFFSET = -0.055;

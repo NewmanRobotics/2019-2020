@@ -5,10 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.hardware.ArmLiftHardware;
+import org.firstinspires.ftc.teamcode.hardware.TeleopArmLiftHardware;
 
 @TeleOp(name = "Foundation Grabber Test", group = "Development")
 public class TestFoundationGrabberTeleop extends OpMode {
-    private ArmLiftHardware robot = new ArmLiftHardware();
+    private ArmLiftHardware robot = new TeleopArmLiftHardware();
 
     @Override
     public void init() {

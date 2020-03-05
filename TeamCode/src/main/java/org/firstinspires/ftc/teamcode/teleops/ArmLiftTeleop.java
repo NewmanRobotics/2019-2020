@@ -27,10 +27,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.hardware.ArmLiftHardware;
+import org.firstinspires.ftc.teamcode.hardware.TeleopArmLiftHardware;
 
 @TeleOp(name = "Arm Lift Bot", group = "Production")
 public class ArmLiftTeleop extends OpMode {
-    private ArmLiftHardware robot = new ArmLiftHardware();
+    private ArmLiftHardware robot = new TeleopArmLiftHardware();
     private long EACH = 20;
     private double DRIVE_FACTOR = 0.45;
     private boolean buttonPressedAtLastLoop = false;

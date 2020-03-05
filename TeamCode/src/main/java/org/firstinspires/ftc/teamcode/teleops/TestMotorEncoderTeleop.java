@@ -5,10 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.hardware.ArmLiftHardware;
+import org.firstinspires.ftc.teamcode.hardware.TeleopArmLiftHardware;
 
 @TeleOp(name = "Motor Encoder Test", group = "Development")
 public class TestMotorEncoderTeleop extends OpMode {
-    private ArmLiftHardware robot = new ArmLiftHardware();
+    private ArmLiftHardware robot = new TeleopArmLiftHardware();
     private long EACH = 20;
     private double DRIVE_FACTOR = 0.3;
     private double ARM_FACTOR = 0.2;
