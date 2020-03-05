@@ -29,14 +29,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public abstract class AbstractBotHardware {
     public DcMotor right;
     public DcMotor left;
-
-    public ElapsedTime period = new ElapsedTime();
+    public HardwareMap hardwareMap;
 
     /**
      * construct a new bot hardware
      * @param hardwareMap received from OpMode
      */
     public void init(HardwareMap hardwareMap) {
+        this.hardwareMap = hardwareMap;
         left = hardwareMap.dcMotor.get("Left");
         right = hardwareMap.dcMotor.get("Right");
 
@@ -47,19 +47,14 @@ public abstract class AbstractBotHardware {
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         left.setDirection(DcMotor.Direction.REVERSE);
-//        right.setDirection(DcMotor.Direction.REVERSE);
 
-        initGrabbers(hardwareMap);
-
-        // One side of the motors has been placed reversely, means we need to reverse it again ;P
-//        left.setDirection(DcMotor.Direction.REVERSE);
+        initGrabbers();
     }
 
     /**
      * initialize the grabber servo objects
-     * @param hardwareMap received from OpMode
      */
-    abstract public void initGrabbers(HardwareMap hardwareMap);
+    abstract public void initGrabbers();
 
     /**
      * let the robot wait for a fixed duration; in majority of times we will use

@@ -23,7 +23,6 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -33,13 +32,16 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * Created by Galvin on 2020-01-05
  */
 public class AutonomousArmLiftHardware extends ArmLiftHardware {
-    private static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: TETRIX Motor Encoder
-    private static final double DRIVE_GEAR_REDUCTION = 1.0;     // This is < 1.0 if geared UP
-    private static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
-    private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
-    private static final double DISTANCE_FROM_WHEELS = 15.5;
-
+    public ModernRoboticsI2cGyro gyro;
     private ElapsedTime runtime = new ElapsedTime();
+
+    public AutonomousArmLiftHardware() {
+        gyro = hardwareMap.get(ModernRoboticsI2cGyro.class, "GyroSensor");
+        gyro.calibrate();
+        while (gyro.isCalibrating()) {
+            // wait
+        }
+    }
 
     private boolean check(double distance, int target, int current, Telemetry telemetry) {
         if (distance > 0) {

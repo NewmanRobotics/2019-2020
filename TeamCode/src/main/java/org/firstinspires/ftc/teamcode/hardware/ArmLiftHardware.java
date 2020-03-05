@@ -21,11 +21,8 @@
  */
 
 package org.firstinspires.ftc.teamcode.hardware;
-
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ArmLiftHardware extends AbstractBotHardware {
@@ -36,10 +33,9 @@ public class ArmLiftHardware extends AbstractBotHardware {
     public Servo foundationGrabberLeft;
     public Servo foundationGrabberRight;
     public CRServo cam;
-    public ModernRoboticsI2cGyro gyro;
     public double CAM_ZERO = -0.055;
 
-    public void initGrabbers(HardwareMap hardwareMap){
+    public void initGrabbers(){
         // The lifter of the arm
         armLifter = hardwareMap.dcMotor.get("ArmLifter");
         // The cam below the armLifter
@@ -55,34 +51,10 @@ public class ArmLiftHardware extends AbstractBotHardware {
         foundationGrabberLeft = hardwareMap.servo.get("FoundationGrabberLeft");
         foundationGrabberRight = hardwareMap.servo.get("FoundationGrabberRight");
 
-        gyro = hardwareMap.get(ModernRoboticsI2cGyro.class, "GyroSensor");
-        gyro.calibrate();
-        while (gyro.isCalibrating()) {
-            // wait
-        }
-
         leftGrabber.setDirection(Servo.Direction.REVERSE);
 
         foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
 
         armLifter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-
-//    public enum GrabberSide {
-//        LEFT,
-//        RIGHT
-//    }
-
-//    private static double accumulate(double original, double accumulation) {
-//        double attempt = original + accumulation;
-//        return Math.min(1.0, Math.max(attempt, 0.0));
-//    }
-//
-//    public void operateGrabber(GrabberSide side, double amount) {
-//        if (side == GrabberSide.LEFT) {
-//            leftGrabber.setPosition(accumulate(leftGrabber.getPosition(), amount));
-//        } else if (side == GrabberSide.RIGHT) {
-//            rightGrabber.setPosition(accumulate(rightGrabber.getPosition(), amount));
-//        }
-//    }
 }

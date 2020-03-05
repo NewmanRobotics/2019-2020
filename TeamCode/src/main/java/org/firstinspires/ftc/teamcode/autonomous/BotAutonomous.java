@@ -53,8 +53,6 @@ public class BotAutonomous extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        ElapsedTime runtime = new ElapsedTime();
-//        ArrayList<Double> devList = new ArrayList<Double>();
         double last = 1000;
         ModernRoboticsI2cRangeSensor distanceSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "RangeSensor");
 
