@@ -28,6 +28,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.internal.usb.exception.RobotUsbTimeoutException;
 import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
 /**
  * Created by Galvin on 2020-01-10
@@ -96,12 +97,14 @@ public class RedBotAutonomous extends LinearOpMode {
         robot.waitForTick(2000);
         robot.left.setPower(-POWER);
         robot.right.setPower(-POWER);
-        robot.waitForTick(3000);
+        robot.waitForTick(5000);
         robot.left.setPower(0);
         robot.right.setPower(0);
         robot.foundationGrabberLeft.setPosition(1.0);
         robot.foundationGrabberRight.setPosition(1.0);
         robot.waitForTick(4000);
+        robot.move(-POWER);
+        robot.waitForTick(500);
         robot.rotate(90, 0.05, telemetry);
 
         robot.extender.setPower(1.0);
