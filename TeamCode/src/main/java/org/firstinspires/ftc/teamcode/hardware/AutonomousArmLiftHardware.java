@@ -72,68 +72,70 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
         right.setPower(0);
 
     }
+/*
+    public void move(double speed,
+                     double leftInches, double rightInches, int timeoutS, Telemetry telemetry, IsActiveCallback isActiveCallback) {
+        int newLeftTarget;
+        int newRightTarget;
 
-//    public void move(double speed,
-//                     double leftInches, double rightInches, int timeoutS, Telemetry telemetry, IsActiveCallback isActiveCallback) {
-//        int newLeftTarget;
-//        int newRightTarget;
-//
-//        // Determine new target position, and pass to motor controller
-//        newLeftTarget = left.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-//        newRightTarget = right.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
-////        left.setTargetPosition(newLeftTarget);
-////        right.setTargetPosition(newRightTarget);
-//
-//        // Turn On RUN_TO_POSITION
-//        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//
-//        // reset the timeout time and start motion.
-//        runtime.reset();
-//        if (leftInches > 0) {
-//            left.setPower(-speed);
-//        } else {
-//            left.setPower(speed);
-//        }
-//        if (rightInches > 0) {
-//            right.setPower(-speed);
-//        } else {
-//            right.setPower(speed);
-//        }
-//
-//        // keep looping while we are still active, and there is time left, and both motors are running.
-//        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-//        // its target position, the motion will stop.  This is "safer" in the event that the robot will
-//        // always end the motion as soon as possible.
-//        // However, if you require that BOTH motors have finished their moves before the robot continues
-//        // onto the next step, use (isBusy() || isBusy()) in the loop test.
-////        while ((runtime.seconds() < timeoutS) &&
-////                        ((Math.abs(newLeftTarget) - left.getCurrentPosition() > 0 ) &&
-////                                ( Math.abs(newRightTarget) - Math.abs(right.getCurrentPosition()) > 0))
-//        // TODO: finish the mathematical condition
-//        while ((runtime.seconds() < timeoutS) && isActiveCallback.isActive() &&
-//                check(rightInches, newRightTarget, -right.getCurrentPosition()) && check(leftInches, newLeftTarget, -left.getCurrentPosition())) {
-//            telemetry.addData("Status", "Running");
-//            // Display it for the driver.
-//            telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
-//            telemetry.addData("Path2", "Running at %7d :%7d",
-//                    left.getCurrentPosition(),
-//                    right.getCurrentPosition());
-//            telemetry.update();
-//        }
-//
-//        // Stop all motion;
-//        left.setPower(0);
-//        right.setPower(0);
-//
-//        telemetry.addData("Status", "Completed");
-//
-//        // Turn off RUN_TO_POSITION
-//        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//
-//        //  sleep(250);   // optional pause after each mov
-//    }
+        // Determine new target position, and pass to motor controller
+        newLeftTarget = left.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+        newRightTarget = right.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+//        left.setTargetPosition(newLeftTarget);
+//        right.setTargetPosition(newRightTarget);
+
+        // Turn On RUN_TO_POSITION
+        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // reset the timeout time and start motion.
+        runtime.reset();
+        if (leftInches > 0) {
+            left.setPower(-speed);
+        } else {
+            left.setPower(speed);
+        }
+        if (rightInches > 0) {
+            right.setPower(-speed);
+        } else {
+            right.setPower(speed);
+        }
+
+        // keep looping while we are still active, and there is time left, and both motors are running.
+        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+        // its target position, the motion will stop.  This is "safer" in the event that the robot will
+        // always end the motion as soon as possible.
+        // However, if you require that BOTH motors have finished their moves before the robot continues
+        // onto the next step, use (isBusy() || isBusy()) in the loop test.
+//        while ((runtime.seconds() < timeoutS) &&
+//                        ((Math.abs(newLeftTarget) - left.getCurrentPosition() > 0 ) &&
+//                                ( Math.abs(newRightTarget) - Math.abs(right.getCurrentPosition()) > 0))
+        // TODO: finish the mathematical condition
+        while ((runtime.seconds() < timeoutS) && isActiveCallback.isActive() &&
+                check(rightInches, newRightTarget, -right.getCurrentPosition()) && check(leftInches, newLeftTarget, -left.getCurrentPosition())) {
+            telemetry.addData("Status", "Running");
+            // Display it for the driver.
+            telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+            telemetry.addData("Path2", "Running at %7d :%7d",
+                    left.getCurrentPosition(),
+                    right.getCurrentPosition());
+            telemetry.update();
+        }
+
+        // Stop all motion;
+        left.setPower(0);
+        right.setPower(0);
+
+        telemetry.addData("Status", "Completed");
+
+        // Turn off RUN_TO_POSITION
+        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        //  sleep(250);   // optional pause after each mov
+    }
+
+ */
 
     public void move(double speed) {
         left.setPower(speed);
