@@ -50,7 +50,7 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
         if (angle < 0) {
             left.setPower(-power);
             right.setPower(power);
-            while (gyro.getIntegratedZValue() < angle) {
+            while (gyro.getIntegratedZValue() > angle) {
                 telemetry.addData("Status", "Running");
                 telemetry.addData("Target", "Running to " + angle);
                 telemetry.addData("Angle", "Current Angle " + gyro.getIntegratedZValue());
@@ -59,7 +59,7 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
         }else{
             left.setPower(power);
             right.setPower(-power);
-            while (gyro.getIntegratedZValue() > angle) {
+            while (gyro.getIntegratedZValue() < angle) {
                 telemetry.addData("Status", "Running");
                 telemetry.addData("Target", "Running to " + angle);
                 telemetry.addData("Angle", "Current Angle " + gyro.getIntegratedZValue());

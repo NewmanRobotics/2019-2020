@@ -87,15 +87,19 @@ public class RedBotAutonomous extends LinearOpMode {
         }
         robot.left.setPower(0);
         robot.right.setPower(0);
+        robot.foundationGrabberLeft.setPosition(0.0);
+        robot.foundationGrabberRight.setPosition(0.0);
+        robot.waitForTick(2500);
 
-        robot.rotate(90, 0.05, telemetry);
+        robot.rotate(-180, 0.05, telemetry);
 
-//        robot.foundationGrabberLeft.setPosition(0.0);
-//        robot.foundationGrabberRight.setPosition(0.0);
-//        robot.waitForTick(2000);
-//        robot.left.setPower(-0.1);
-//        robot.right.setPower(0.1);
-//        robot.waitForTick(1000);
+        robot.waitForTick(2000);
+        robot.left.setPower(-POWER);
+        robot.right.setPower(-POWER);
+        robot.waitForTick(3000);
+        robot.left.setPower(0);
+        robot.right.setPower(0);
+
 //        robot.foundationGrabberLeft.setPosition(1.0);
 //        robot.foundationGrabberRight.setPosition(1.0);
 //        robot.waitForTick(500);
