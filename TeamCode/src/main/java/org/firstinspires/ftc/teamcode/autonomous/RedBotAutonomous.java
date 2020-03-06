@@ -32,7 +32,7 @@ import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "RedBotAutonomous", group = "Autonomous")
+@Autonomous(name = "0 USE ME: Red Bot Autonomous", group = "Autonomous")
 public class RedBotAutonomous extends LinearOpMode {
     // get hardware bindings
     public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();

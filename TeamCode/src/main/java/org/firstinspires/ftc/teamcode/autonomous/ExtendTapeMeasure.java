@@ -24,6 +24,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -34,8 +35,9 @@ import org.firstinspires.ftc.teamcode.hardware.IsActiveCallback;
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "0 USE ME: Park On Line, by Tape Measure", group = "Autonomous")
-public class BotAutonomous extends LinearOpMode {
+@Autonomous(name = "1-0 BACKUP: Extend Tape Measure", group = "Autonomous")
+@Disabled
+public class ExtendTapeMeasure extends LinearOpMode {
     // get hardware bindings
     public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();
 

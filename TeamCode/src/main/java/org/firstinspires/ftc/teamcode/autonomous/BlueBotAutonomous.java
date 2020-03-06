@@ -33,7 +33,7 @@ import org.firstinspires.ftc.teamcode.hardware.AutonomousArmLiftHardware;
 /**
  * Created by Galvin on 2020-01-10
  */
-@Autonomous(name = "BlueBotAutonomous", group = "Autonomous")
+@Autonomous(name = "0 USE ME: Blue Bot Autonomous", group = "Autonomous")
 public class BlueBotAutonomous extends LinearOpMode {
     // get hardware bindings
     public AutonomousArmLiftHardware robot = new AutonomousArmLiftHardware();
@@ -58,8 +58,7 @@ public class BlueBotAutonomous extends LinearOpMode {
         ModernRoboticsI2cRangeSensor distanceSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "RangeSensor");
 
         // pass in the hardwareMap into hardware bindings and util functions
-        robot.init(hardwareMap);
-        robot.initSpecificHardwares();
+        robot.init(hardwareMap, telemetry);
         telemetry.addData("Status", "New Version");    //
         telemetry.update();
 
