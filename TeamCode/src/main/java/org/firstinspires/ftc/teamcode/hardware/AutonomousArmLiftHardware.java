@@ -139,7 +139,7 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
         left.setPower(speed);
         right.setPower(speed);
     }
-    public void reverseMotors() {
+    public void reverseMotorsDirection() {
         if (left.getDirection() == DcMotor.Direction.REVERSE) {
             left.setDirection(DcMotor.Direction.FORWARD);
             right.setDirection(DcMotor.Direction.REVERSE);
