@@ -20,7 +20,7 @@ public class TestMotorEncoderTeleop extends OpMode {
     @Override
     public void init() {
         // pass in the hardwareMap into hardware bindings and util functions
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
 
         robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

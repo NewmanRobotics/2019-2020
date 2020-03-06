@@ -52,7 +52,7 @@ public class ParkOnLineByTiming extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // pass in the hardwareMap into hardware bindings and util functions
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
 
         robot.left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

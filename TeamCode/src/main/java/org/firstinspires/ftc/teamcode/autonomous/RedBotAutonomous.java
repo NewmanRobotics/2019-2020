@@ -57,7 +57,7 @@ public class RedBotAutonomous extends LinearOpMode {
         ModernRoboticsI2cRangeSensor distanceSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "RangeSensor");
 
         // pass in the hardwareMap into hardware bindings and util functions
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
         telemetry.addData("Status", "New Version");    //
         telemetry.update();
 

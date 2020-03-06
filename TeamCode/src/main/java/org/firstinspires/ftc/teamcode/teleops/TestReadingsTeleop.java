@@ -40,7 +40,7 @@ public class TestReadingsTeleop extends OpMode {
 //    public ModernRoboticsI2cRangeSensor distanceSensor;
     @Override
     public void init() {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
 //        distanceSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "RangeSensor");
 
         robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

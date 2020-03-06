@@ -16,7 +16,7 @@ public class TestCamTeleop extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // pass in the hardwareMap into hardware bindings and util functions
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
 
         waitForStart();
 

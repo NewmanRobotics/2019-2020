@@ -41,7 +41,8 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
         gyro.setHeadingMode(ModernRoboticsI2cGyro.HeadingMode.HEADING_CARDINAL);
         gyro.calibrate();
         while (gyro.isCalibrating()) {
-            // wait
+            telemetry.addData("Gyro", "Calibrating Gyro...");
+            telemetry.update();
         }
     }
 

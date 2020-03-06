@@ -26,17 +26,21 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public abstract class AbstractBotHardware {
     public DcMotor right;
     public DcMotor left;
     public HardwareMap hardwareMap;
+    public Telemetry telemetry;
 
     /**
      * construct a new bot hardware
      * @param hardwareMap received from OpMode
      */
-    public void init(HardwareMap hardwareMap) {
+    public void init(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
         left = hardwareMap.dcMotor.get("Left");
         right = hardwareMap.dcMotor.get("Right");
 

@@ -52,7 +52,7 @@ public class TankBotTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
 
         waitForStart();
 
