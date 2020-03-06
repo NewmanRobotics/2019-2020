@@ -59,6 +59,7 @@ public class RedBotAutonomous extends LinearOpMode {
 
         // pass in the hardwareMap into hardware bindings and util functions
         robot.init(hardwareMap);
+        robot.initSpecificHardwares();
         telemetry.addData("Status", "New Version");    //
         telemetry.update();
 
