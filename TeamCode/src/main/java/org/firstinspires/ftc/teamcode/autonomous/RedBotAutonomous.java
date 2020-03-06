@@ -40,15 +40,6 @@ public class RedBotAutonomous extends LinearOpMode {
     public static final double POWER = 0.1;
     public static final double THRESHOLD = 9;
 
-    public void message () {
-        telemetry.addData("Power L", robot.left.getPower());
-        telemetry.addData("Pos   L", robot.left.getCurrentPosition());
-        telemetry.addData("Power R", robot.right.getPower());
-        telemetry.addData("Pos   R", robot.right.getCurrentPosition());
-
-        telemetry.update();
-    }
-
     @Override
     public void runOpMode() throws InterruptedException {
         ElapsedTime runtime = new ElapsedTime();
