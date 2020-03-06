@@ -85,28 +85,43 @@ public class RedBotAutonomous extends LinearOpMode {
             telemetry.addData("Runtime", runtime.milliseconds());
             telemetry.update();
         }
-        robot.left.setPower(0);
-        robot.right.setPower(0);
+        telemetry.addData("Move mode", "Stopping and grabbing Platform");
+        telemetry.addData("Runtime", runtime.milliseconds());
+        telemetry.update();
+        robot.stop();
         robot.foundationGrabberLeft.setPosition(0.0);
         robot.foundationGrabberRight.setPosition(0.0);
         robot.waitForTick(2500);
 
+        telemetry.addData("Move mode", "Spinning 180");
+        telemetry.addData("Runtime", runtime.milliseconds());
+        telemetry.update();
+
         robot.rotate(-180, 0.05, telemetry);
 
         robot.waitForTick(2000);
-        robot.left.setPower(-POWER);
-        robot.right.setPower(-POWER);
-        robot.waitForTick(3000);
-        robot.left.setPower(0);
-        robot.right.setPower(0);
+        telemetry.addData("Move mode", "Moving to Wall");
+        telemetry.addData("Runtime", runtime.milliseconds());
+        telemetry.update();
+
+        robot.move(POWER);
+        robot.waitForTick(5000);
+        robot.stop();
+        telemetry.addData("Move mode", "Parking on Line");
+        telemetry.addData("Runtime", runtime.milliseconds());
+        telemetry.update();
         robot.foundationGrabberLeft.setPosition(1.0);
         robot.foundationGrabberRight.setPosition(1.0);
         robot.waitForTick(4000);
+        robot.move(-POWER);
+        robot.waitForTick(500);
         robot.rotate(90, 0.05, telemetry);
 
         robot.extender.setPower(1.0);
         robot.waitForTick(2500);
         robot.extender.setPower(0.0);
+        telemetry.addData("Stopping", "Done");
+        telemetry.update();
 
 
 //        robot.foundationGrabberLeft.setPosition(1.0);
