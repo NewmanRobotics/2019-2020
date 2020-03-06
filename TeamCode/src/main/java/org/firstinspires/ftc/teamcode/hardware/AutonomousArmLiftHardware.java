@@ -23,6 +23,8 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -136,6 +138,15 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
     public void move(double speed) {
         left.setPower(speed);
         right.setPower(speed);
+    }
+    public void reverseMotors() {
+        if (left.getDirection() == DcMotor.Direction.REVERSE) {
+            left.setDirection(DcMotor.Direction.FORWARD);
+            right.setDirection(DcMotor.Direction.REVERSE);
+        } else {
+            left.setDirection(DcMotor.Direction.REVERSE);
+            right.setDirection(DcMotor.Direction.FORWARD);
+        }
     }
 
     public void move(double speed, double milliseconds, Telemetry telemetry, IsActiveCallback isActiveCallback) {
