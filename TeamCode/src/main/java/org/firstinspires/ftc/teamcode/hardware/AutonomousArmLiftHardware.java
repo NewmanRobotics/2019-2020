@@ -47,23 +47,23 @@ public class AutonomousArmLiftHardware extends ArmLiftHardware {
     }
 
     public void rotate(double angle, double power, Telemetry telemetry) {
-        double targetAngle = (gyro.getHeading() + angle) % 360;
-        if (targetAngle > gyro.getHeading()) {
-            left.setPower(power);
-            right.setPower(-power);
-            while (gyro.getHeading() < targetAngle) {
+        gyro.resetZAxisIntegrator();
+        if (angle < 0) {
+            left.setPower(-power);
+            right.setPower(power);
+            while (gyro.getIntegratedZValue() > angle) {
                 telemetry.addData("Status", "Running");
-                telemetry.addData("Target", "Running to " + targetAngle);
-                telemetry.addData("Angle", "Current Angle " + gyro.getHeading());
+                telemetry.addData("Target", "Running to " + angle);
+                telemetry.addData("Angle", "Current Angle " + gyro.getIntegratedZValue());
                 telemetry.update();
             }
         }else{
-            left.setPower(-power);
-            right.setPower(power);
-            while (gyro.getHeading() > targetAngle) {
+            left.setPower(power);
+            right.setPower(-power);
+            while (gyro.getIntegratedZValue() < angle) {
                 telemetry.addData("Status", "Running");
-                telemetry.addData("Target", "Running to " + targetAngle);
-                telemetry.addData("Angle", "Current Angle " + gyro.getHeading());
+                telemetry.addData("Target", "Running to " + angle);
+                telemetry.addData("Angle", "Current Angle " + gyro.getIntegratedZValue());
                 telemetry.update();
             }
         }
