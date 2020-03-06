@@ -123,22 +123,5 @@ public class RedBotAutonomous extends LinearOpMode {
         telemetry.addData("Stopping", "Done");
         telemetry.update();
 
-
-//        robot.foundationGrabberLeft.setPosition(1.0);
-//        robot.foundationGrabberRight.setPosition(1.0);
-//        robot.waitForTick(500);
-//        robot.left.setPower(0);
-//        robot.right.setPower(0.1);
-//        robot.waitForTick(500);
-//        robot.left.setPower(0);
-//        robot.right.setPower(0);
-//        robot.extender.setPower(1);
-//        robot.waitForTick(2500);
-//        robot.extender.setPower(0);
-
-//        while (opModeIsActive()) {
-//            telemetry.addData("Distance History", devList.toString());
-//        }
-
     }
 }
